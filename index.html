@@ -80,6 +80,10 @@
         margin-top: 14px;
       }
 
+      .admin-hidden {
+        display: none;
+      }
+
       .pill {
         border: 1px solid rgba(207, 231, 255, 0.45);
         background: rgba(255, 255, 255, 0.1);
@@ -243,6 +247,7 @@
         <div class="pill-row">
           <span class="pill" id="catalogPill">Loading catalog…</span>
           <span class="pill">No legal advice. Scope triage only.</span>
+          <button class="subtle" id="adminToggleBtn" type="button">Enable Admin Mode</button>
         </div>
       </section>
 
@@ -283,7 +288,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card admin-hidden" id="adminPanel">
           <h2>Admin Import (Local Browser)</h2>
           <p class="hint">Import JSON/CSV rules. Imported rules are saved in this browser via localStorage.</p>
           <div class="form-grid">
@@ -318,6 +323,7 @@
     <script>
       const STORAGE_KEY = "lexscope_atlas_imports_v1";
       const TODAY = new Date().toISOString().slice(0, 10);
+      let adminMode = false;
 
       const OPTIONS = {
         jurisdictions: [
@@ -412,6 +418,13 @@
 
       function evaluateOne(profile, reg, version) {
         const c = version.conditions;
+        const labels = {
+          jurisdiction: "home jurisdiction",
+          market: "served markets",
+          industry: "industry",
+          product_type: "product type",
+          company_size: "company size",
+        };
         const checks = {
           jurisdiction: match(profile.jurisdiction, c.jurisdictions_any),
           market: !c.markets_any.length || profile.markets.some(m => c.markets_any.includes(m)),
@@ -423,6 +436,8 @@
         const met = Object.keys(checks).filter(k => checks[k]);
         const missed = Object.keys(checks).filter(k => !checks[k]);
         const applicable = missed.length === 0;
+        const metLabels = met.map((k) => labels[k]).join(", ");
+        const missedLabels = missed.map((k) => labels[k]).join(", ");
 
         return {
           code: reg.code,
@@ -437,8 +452,8 @@
           applicable,
           confidence: Number((met.length / 5).toFixed(2)),
           reason: applicable
-            ? `In scope under v${version.version}. Matched: ${met.join(", ")}.`
-            : `Not in scope under v${version.version}. Missed: ${missed.join(", ")}. Matched: ${met.join(", ")}.`
+            ? `This likely applies because your profile matches all scope checks (${metLabels}).`
+            : `This likely does not apply for now because ${missedLabels} did not match this rule's scope. Other checks matched: ${metLabels}.`
         };
       }
 
@@ -613,6 +628,14 @@
         evaluate();
       }
 
+      function setAdminMode(enabled) {
+        adminMode = enabled;
+        const panel = document.getElementById("adminPanel");
+        const btn = document.getElementById("adminToggleBtn");
+        panel.classList.toggle("admin-hidden", !enabled);
+        btn.textContent = enabled ? "Disable Admin Mode" : "Enable Admin Mode";
+      }
+
       function resetDefaults() {
         fillSelect("jurisdiction", OPTIONS.jurisdictions, ["EU"]);
         fillSelect("industry", OPTIONS.industries, ["TECHNOLOGY"]);
@@ -624,6 +647,8 @@
 
       async function bootstrap() {
         resetDefaults();
+        const params = new URLSearchParams(window.location.search);
+        setAdminMode(params.get("admin") === "1");
         await evaluate();
       }
 
@@ -634,6 +659,7 @@
       });
       document.getElementById("importBtn").addEventListener("click", importRules);
       document.getElementById("clearImportBtn").addEventListener("click", clearImports);
+      document.getElementById("adminToggleBtn").addEventListener("click", () => setAdminMode(!adminMode));
 
       bootstrap().catch((err) => {
         document.getElementById("results").innerHTML = `<section class='card'>${err.message}</section>`;
