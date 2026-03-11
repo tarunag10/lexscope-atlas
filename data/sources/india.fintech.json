@@ -1,0 +1,24 @@
+[
+  {
+    "code": "IN_UPI_COMPLIANCE",
+    "name": "India UPI / Payment System Compliance",
+    "authority": "India",
+    "summary": "Payment system operators and participants must comply with NPCI and RBI payment system obligations.",
+    "source_url": "https://www.rbi.org.in/",
+    "versions": [
+      {
+        "version": 1,
+        "effective_from": "2021-01-01",
+        "status": "ACTIVE",
+        "notes": "Sample extension pack rule.",
+        "conditions": {
+          "jurisdictions_any": ["IN"],
+          "markets_any": ["IN"],
+          "industries_any": ["FINANCIAL_SERVICES"],
+          "product_types_any": ["PAYMENTS", "FINANCIAL_SERVICE"],
+          "company_sizes_any": []
+        }
+      }
+    ]
+  }
+]

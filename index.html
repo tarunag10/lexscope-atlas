@@ -612,9 +612,19 @@
         const response = await fetch("./data/regulations.seed.json");
         if (!response.ok) throw new Error("Unable to load seed data");
         const seed = await response.json();
+        let auto = [];
+        try {
+          const autoResponse = await fetch("./data/regulations.auto.json");
+          if (autoResponse.ok) {
+            const autoPayload = await autoResponse.json();
+            auto = Array.isArray(autoPayload) ? autoPayload : (autoPayload.regulations || []);
+          }
+        } catch (_err) {
+          auto = [];
+        }
         const local = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 
-        const merged = canonicalize([...seed, ...local]);
+        const merged = canonicalize([...seed, ...auto, ...local]);
         const dedup = new Map();
         for (const item of merged) {
           dedup.set(item.code, item);

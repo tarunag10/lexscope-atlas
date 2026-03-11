@@ -1,0 +1,10 @@
+[
+  {
+    "id": "india-fintech-pack",
+    "enabled": true,
+    "kind": "file",
+    "location": "data/sources/india.fintech.json",
+    "format": "json",
+    "notes": "Local extension pack. Add more file/http sources here."
+  }
+]

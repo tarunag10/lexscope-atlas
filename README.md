@@ -1,70 +1,47 @@
-# LexScope Global (v2)
+# LexScope Atlas
 
-LexScope Global is a backend-driven regulatory applicability checker with a scalable regulation registry.
+Public app: [https://lexscope-atlas.vercel.app](https://lexscope-atlas.vercel.app)
 
-## What is implemented
-- Versioned regulation model (`regulations` + `regulation_versions`)
-- Effective-date evaluation (`as_of_date`) with repeal history support
-- Admin import API/UI for JSON and CSV
-- Expanded country pack: EU, UK, US, Singapore, UAE, India, Canada, Australia, Japan, Brazil, Saudi Arabia
-- Seeded catalog with historical and active versions
+## What this includes
+- Global regulation triage UI
+- Version-aware applicability logic (effective date + repeal window)
+- Seed regulations in `data/regulations.seed.json`
+- Optional auto-sourced regulation pack merged at runtime from `data/regulations.auto.json`
 
-## Run
-From project root:
+## Master baseline workflow
+Use this repo as your long-term baseline branch and periodically refresh regulation packs.
 
+### 1) Sync external/local regulation sources
 ```bash
-./run.sh
+./run_sync.sh
 ```
 
-Then open:
+This runs:
+- `scripts/sync_regulations.py`
+- reads `data/regulation_sources.json`
+- compiles unified output into `data/regulations.auto.json`
 
-[http://127.0.0.1:8080](http://127.0.0.1:8080)
+### 2) Run/deploy app
+- Local static preview: open `index.html`
+- Vercel deploy: `vercel --prod -y`
 
-## Core files
-- Backend server and evaluator: `backend/server.py`
-- Frontend UI (evaluation + admin import): `frontend/index.html`
-- Seed data: `data/regulations.seed.json`
-- CSV template: `data/regulations.import.template.csv`
-- SQLite DB (auto-created): `data/regulations.db`
+## Add more countries automatically later
+Edit `data/regulation_sources.json` and add sources.
 
-## API
-- `GET /api/meta`
-  - Returns options, today date, active regulation count
-- `GET /api/regulations`
-  - Returns active regulation versions for current date
-- `POST /api/check`
-  - Evaluates profile against active versions as of `as_of_date`
-- `POST /api/admin/import`
-  - Imports/upserts regulations and versions from JSON/CSV
+Supported source entries:
+- `kind: "file"` (local JSON/CSV)
+- `kind: "http"` (remote JSON/CSV URL)
+- `format: "json" | "csv"`
 
-## Check request example
+Each source should produce LexScope regulation schema (or CSV columns used by import template).
 
-```bash
-curl -X POST http://127.0.0.1:8080/api/check \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "jurisdiction": "EU",
-    "industry": "TECHNOLOGY",
-    "company_size": "SME",
-    "product_type": "AI_SAAS",
-    "markets": ["EU", "UK", "US"],
-    "as_of_date": "2026-03-11"
-  }'
-```
-
-## Import JSON format
-`format: "json"` with `data` containing a JSON string of either:
-- `[{...}]`
-- `{ "items": [{...}] }`
-
-Each item supports either:
-- `versions: [...]` (recommended)
-- flat fields (`version`, `effective_from`, `repealed_on`, `status`, `conditions`) for a single version
-
-## Import CSV format
-`format: "csv"` with `data` as CSV text.
-Use columns shown in [data/regulations.import.template.csv](/Users/tarunagarwal/Documents/1_App%20Developement%20-%20Tarun/Regulatory%20Applicability%20Checker/data/regulations.import.template.csv).
-Multi-value columns can use `,` or `|` separators.
+## Key files
+- App UI + logic: `index.html`
+- Seed pack: `data/regulations.seed.json`
+- Source registry: `data/regulation_sources.json`
+- Example country source: `data/sources/india.fintech.json`
+- Auto-compiled output: `data/regulations.auto.json`
+- Sync script: `scripts/sync_regulations.py`
 
 ## Note
-This is a legal triage engine for scope screening and prioritization, not legal advice.
+This tool is for regulatory triage, not legal advice.
