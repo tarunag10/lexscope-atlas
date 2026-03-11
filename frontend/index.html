@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LexScope Global</title>
+    <style>
+      :root {
+        --bg: #f2f6f8;
+        --card: #ffffff;
+        --ink: #10242c;
+        --muted: #4d6570;
+        --line: #d4e1e7;
+        --brand: #0d5f66;
+        --ok-bg: #e4f8ea;
+        --ok-line: #b8e1c8;
+        --no-bg: #ffeae7;
+        --no-line: #ffd0c8;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 0% 0%, #dcf0f4 0%, transparent 24%),
+          radial-gradient(circle at 95% 0%, #e7ecff 0%, transparent 22%),
+          var(--bg);
+      }
+      .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 16px 40px; }
+      h1 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: -0.02em; }
+      .sub { color: var(--muted); margin-top: 8px; max-width: 940px; }
+      .pill {
+        margin-top: 10px;
+        display: inline-block;
+        border: 1px solid #c9d9e2;
+        border-radius: 999px;
+        padding: 5px 10px;
+        background: #edf4f8;
+        color: #304a58;
+        font-size: 0.84rem;
+      }
+      .grid { margin-top: 18px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; }
+      @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        box-shadow: 0 10px 22px rgba(7, 23, 35, 0.07);
+        padding: 16px;
+      }
+      .form-grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      label { display: block; font-weight: 650; margin-bottom: 6px; }
+      select, input, textarea {
+        width: 100%;
+        min-height: 42px;
+        border: 1px solid #c6d6df;
+        border-radius: 10px;
+        padding: 8px;
+        font: inherit;
+        color: var(--ink);
+        background: #fff;
+      }
+      select[multiple] { min-height: 120px; }
+      .hint { color: var(--muted); font-size: 0.8rem; margin-top: 5px; }
+      .actions { display: flex; gap: 10px; margin-top: 12px; }
+      button {
+        border: 0;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .primary { color: #fff; background: linear-gradient(125deg, var(--brand), #167e89); }
+      .ghost { background: #edf4f7; color: #2a4655; }
+      .section-title { margin: 0; font-size: 1.05rem; }
+      .status { margin-top: 8px; color: #285267; font-size: 0.9rem; }
+      .results { margin-top: 14px; display: grid; gap: 12px; }
+      .reg { border: 1px solid transparent; border-radius: 10px; padding: 10px; margin-top: 9px; }
+      .reg.ok { background: var(--ok-bg); border-color: var(--ok-line); }
+      .reg.no { background: var(--no-bg); border-color: var(--no-line); }
+      .name { font-weight: 700; }
+      .meta { color: #385767; font-size: 0.86rem; margin-top: 4px; }
+      .reason { margin-top: 5px; color: #1f3945; }
+      a { color: #0a668d; }
+      .inline-note { margin-top: 6px; font-size: 0.85rem; color: var(--muted); }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>LexScope Global</h1>
+      <p class="sub">Scalable regulatory applicability checker with versioned rules, effective dates, repeal handling, and admin import for JSON/CSV.</p>
+      <span class="pill" id="catalogPill">Loading...</span>
+
+      <div class="grid">
+        <section class="card">
+          <h2 class="section-title">Applicability Evaluation</h2>
+          <div class="form-grid" style="margin-top: 10px;">
+            <div>
+              <label for="jurisdiction">Home Jurisdiction</label>
+              <select id="jurisdiction"></select>
+            </div>
+            <div>
+              <label for="industry">Industry</label>
+              <select id="industry"></select>
+            </div>
+            <div>
+              <label for="company_size">Company Size</label>
+              <select id="company_size"></select>
+            </div>
+            <div>
+              <label for="product_type">Product Type</label>
+              <select id="product_type"></select>
+            </div>
+            <div>
+              <label for="as_of_date">As-Of Date</label>
+              <input id="as_of_date" type="date" />
+            </div>
+            <div>
+              <label for="markets">Markets Served</label>
+              <select id="markets" multiple></select>
+              <div class="hint">Hold Cmd/Ctrl for multi-select.</div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="primary" id="checkBtn" type="button">Evaluate</button>
+            <button class="ghost" id="resetBtn" type="button">Reset</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2 class="section-title">Admin Import</h2>
+          <div class="inline-note">Upload JSON or CSV to add/update regulations and versions without editing code.</div>
+          <div class="form-grid" style="margin-top: 10px;">
+            <div>
+              <label for="import_format">Format</label>
+              <select id="import_format">
+                <option value="json">JSON</option>
+                <option value="csv">CSV</option>
+              </select>
+            </div>
+            <div>
+              <label for="import_file">File</label>
+              <input id="import_file" type="file" />
+            </div>
+            <div style="grid-column: 1 / -1;">
+              <label for="import_data">Paste Data (optional if file selected)</label>
+              <textarea id="import_data" rows="8" placeholder="Paste JSON array/{items:[...]} or CSV rows here"></textarea>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="primary" id="importBtn" type="button">Import Rules</button>
+          </div>
+          <div class="status" id="importStatus"></div>
+          <div class="inline-note">CSV columns: code,name,authority,summary,source_url,version,effective_from,repealed_on,status,notes,jurisdictions_any,markets_any,industries_any,product_types_any,company_sizes_any</div>
+        </section>
+      </div>
+
+      <section class="results" id="results"></section>
+    </main>
+
+    <script>
+      const API = "";
+      let options = null;
+
+      function fillSelect(id, items, defaultValue) {
+        const el = document.getElementById(id);
+        el.innerHTML = "";
+        for (const item of items) {
+          const opt = document.createElement("option");
+          opt.value = item.value;
+          opt.textContent = item.label;
+          if (defaultValue && defaultValue === item.value) opt.selected = true;
+          el.appendChild(opt);
+        }
+      }
+
+      function selectedValues(el) {
+        return Array.from(el.selectedOptions).map((opt) => opt.value);
+      }
+
+      function getProfile() {
+        return {
+          jurisdiction: document.getElementById("jurisdiction").value,
+          industry: document.getElementById("industry").value,
+          company_size: document.getElementById("company_size").value,
+          product_type: document.getElementById("product_type").value,
+          as_of_date: document.getElementById("as_of_date").value,
+          markets: selectedValues(document.getElementById("markets")),
+        };
+      }
+
+      function renderBucket(title, regs, applicable) {
+        const mark = applicable ? "✔" : "✘";
+        const html = regs.map((r) => `
+          <article class="reg ${applicable ? "ok" : "no"}">
+            <div class="name">${mark} ${r.name} (${r.authority})</div>
+            <div class="meta">Version ${r.version} | Effective ${r.effective_from}${r.repealed_on ? ` | Repealed ${r.repealed_on}` : ""}</div>
+            <div class="reason">${r.reason}</div>
+            <div class="meta">Confidence ${(r.confidence * 100).toFixed(0)}%</div>
+            ${r.notes ? `<div class="meta">Notes: ${r.notes}</div>` : ""}
+            <a href="${r.source_url}" target="_blank" rel="noreferrer">Source</a>
+          </article>
+        `).join("");
+
+        return `
+          <section class="card">
+            <h2 class="section-title">${title}</h2>
+            ${html || "<div class='inline-note'>No items.</div>"}
+          </section>
+        `;
+      }
+
+      function renderResults(payload) {
+        document.getElementById("results").innerHTML = `
+          <section class="card" style="background: #def0f2; border-color: #badfe3;">
+            <h2 class="section-title">Summary</h2>
+            <div class="status">As-of date: ${payload.profile.as_of_date}</div>
+            <div class="status">Evaluated: ${payload.totals.regulations_evaluated}</div>
+            <div class="status">Applicable: ${payload.totals.applicable}</div>
+            <div class="status">Not Applicable: ${payload.totals.not_applicable}</div>
+          </section>
+          ${renderBucket("Relevant Regulations", payload.applicable, true)}
+          ${renderBucket("Not Applicable", payload.not_applicable, false)}
+        `;
+      }
+
+      async function evaluate() {
+        const profile = getProfile();
+        if (!profile.markets.length) profile.markets = [profile.jurisdiction];
+
+        const res = await fetch(`${API}/api/check`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(profile),
+        });
+        const payload = await res.json();
+
+        if (!res.ok) {
+          document.getElementById("results").innerHTML = `<section class='card'>${(payload.errors || [payload.error]).join("; ")}</section>`;
+          return;
+        }
+
+        renderResults(payload);
+      }
+
+      function resetDefaults(today) {
+        fillSelect("jurisdiction", options.jurisdictions, "EU");
+        fillSelect("industry", options.industries, "TECHNOLOGY");
+        fillSelect("company_size", options.company_sizes, "SME");
+        fillSelect("product_type", options.product_types, "AI_SAAS");
+        fillSelect("markets", options.jurisdictions);
+
+        for (const opt of document.getElementById("markets").options) {
+          if (["EU", "UK", "US"].includes(opt.value)) opt.selected = true;
+        }
+
+        document.getElementById("as_of_date").value = today;
+      }
+
+      async function readImportData() {
+        const pasted = document.getElementById("import_data").value.trim();
+        if (pasted) return pasted;
+
+        const fileInput = document.getElementById("import_file");
+        const file = fileInput.files[0];
+        if (!file) throw new Error("Provide pasted data or select a file.");
+
+        return await file.text();
+      }
+
+      async function importRules() {
+        const status = document.getElementById("importStatus");
+        status.textContent = "Import running...";
+
+        try {
+          const data = await readImportData();
+          const format = document.getElementById("import_format").value;
+
+          const res = await fetch(`${API}/api/admin/import`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ format, data }),
+          });
+          const payload = await res.json();
+
+          if (!res.ok) {
+            status.textContent = `Import failed: ${payload.error || "Unknown error"}`;
+            return;
+          }
+
+          status.textContent = `Import complete. Inserted ${payload.stats.regulations_inserted}, updated ${payload.stats.regulations_updated}, versions ${payload.stats.versions_upserted}.`;
+
+          const metaRes = await fetch(`${API}/api/meta`);
+          const meta = await metaRes.json();
+          document.getElementById("catalogPill").textContent = `${meta.app_name}: ${meta.supported_regulations} active regulations`;
+
+          await evaluate();
+        } catch (err) {
+          status.textContent = `Import failed: ${err.message}`;
+        }
+      }
+
+      async function bootstrap() {
+        const metaRes = await fetch(`${API}/api/meta`);
+        const meta = await metaRes.json();
+        options = meta.options;
+
+        document.getElementById("catalogPill").textContent = `${meta.app_name}: ${meta.supported_regulations} active regulations`;
+        resetDefaults(meta.today);
+        await evaluate();
+      }
+
+      document.getElementById("checkBtn").addEventListener("click", evaluate);
+      document.getElementById("resetBtn").addEventListener("click", () => resetDefaults(new Date().toISOString().slice(0, 10)));
+      document.getElementById("importBtn").addEventListener("click", importRules);
+
+      bootstrap().catch((err) => {
+        document.getElementById("results").innerHTML = `<section class='card'>Unable to load API: ${err.message}</section>`;
+      });
+    </script>
+  </body>
+</html>

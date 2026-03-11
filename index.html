@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LexScope Atlas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f2f6fb;
+        --surface: rgba(255, 255, 255, 0.86);
+        --ink: #13223a;
+        --muted: #4c5f7a;
+        --line: #d5dfef;
+        --brand: #0f6b7a;
+        --brand-2: #1d8f9f;
+        --ok-bg: #e5f8eb;
+        --ok-line: #bce7cc;
+        --no-bg: #ffefeb;
+        --no-line: #ffd2c8;
+        --shadow: 0 24px 50px rgba(23, 39, 64, 0.1);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Manrope", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(1200px 800px at -10% -10%, #d7f4fb 0%, transparent 50%),
+          radial-gradient(900px 700px at 105% 0%, #e4e9ff 0%, transparent 46%),
+          var(--bg);
+      }
+
+      .wrap {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 28px 16px 40px;
+      }
+
+      .hero {
+        background: linear-gradient(140deg, #0f2238, #11485f);
+        color: #eff9ff;
+        border-radius: 20px;
+        padding: 22px;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -20% -60% auto;
+        width: 380px;
+        height: 380px;
+        background: radial-gradient(circle, rgba(119, 217, 224, 0.25), transparent 62%);
+      }
+
+      h1 {
+        margin: 0;
+        font-family: "Space Grotesk", sans-serif;
+        letter-spacing: -0.02em;
+        font-size: clamp(1.8rem, 4vw, 3rem);
+      }
+
+      .sub {
+        margin-top: 10px;
+        max-width: 900px;
+        opacity: 0.95;
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .pill {
+        border: 1px solid rgba(207, 231, 255, 0.45);
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.82rem;
+      }
+
+      .grid {
+        margin-top: 16px;
+        display: grid;
+        grid-template-columns: 1.35fr 1fr;
+        gap: 14px;
+      }
+
+      @media (max-width: 980px) {
+        .grid { grid-template-columns: 1fr; }
+      }
+
+      .card {
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        backdrop-filter: blur(7px);
+        box-shadow: var(--shadow);
+        padding: 16px;
+      }
+
+      .card h2 {
+        margin: 0;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.15rem;
+      }
+
+      .hint {
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .form-grid {
+        margin-top: 12px;
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      select, input, textarea {
+        width: 100%;
+        min-height: 42px;
+        border: 1px solid #c7d5e8;
+        border-radius: 11px;
+        padding: 8px;
+        background: #fff;
+        color: var(--ink);
+        font: inherit;
+      }
+
+      select[multiple] { min-height: 120px; }
+
+      textarea {
+        min-height: 130px;
+        resize: vertical;
+      }
+
+      .actions {
+        margin-top: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+      }
+
+      button {
+        border: 0;
+        border-radius: 12px;
+        padding: 10px 16px;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .primary {
+        color: #fff;
+        background: linear-gradient(120deg, var(--brand), var(--brand-2));
+      }
+
+      .subtle {
+        color: #2c4560;
+        background: #e9f0fa;
+      }
+
+      .status {
+        margin-top: 8px;
+        font-size: 0.9rem;
+        color: #2f4f66;
+      }
+
+      .results {
+        margin-top: 16px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .footer-credit {
+        margin-top: 18px;
+        text-align: center;
+        color: #5a6c84;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .summary {
+        background: linear-gradient(160deg, #dff3f6, #e7eefb);
+      }
+
+      .reg-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .reg {
+        border-radius: 12px;
+        border: 1px solid transparent;
+        padding: 12px;
+      }
+
+      .reg.ok { background: var(--ok-bg); border-color: var(--ok-line); }
+      .reg.no { background: var(--no-bg); border-color: var(--no-line); }
+
+      .name {
+        font-weight: 800;
+      }
+
+      .meta {
+        margin-top: 5px;
+        color: #35506a;
+        font-size: 0.87rem;
+      }
+
+      .reason {
+        margin-top: 6px;
+        font-size: 0.93rem;
+      }
+
+      a { color: #045f85; }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="hero">
+        <h1>LexScope Atlas</h1>
+        <p class="sub">Global regulatory applicability triage with version-aware rule evaluation, time-travel checks by effective date, and no-code admin rule imports.</p>
+        <div class="pill-row">
+          <span class="pill" id="catalogPill">Loading catalog…</span>
+          <span class="pill">No legal advice. Scope triage only.</span>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>Applicability Check</h2>
+          <p class="hint">Choose company profile and markets. "As of date" picks the active regulation version for that point in time.</p>
+          <div class="form-grid">
+            <div>
+              <label for="jurisdiction">Home Jurisdiction</label>
+              <select id="jurisdiction"></select>
+            </div>
+            <div>
+              <label for="industry">Industry</label>
+              <select id="industry"></select>
+            </div>
+            <div>
+              <label for="company_size">Company Size</label>
+              <select id="company_size"></select>
+            </div>
+            <div>
+              <label for="product_type">Product Type</label>
+              <select id="product_type"></select>
+            </div>
+            <div>
+              <label for="as_of_date">As Of Date</label>
+              <input id="as_of_date" type="date" />
+            </div>
+            <div>
+              <label for="markets">Markets Served</label>
+              <select id="markets" multiple></select>
+              <div class="hint">Cmd/Ctrl + click for multiple markets.</div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="primary" id="runBtn" type="button">Evaluate</button>
+            <button class="subtle" id="resetBtn" type="button">Reset</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Admin Import (Local Browser)</h2>
+          <p class="hint">Import JSON/CSV rules. Imported rules are saved in this browser via localStorage.</p>
+          <div class="form-grid">
+            <div>
+              <label for="import_format">Format</label>
+              <select id="import_format">
+                <option value="json">JSON</option>
+                <option value="csv">CSV</option>
+              </select>
+            </div>
+            <div>
+              <label for="import_file">File</label>
+              <input id="import_file" type="file" />
+            </div>
+            <div style="grid-column: 1 / -1;">
+              <label for="import_data">Paste Data</label>
+              <textarea id="import_data" placeholder="Paste JSON array/{items:[...]} or CSV rows"></textarea>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="primary" id="importBtn" type="button">Import</button>
+            <button class="subtle" id="clearImportBtn" type="button">Clear Imported Rules</button>
+          </div>
+          <div class="status" id="importStatus"></div>
+        </article>
+      </section>
+
+      <section id="results" class="results"></section>
+      <div class="footer-credit">Created by Tarun Agarwal</div>
+    </main>
+
+    <script>
+      const STORAGE_KEY = "lexscope_atlas_imports_v1";
+      const TODAY = new Date().toISOString().slice(0, 10);
+
+      const OPTIONS = {
+        jurisdictions: [
+          ["EU", "European Union"], ["UK", "United Kingdom"], ["US", "United States"], ["SG", "Singapore"],
+          ["UAE", "United Arab Emirates"], ["IN", "India"], ["CA", "Canada"], ["AU", "Australia"],
+          ["JP", "Japan"], ["BR", "Brazil"], ["SA", "Saudi Arabia"]
+        ],
+        industries: [
+          ["TECHNOLOGY", "Technology"], ["ECOMMERCE", "E-commerce / Marketplace"], ["FINANCIAL_SERVICES", "Financial Services"],
+          ["INSURANCE", "Insurance"], ["HEALTHCARE", "Healthcare"], ["MEDIA", "Media"], ["MANUFACTURING", "Manufacturing"],
+          ["ENERGY", "Energy"], ["TELECOM", "Telecommunications"], ["EDTECH", "Education Technology"],
+          ["PUBLIC_SECTOR", "Public Sector"], ["GAMING", "Gaming"]
+        ],
+        company_sizes: [
+          ["MICRO", "Micro (<10 employees)"], ["SME", "SME (10-249)"], ["MID", "Mid-Market (250-999)"],
+          ["LARGE", "Large (1,000-4,999)"], ["ENTERPRISE", "Enterprise (5,000+)"]
+        ],
+        product_types: [
+          ["AI_MODEL", "AI foundation model"], ["AI_SAAS", "AI SaaS application"], ["AI_EMBEDDED", "AI-enabled physical product"],
+          ["DIGITAL_PLATFORM", "Digital platform"], ["SOCIAL_PLATFORM", "Social platform"], ["SEARCH_SERVICE", "Search service"],
+          ["MARKETPLACE", "Marketplace"], ["SAAS", "General SaaS"], ["MOBILE_APP", "Mobile app"],
+          ["IOT_DEVICE", "IoT device"], ["FINANCIAL_SERVICE", "Financial service"], ["INVESTMENT_PRODUCT", "Investment product"],
+          ["INSURANCE_PRODUCT", "Insurance product"], ["HEALTH_TECH", "Health-tech solution"], ["PAYMENTS", "Payments service"],
+          ["CRYPTO_ASSET", "Crypto-asset service"]
+        ]
+      };
+
+      function parseDate(str) {
+        return new Date(`${str}T00:00:00Z`);
+      }
+
+      function normalizeArray(value) {
+        if (!value) return [];
+        if (Array.isArray(value)) return value.map(v => String(v).trim().toUpperCase()).filter(Boolean);
+        return [String(value).trim().toUpperCase()].filter(Boolean);
+      }
+
+      function normalizeConditions(raw) {
+        const c = raw || {};
+        return {
+          jurisdictions_any: normalizeArray(c.jurisdictions_any),
+          markets_any: normalizeArray(c.markets_any),
+          industries_any: normalizeArray(c.industries_any),
+          product_types_any: normalizeArray(c.product_types_any),
+          company_sizes_any: normalizeArray(c.company_sizes_any),
+        };
+      }
+
+      function canonicalize(items) {
+        return items.map((item) => {
+          const versions = item.versions && Array.isArray(item.versions) ? item.versions : [{
+            version: Number(item.version || 1),
+            effective_from: item.effective_from || "2020-01-01",
+            repealed_on: item.repealed_on || null,
+            status: (item.status || "ACTIVE").toUpperCase(),
+            notes: item.notes || "",
+            conditions: item.conditions || {}
+          }];
+
+          return {
+            code: String(item.code).trim().toUpperCase(),
+            name: String(item.name || "").trim(),
+            authority: String(item.authority || "").trim(),
+            summary: String(item.summary || "").trim(),
+            source_url: String(item.source_url || "").trim(),
+            versions: versions.map(v => ({
+              version: Number(v.version || 1),
+              effective_from: String(v.effective_from || "2020-01-01"),
+              repealed_on: v.repealed_on ? String(v.repealed_on) : null,
+              status: String(v.status || "ACTIVE").toUpperCase(),
+              notes: String(v.notes || ""),
+              conditions: normalizeConditions(v.conditions),
+            }))
+          };
+        }).filter(x => x.code && x.name);
+      }
+
+      function chooseVersion(reg, asOf) {
+        const day = parseDate(asOf);
+        const matches = reg.versions.filter((v) => {
+          const start = parseDate(v.effective_from);
+          const end = v.repealed_on ? parseDate(v.repealed_on) : null;
+          return start <= day && (!end || day < end);
+        });
+        if (!matches.length) return null;
+        return matches.sort((a, b) => b.version - a.version)[0];
+      }
+
+      function match(value, allowed) {
+        return !allowed.length || allowed.includes(value);
+      }
+
+      function evaluateOne(profile, reg, version) {
+        const c = version.conditions;
+        const checks = {
+          jurisdiction: match(profile.jurisdiction, c.jurisdictions_any),
+          market: !c.markets_any.length || profile.markets.some(m => c.markets_any.includes(m)),
+          industry: match(profile.industry, c.industries_any),
+          product_type: match(profile.product_type, c.product_types_any),
+          company_size: match(profile.company_size, c.company_sizes_any),
+        };
+
+        const met = Object.keys(checks).filter(k => checks[k]);
+        const missed = Object.keys(checks).filter(k => !checks[k]);
+        const applicable = missed.length === 0;
+
+        return {
+          code: reg.code,
+          name: reg.name,
+          authority: reg.authority,
+          summary: reg.summary,
+          source_url: reg.source_url,
+          version: version.version,
+          effective_from: version.effective_from,
+          repealed_on: version.repealed_on,
+          notes: version.notes,
+          applicable,
+          confidence: Number((met.length / 5).toFixed(2)),
+          reason: applicable
+            ? `In scope under v${version.version}. Matched: ${met.join(", ")}.`
+            : `Not in scope under v${version.version}. Missed: ${missed.join(", ")}. Matched: ${met.join(", ")}.`
+        };
+      }
+
+      function fillSelect(id, pairs, defaults = []) {
+        const el = document.getElementById(id);
+        el.innerHTML = "";
+        for (const [value, label] of pairs) {
+          const o = document.createElement("option");
+          o.value = value;
+          o.textContent = label;
+          if (defaults.includes(value)) o.selected = true;
+          el.appendChild(o);
+        }
+      }
+
+      function selectedValues(el) {
+        return Array.from(el.selectedOptions).map((x) => x.value);
+      }
+
+      function readProfile() {
+        return {
+          jurisdiction: document.getElementById("jurisdiction").value,
+          industry: document.getElementById("industry").value,
+          company_size: document.getElementById("company_size").value,
+          product_type: document.getElementById("product_type").value,
+          as_of_date: document.getElementById("as_of_date").value || TODAY,
+          markets: selectedValues(document.getElementById("markets"))
+        };
+      }
+
+      function renderBucket(title, rows, ok) {
+        const cards = rows.map((r) => `
+          <article class="reg ${ok ? "ok" : "no"}">
+            <div class="name">${ok ? "✔" : "✘"} ${r.name} (${r.authority})</div>
+            <div class="meta">v${r.version} | Effective ${r.effective_from}${r.repealed_on ? ` | Repealed ${r.repealed_on}` : ""}</div>
+            <div class="reason">${r.reason}</div>
+            <div class="meta">Confidence ${(r.confidence * 100).toFixed(0)}%${r.notes ? ` | ${r.notes}` : ""}</div>
+            <a href="${r.source_url}" target="_blank" rel="noreferrer">Source</a>
+          </article>
+        `).join("");
+
+        return `
+          <section class="card">
+            <h2>${title}</h2>
+            <div class="reg-list">${cards || `<div class="hint">No items.</div>`}</div>
+          </section>
+        `;
+      }
+
+      function renderResults(profile, results) {
+        const applicable = results.filter(r => r.applicable).sort((a, b) => b.confidence - a.confidence);
+        const notApplicable = results.filter(r => !r.applicable).sort((a, b) => b.confidence - a.confidence);
+        document.getElementById("results").innerHTML = `
+          <section class="card summary">
+            <h2>Evaluation Summary</h2>
+            <div class="status">As Of: ${profile.as_of_date}</div>
+            <div class="status">Regulations Evaluated: ${results.length}</div>
+            <div class="status">Applicable: ${applicable.length}</div>
+            <div class="status">Not Applicable: ${notApplicable.length}</div>
+          </section>
+          ${renderBucket("Relevant Regulations", applicable, true)}
+          ${renderBucket("Not Applicable", notApplicable, false)}
+        `;
+      }
+
+      function parseCsv(text) {
+        const lines = text.split(/\r?\n/).filter(Boolean);
+        if (lines.length < 2) return [];
+        const headers = lines[0].split(",").map(h => h.trim());
+        const rows = lines.slice(1).map((line) => {
+          const cols = line.split(",");
+          const row = {};
+          headers.forEach((h, i) => row[h] = (cols[i] || "").trim());
+          return row;
+        });
+
+        const byCode = {};
+        for (const row of rows) {
+          const code = (row.code || "").toUpperCase();
+          if (!code) continue;
+          if (!byCode[code]) {
+            byCode[code] = {
+              code,
+              name: row.name,
+              authority: row.authority,
+              summary: row.summary,
+              source_url: row.source_url,
+              versions: []
+            };
+          }
+          const split = (value) => String(value || "").replace(/\|/g, ",").split(",").map(s => s.trim()).filter(Boolean);
+          byCode[code].versions.push({
+            version: Number(row.version || 1),
+            effective_from: row.effective_from || "2020-01-01",
+            repealed_on: row.repealed_on || null,
+            status: (row.status || "ACTIVE").toUpperCase(),
+            notes: row.notes || "",
+            conditions: {
+              jurisdictions_any: split(row.jurisdictions_any),
+              markets_any: split(row.markets_any),
+              industries_any: split(row.industries_any),
+              product_types_any: split(row.product_types_any),
+              company_sizes_any: split(row.company_sizes_any),
+            }
+          });
+        }
+        return Object.values(byCode);
+      }
+
+      async function loadCatalog() {
+        const response = await fetch("./data/regulations.seed.json");
+        if (!response.ok) throw new Error("Unable to load seed data");
+        const seed = await response.json();
+        const local = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+        const merged = canonicalize([...seed, ...local]);
+        const dedup = new Map();
+        for (const item of merged) {
+          dedup.set(item.code, item);
+        }
+        return Array.from(dedup.values());
+      }
+
+      async function evaluate() {
+        const profile = readProfile();
+        if (!profile.markets.length) profile.markets = [profile.jurisdiction];
+
+        const catalog = await loadCatalog();
+        const resolved = [];
+        for (const reg of catalog) {
+          const v = chooseVersion(reg, profile.as_of_date);
+          if (!v) continue;
+          resolved.push(evaluateOne(profile, reg, v));
+        }
+        renderResults(profile, resolved);
+        document.getElementById("catalogPill").textContent = `${catalog.length} regulations loaded`;
+      }
+
+      async function readImportData() {
+        const pasted = document.getElementById("import_data").value.trim();
+        if (pasted) return pasted;
+        const f = document.getElementById("import_file").files[0];
+        if (!f) throw new Error("Provide pasted data or choose a file.");
+        return await f.text();
+      }
+
+      async function importRules() {
+        const status = document.getElementById("importStatus");
+        status.textContent = "Importing...";
+        try {
+          const format = document.getElementById("import_format").value;
+          const text = await readImportData();
+          const parsed = format === "json"
+            ? (() => {
+                const x = JSON.parse(text);
+                return Array.isArray(x) ? x : (x.items || []);
+              })()
+            : parseCsv(text);
+
+          const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+          localStorage.setItem(STORAGE_KEY, JSON.stringify([...existing, ...parsed]));
+          status.textContent = `Imported ${parsed.length} regulation record(s).`;
+          await evaluate();
+        } catch (err) {
+          status.textContent = `Import failed: ${err.message}`;
+        }
+      }
+
+      function clearImports() {
+        localStorage.removeItem(STORAGE_KEY);
+        document.getElementById("importStatus").textContent = "Imported rules cleared.";
+        evaluate();
+      }
+
+      function resetDefaults() {
+        fillSelect("jurisdiction", OPTIONS.jurisdictions, ["EU"]);
+        fillSelect("industry", OPTIONS.industries, ["TECHNOLOGY"]);
+        fillSelect("company_size", OPTIONS.company_sizes, ["SME"]);
+        fillSelect("product_type", OPTIONS.product_types, ["AI_SAAS"]);
+        fillSelect("markets", OPTIONS.jurisdictions, ["EU", "UK", "US"]);
+        document.getElementById("as_of_date").value = TODAY;
+      }
+
+      async function bootstrap() {
+        resetDefaults();
+        await evaluate();
+      }
+
+      document.getElementById("runBtn").addEventListener("click", evaluate);
+      document.getElementById("resetBtn").addEventListener("click", async () => {
+        resetDefaults();
+        await evaluate();
+      });
+      document.getElementById("importBtn").addEventListener("click", importRules);
+      document.getElementById("clearImportBtn").addEventListener("click", clearImports);
+
+      bootstrap().catch((err) => {
+        document.getElementById("results").innerHTML = `<section class='card'>${err.message}</section>`;
+      });
+    </script>
+  </body>
+</html>
