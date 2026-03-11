@@ -247,7 +247,6 @@
         <div class="pill-row">
           <span class="pill" id="catalogPill">Loading catalog…</span>
           <span class="pill">No legal advice. Scope triage only.</span>
-          <button class="subtle" id="adminToggleBtn" type="button">Enable Admin Mode</button>
         </div>
       </section>
 
@@ -631,9 +630,7 @@
       function setAdminMode(enabled) {
         adminMode = enabled;
         const panel = document.getElementById("adminPanel");
-        const btn = document.getElementById("adminToggleBtn");
         panel.classList.toggle("admin-hidden", !enabled);
-        btn.textContent = enabled ? "Disable Admin Mode" : "Enable Admin Mode";
       }
 
       function resetDefaults() {
@@ -659,7 +656,6 @@
       });
       document.getElementById("importBtn").addEventListener("click", importRules);
       document.getElementById("clearImportBtn").addEventListener("click", clearImports);
-      document.getElementById("adminToggleBtn").addEventListener("click", () => setAdminMode(!adminMode));
 
       bootstrap().catch((err) => {
         document.getElementById("results").innerHTML = `<section class='card'>${err.message}</section>`;
