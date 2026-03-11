@@ -194,6 +194,32 @@
         gap: 12px;
       }
 
+      .tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+
+      .tab-btn {
+        border: 1px solid #c7d5e8;
+        background: #edf4fd;
+        color: #29435c;
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-weight: 700;
+      }
+
+      .tab-btn.active {
+        background: linear-gradient(120deg, var(--brand), var(--brand-2));
+        color: #fff;
+        border-color: transparent;
+      }
+
+      .tab-panel.hidden {
+        display: none;
+      }
+
       .footer-credit {
         margin-top: 18px;
         text-align: center;
@@ -483,25 +509,6 @@
         };
       }
 
-      function renderBucket(title, rows, ok) {
-        const cards = rows.map((r) => `
-          <article class="reg ${ok ? "ok" : "no"}">
-            <div class="name">${ok ? "✔" : "✘"} ${r.name} (${r.authority})</div>
-            <div class="meta">v${r.version} | Effective ${r.effective_from}${r.repealed_on ? ` | Repealed ${r.repealed_on}` : ""}</div>
-            <div class="reason">${r.reason}</div>
-            <div class="meta">Confidence ${(r.confidence * 100).toFixed(0)}%${r.notes ? ` | ${r.notes}` : ""}</div>
-            <a href="${r.source_url}" target="_blank" rel="noreferrer">Source</a>
-          </article>
-        `).join("");
-
-        return `
-          <section class="card">
-            <h2>${title}</h2>
-            <div class="reg-list">${cards || `<div class="hint">No items.</div>`}</div>
-          </section>
-        `;
-      }
-
       function renderResults(profile, results) {
         const applicable = results.filter(r => r.applicable).sort((a, b) => b.confidence - a.confidence);
         const notApplicable = results.filter(r => !r.applicable).sort((a, b) => b.confidence - a.confidence);
@@ -513,9 +520,48 @@
             <div class="status">Applicable: ${applicable.length}</div>
             <div class="status">Not Applicable: ${notApplicable.length}</div>
           </section>
-          ${renderBucket("Relevant Regulations", applicable, true)}
-          ${renderBucket("Not Applicable", notApplicable, false)}
+          <section class="card">
+            <div class="tabs">
+              <button class="tab-btn active" data-tab="relevant" type="button">Relevant Regulations (${applicable.length})</button>
+              <button class="tab-btn" data-tab="not_applicable" type="button">Not Applicable (${notApplicable.length})</button>
+            </div>
+            <div class="tab-panel" data-panel="relevant">
+              <div class="reg-list">${applicable.length ? applicable.map((r) => `
+                <article class="reg ok">
+                  <div class="name">✔ ${r.name} (${r.authority})</div>
+                  <div class="meta">v${r.version} | Effective ${r.effective_from}${r.repealed_on ? ` | Repealed ${r.repealed_on}` : ""}</div>
+                  <div class="reason">${r.reason}</div>
+                  <div class="meta">Confidence ${(r.confidence * 100).toFixed(0)}%${r.notes ? ` | ${r.notes}` : ""}</div>
+                  <a href="${r.source_url}" target="_blank" rel="noreferrer">Source</a>
+                </article>
+              `).join("") : `<div class="hint">No relevant regulations for this profile.</div>`}</div>
+            </div>
+            <div class="tab-panel hidden" data-panel="not_applicable">
+              <div class="reg-list">${notApplicable.length ? notApplicable.map((r) => `
+                <article class="reg no">
+                  <div class="name">✘ ${r.name} (${r.authority})</div>
+                  <div class="meta">v${r.version} | Effective ${r.effective_from}${r.repealed_on ? ` | Repealed ${r.repealed_on}` : ""}</div>
+                  <div class="reason">${r.reason}</div>
+                  <div class="meta">Confidence ${(r.confidence * 100).toFixed(0)}%${r.notes ? ` | ${r.notes}` : ""}</div>
+                  <a href="${r.source_url}" target="_blank" rel="noreferrer">Source</a>
+                </article>
+              `).join("") : `<div class="hint">No non-applicable regulations.</div>`}</div>
+            </div>
+          </section>
         `;
+
+        const root = document.getElementById("results");
+        const buttons = root.querySelectorAll(".tab-btn");
+        const panels = root.querySelectorAll(".tab-panel");
+        buttons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const tab = btn.getAttribute("data-tab");
+            buttons.forEach((b) => b.classList.toggle("active", b === btn));
+            panels.forEach((panel) => {
+              panel.classList.toggle("hidden", panel.getAttribute("data-panel") !== tab);
+            });
+          });
+        });
       }
 
       function parseCsv(text) {
