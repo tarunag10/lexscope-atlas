@@ -12,10 +12,18 @@
         "status": "ACTIVE",
         "notes": "Core obligations phased by timeline.",
         "conditions": {
-          "jurisdictions_any": ["EU"],
-          "markets_any": ["EU"],
+          "jurisdictions_any": [
+            "EU"
+          ],
+          "markets_any": [
+            "EU"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "AI_EMBEDDED"],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "AI_EMBEDDED"
+          ],
           "company_sizes_any": []
         }
       }
@@ -33,10 +41,23 @@
         "effective_from": "2018-05-25",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["EU"],
-          "markets_any": ["EU"],
+          "jurisdictions_any": [
+            "EU"
+          ],
+          "markets_any": [
+            "EU"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE", "HEALTH_TECH", "INSURANCE_PRODUCT"],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH",
+            "INSURANCE_PRODUCT"
+          ],
           "company_sizes_any": []
         }
       }
@@ -54,10 +75,23 @@
         "effective_from": "2024-02-17",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["EU"],
-          "markets_any": ["EU"],
-          "industries_any": ["ECOMMERCE", "TECHNOLOGY", "MEDIA"],
-          "product_types_any": ["DIGITAL_PLATFORM", "MARKETPLACE", "SOCIAL_PLATFORM", "SEARCH_SERVICE"],
+          "jurisdictions_any": [
+            "EU"
+          ],
+          "markets_any": [
+            "EU"
+          ],
+          "industries_any": [
+            "ECOMMERCE",
+            "TECHNOLOGY",
+            "MEDIA"
+          ],
+          "product_types_any": [
+            "DIGITAL_PLATFORM",
+            "MARKETPLACE",
+            "SOCIAL_PLATFORM",
+            "SEARCH_SERVICE"
+          ],
           "company_sizes_any": []
         }
       }
@@ -75,10 +109,20 @@
         "effective_from": "2018-01-03",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["EU"],
-          "markets_any": ["EU"],
-          "industries_any": ["FINANCIAL_SERVICES"],
-          "product_types_any": ["INVESTMENT_PRODUCT", "FINANCIAL_SERVICE", "CRYPTO_ASSET"],
+          "jurisdictions_any": [
+            "EU"
+          ],
+          "markets_any": [
+            "EU"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES"
+          ],
+          "product_types_any": [
+            "INVESTMENT_PRODUCT",
+            "FINANCIAL_SERVICE",
+            "CRYPTO_ASSET"
+          ],
           "company_sizes_any": []
         }
       }
@@ -96,10 +140,18 @@
         "effective_from": "2016-01-01",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["EU"],
-          "markets_any": ["EU"],
-          "industries_any": ["INSURANCE"],
-          "product_types_any": ["INSURANCE_PRODUCT"],
+          "jurisdictions_any": [
+            "EU"
+          ],
+          "markets_any": [
+            "EU"
+          ],
+          "industries_any": [
+            "INSURANCE"
+          ],
+          "product_types_any": [
+            "INSURANCE_PRODUCT"
+          ],
           "company_sizes_any": []
         }
       }
@@ -117,11 +169,31 @@
         "effective_from": "2024-10-18",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["EU"],
-          "markets_any": ["EU"],
-          "industries_any": ["TECHNOLOGY", "HEALTHCARE", "ENERGY", "TELECOM", "FINANCIAL_SERVICES"],
-          "product_types_any": ["SAAS", "DIGITAL_PLATFORM", "FINANCIAL_SERVICE", "HEALTH_TECH", "PAYMENTS"],
-          "company_sizes_any": ["MID", "LARGE", "ENTERPRISE"]
+          "jurisdictions_any": [
+            "EU"
+          ],
+          "markets_any": [
+            "EU"
+          ],
+          "industries_any": [
+            "TECHNOLOGY",
+            "HEALTHCARE",
+            "ENERGY",
+            "TELECOM",
+            "FINANCIAL_SERVICES"
+          ],
+          "product_types_any": [
+            "SAAS",
+            "DIGITAL_PLATFORM",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH",
+            "PAYMENTS"
+          ],
+          "company_sizes_any": [
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
         }
       }
     ]
@@ -138,10 +210,21 @@
         "effective_from": "2026-01-01",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["EU"],
-          "markets_any": ["EU"],
-          "industries_any": ["TECHNOLOGY", "MANUFACTURING"],
-          "product_types_any": ["SAAS", "IOT_DEVICE", "AI_EMBEDDED"],
+          "jurisdictions_any": [
+            "EU"
+          ],
+          "markets_any": [
+            "EU"
+          ],
+          "industries_any": [
+            "TECHNOLOGY",
+            "MANUFACTURING"
+          ],
+          "product_types_any": [
+            "SAAS",
+            "IOT_DEVICE",
+            "AI_EMBEDDED"
+          ],
           "company_sizes_any": []
         }
       }
@@ -159,10 +242,22 @@
         "effective_from": "2021-01-01",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["UK"],
-          "markets_any": ["UK"],
+          "jurisdictions_any": [
+            "UK"
+          ],
+          "markets_any": [
+            "UK"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE", "HEALTH_TECH"],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH"
+          ],
           "company_sizes_any": []
         }
       }
@@ -180,10 +275,22 @@
         "effective_from": "2018-05-25",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["UK"],
-          "markets_any": ["UK"],
+          "jurisdictions_any": [
+            "UK"
+          ],
+          "markets_any": [
+            "UK"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE", "HEALTH_TECH"],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH"
+          ],
           "company_sizes_any": []
         }
       }
@@ -201,10 +308,24 @@
         "effective_from": "2024-01-01",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["UK"],
-          "markets_any": ["UK"],
-          "industries_any": ["TECHNOLOGY", "MEDIA", "ECOMMERCE", "GAMING"],
-          "product_types_any": ["SOCIAL_PLATFORM", "DIGITAL_PLATFORM", "SEARCH_SERVICE", "MARKETPLACE"],
+          "jurisdictions_any": [
+            "UK"
+          ],
+          "markets_any": [
+            "UK"
+          ],
+          "industries_any": [
+            "TECHNOLOGY",
+            "MEDIA",
+            "ECOMMERCE",
+            "GAMING"
+          ],
+          "product_types_any": [
+            "SOCIAL_PLATFORM",
+            "DIGITAL_PLATFORM",
+            "SEARCH_SERVICE",
+            "MARKETPLACE"
+          ],
           "company_sizes_any": []
         }
       }
@@ -222,10 +343,22 @@
         "effective_from": "2023-07-31",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["UK"],
-          "markets_any": ["UK"],
-          "industries_any": ["FINANCIAL_SERVICES", "INSURANCE"],
-          "product_types_any": ["FINANCIAL_SERVICE", "INVESTMENT_PRODUCT", "INSURANCE_PRODUCT", "PAYMENTS"],
+          "jurisdictions_any": [
+            "UK"
+          ],
+          "markets_any": [
+            "UK"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES",
+            "INSURANCE"
+          ],
+          "product_types_any": [
+            "FINANCIAL_SERVICE",
+            "INVESTMENT_PRODUCT",
+            "INSURANCE_PRODUCT",
+            "PAYMENTS"
+          ],
           "company_sizes_any": []
         }
       }
@@ -243,10 +376,25 @@
         "effective_from": "1914-09-26",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["US"],
-          "markets_any": ["US"],
+          "jurisdictions_any": [
+            "US"
+          ],
+          "markets_any": [
+            "US"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE", "HEALTH_TECH", "IOT_DEVICE", "PAYMENTS", "CRYPTO_ASSET"],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH",
+            "IOT_DEVICE",
+            "PAYMENTS",
+            "CRYPTO_ASSET"
+          ],
           "company_sizes_any": []
         }
       }
@@ -266,11 +414,27 @@
         "status": "REPEALED",
         "notes": "Original CCPA baseline period.",
         "conditions": {
-          "jurisdictions_any": ["US"],
-          "markets_any": ["US"],
+          "jurisdictions_any": [
+            "US"
+          ],
+          "markets_any": [
+            "US"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE", "HEALTH_TECH"],
-          "company_sizes_any": ["MID", "LARGE", "ENTERPRISE"]
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH"
+          ],
+          "company_sizes_any": [
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
         }
       },
       {
@@ -279,11 +443,28 @@
         "status": "ACTIVE",
         "notes": "CPRA expanded obligations and enforcement regime.",
         "conditions": {
-          "jurisdictions_any": ["US"],
-          "markets_any": ["US"],
+          "jurisdictions_any": [
+            "US"
+          ],
+          "markets_any": [
+            "US"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE", "HEALTH_TECH"],
-          "company_sizes_any": ["SME", "MID", "LARGE", "ENTERPRISE"]
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH"
+          ],
+          "company_sizes_any": [
+            "SME",
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
         }
       }
     ]
@@ -300,10 +481,20 @@
         "effective_from": "1999-11-12",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["US"],
-          "markets_any": ["US"],
-          "industries_any": ["FINANCIAL_SERVICES"],
-          "product_types_any": ["FINANCIAL_SERVICE", "INVESTMENT_PRODUCT", "PAYMENTS"],
+          "jurisdictions_any": [
+            "US"
+          ],
+          "markets_any": [
+            "US"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES"
+          ],
+          "product_types_any": [
+            "FINANCIAL_SERVICE",
+            "INVESTMENT_PRODUCT",
+            "PAYMENTS"
+          ],
           "company_sizes_any": []
         }
       }
@@ -321,10 +512,18 @@
         "effective_from": "1996-08-21",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["US"],
-          "markets_any": ["US"],
-          "industries_any": ["HEALTHCARE"],
-          "product_types_any": ["HEALTH_TECH"],
+          "jurisdictions_any": [
+            "US"
+          ],
+          "markets_any": [
+            "US"
+          ],
+          "industries_any": [
+            "HEALTHCARE"
+          ],
+          "product_types_any": [
+            "HEALTH_TECH"
+          ],
           "company_sizes_any": []
         }
       }
@@ -342,10 +541,24 @@
         "effective_from": "2000-04-21",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["US"],
-          "markets_any": ["US"],
-          "industries_any": ["TECHNOLOGY", "MEDIA", "EDTECH", "GAMING"],
-          "product_types_any": ["MOBILE_APP", "DIGITAL_PLATFORM", "SOCIAL_PLATFORM", "SAAS"],
+          "jurisdictions_any": [
+            "US"
+          ],
+          "markets_any": [
+            "US"
+          ],
+          "industries_any": [
+            "TECHNOLOGY",
+            "MEDIA",
+            "EDTECH",
+            "GAMING"
+          ],
+          "product_types_any": [
+            "MOBILE_APP",
+            "DIGITAL_PLATFORM",
+            "SOCIAL_PLATFORM",
+            "SAAS"
+          ],
           "company_sizes_any": []
         }
       }
@@ -363,10 +576,22 @@
         "effective_from": "2014-07-02",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["SG"],
-          "markets_any": ["SG"],
+          "jurisdictions_any": [
+            "SG"
+          ],
+          "markets_any": [
+            "SG"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE", "HEALTH_TECH"],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH"
+          ],
           "company_sizes_any": []
         }
       }
@@ -384,11 +609,32 @@
         "effective_from": "2018-08-31",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["SG"],
-          "markets_any": ["SG"],
-          "industries_any": ["TECHNOLOGY", "FINANCIAL_SERVICES", "HEALTHCARE", "ENERGY", "TELECOM"],
-          "product_types_any": ["SAAS", "DIGITAL_PLATFORM", "FINANCIAL_SERVICE", "HEALTH_TECH", "IOT_DEVICE", "PAYMENTS"],
-          "company_sizes_any": ["MID", "LARGE", "ENTERPRISE"]
+          "jurisdictions_any": [
+            "SG"
+          ],
+          "markets_any": [
+            "SG"
+          ],
+          "industries_any": [
+            "TECHNOLOGY",
+            "FINANCIAL_SERVICES",
+            "HEALTHCARE",
+            "ENERGY",
+            "TELECOM"
+          ],
+          "product_types_any": [
+            "SAAS",
+            "DIGITAL_PLATFORM",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH",
+            "IOT_DEVICE",
+            "PAYMENTS"
+          ],
+          "company_sizes_any": [
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
         }
       }
     ]
@@ -405,10 +651,21 @@
         "effective_from": "2022-01-02",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["UAE"],
-          "markets_any": ["UAE"],
+          "jurisdictions_any": [
+            "UAE"
+          ],
+          "markets_any": [
+            "UAE"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE"],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE"
+          ],
           "company_sizes_any": []
         }
       }
@@ -426,10 +683,21 @@
         "effective_from": "2021-07-01",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["UAE"],
-          "markets_any": ["UAE"],
-          "industries_any": ["FINANCIAL_SERVICES", "INSURANCE"],
-          "product_types_any": ["FINANCIAL_SERVICE", "INSURANCE_PRODUCT", "PAYMENTS"],
+          "jurisdictions_any": [
+            "UAE"
+          ],
+          "markets_any": [
+            "UAE"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES",
+            "INSURANCE"
+          ],
+          "product_types_any": [
+            "FINANCIAL_SERVICE",
+            "INSURANCE_PRODUCT",
+            "PAYMENTS"
+          ],
           "company_sizes_any": []
         }
       }
@@ -447,10 +715,22 @@
         "effective_from": "2023-08-11",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["IN"],
-          "markets_any": ["IN"],
+          "jurisdictions_any": [
+            "IN"
+          ],
+          "markets_any": [
+            "IN"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE", "HEALTH_TECH"],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH"
+          ],
           "company_sizes_any": []
         }
       }
@@ -468,10 +748,23 @@
         "effective_from": "2021-02-25",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["IN"],
-          "markets_any": ["IN"],
-          "industries_any": ["TECHNOLOGY", "MEDIA", "ECOMMERCE"],
-          "product_types_any": ["DIGITAL_PLATFORM", "SOCIAL_PLATFORM", "MARKETPLACE", "SEARCH_SERVICE"],
+          "jurisdictions_any": [
+            "IN"
+          ],
+          "markets_any": [
+            "IN"
+          ],
+          "industries_any": [
+            "TECHNOLOGY",
+            "MEDIA",
+            "ECOMMERCE"
+          ],
+          "product_types_any": [
+            "DIGITAL_PLATFORM",
+            "SOCIAL_PLATFORM",
+            "MARKETPLACE",
+            "SEARCH_SERVICE"
+          ],
           "company_sizes_any": []
         }
       }
@@ -489,10 +782,19 @@
         "effective_from": "2022-09-02",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["IN"],
-          "markets_any": ["IN"],
-          "industries_any": ["FINANCIAL_SERVICES"],
-          "product_types_any": ["FINANCIAL_SERVICE", "PAYMENTS"],
+          "jurisdictions_any": [
+            "IN"
+          ],
+          "markets_any": [
+            "IN"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES"
+          ],
+          "product_types_any": [
+            "FINANCIAL_SERVICE",
+            "PAYMENTS"
+          ],
           "company_sizes_any": []
         }
       }
@@ -510,10 +812,22 @@
         "effective_from": "2001-01-01",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["CA"],
-          "markets_any": ["CA"],
+          "jurisdictions_any": [
+            "CA"
+          ],
+          "markets_any": [
+            "CA"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE", "HEALTH_TECH"],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH"
+          ],
           "company_sizes_any": []
         }
       }
@@ -531,11 +845,26 @@
         "effective_from": "2024-05-01",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["CA"],
-          "markets_any": ["CA"],
-          "industries_any": ["FINANCIAL_SERVICES", "INSURANCE"],
-          "product_types_any": ["FINANCIAL_SERVICE", "INSURANCE_PRODUCT", "PAYMENTS"],
-          "company_sizes_any": ["MID", "LARGE", "ENTERPRISE"]
+          "jurisdictions_any": [
+            "CA"
+          ],
+          "markets_any": [
+            "CA"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES",
+            "INSURANCE"
+          ],
+          "product_types_any": [
+            "FINANCIAL_SERVICE",
+            "INSURANCE_PRODUCT",
+            "PAYMENTS"
+          ],
+          "company_sizes_any": [
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
         }
       }
     ]
@@ -552,11 +881,28 @@
         "effective_from": "1988-12-01",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["AU"],
-          "markets_any": ["AU"],
+          "jurisdictions_any": [
+            "AU"
+          ],
+          "markets_any": [
+            "AU"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE", "HEALTH_TECH"],
-          "company_sizes_any": ["SME", "MID", "LARGE", "ENTERPRISE"]
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH"
+          ],
+          "company_sizes_any": [
+            "SME",
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
         }
       }
     ]
@@ -573,11 +919,26 @@
         "effective_from": "2019-07-01",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["AU"],
-          "markets_any": ["AU"],
-          "industries_any": ["FINANCIAL_SERVICES", "INSURANCE"],
-          "product_types_any": ["FINANCIAL_SERVICE", "INSURANCE_PRODUCT", "PAYMENTS"],
-          "company_sizes_any": ["MID", "LARGE", "ENTERPRISE"]
+          "jurisdictions_any": [
+            "AU"
+          ],
+          "markets_any": [
+            "AU"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES",
+            "INSURANCE"
+          ],
+          "product_types_any": [
+            "FINANCIAL_SERVICE",
+            "INSURANCE_PRODUCT",
+            "PAYMENTS"
+          ],
+          "company_sizes_any": [
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
         }
       }
     ]
@@ -594,11 +955,27 @@
         "effective_from": "2020-07-01",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["AU"],
-          "markets_any": ["AU"],
-          "industries_any": ["FINANCIAL_SERVICES", "ENERGY", "TELECOM"],
-          "product_types_any": ["FINANCIAL_SERVICE", "PAYMENTS", "SAAS"],
-          "company_sizes_any": ["MID", "LARGE", "ENTERPRISE"]
+          "jurisdictions_any": [
+            "AU"
+          ],
+          "markets_any": [
+            "AU"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES",
+            "ENERGY",
+            "TELECOM"
+          ],
+          "product_types_any": [
+            "FINANCIAL_SERVICE",
+            "PAYMENTS",
+            "SAAS"
+          ],
+          "company_sizes_any": [
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
         }
       }
     ]
@@ -615,10 +992,22 @@
         "effective_from": "2017-05-30",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["JP"],
-          "markets_any": ["JP"],
+          "jurisdictions_any": [
+            "JP"
+          ],
+          "markets_any": [
+            "JP"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE", "HEALTH_TECH"],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH"
+          ],
           "company_sizes_any": []
         }
       }
@@ -636,10 +1025,20 @@
         "effective_from": "2007-09-30",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["JP"],
-          "markets_any": ["JP"],
-          "industries_any": ["FINANCIAL_SERVICES"],
-          "product_types_any": ["INVESTMENT_PRODUCT", "FINANCIAL_SERVICE", "CRYPTO_ASSET"],
+          "jurisdictions_any": [
+            "JP"
+          ],
+          "markets_any": [
+            "JP"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES"
+          ],
+          "product_types_any": [
+            "INVESTMENT_PRODUCT",
+            "FINANCIAL_SERVICE",
+            "CRYPTO_ASSET"
+          ],
           "company_sizes_any": []
         }
       }
@@ -659,10 +1058,20 @@
         "status": "REPEALED",
         "notes": "Pre-ANPD enforcement transition period.",
         "conditions": {
-          "jurisdictions_any": ["BR"],
-          "markets_any": ["BR"],
+          "jurisdictions_any": [
+            "BR"
+          ],
+          "markets_any": [
+            "BR"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP"],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP"
+          ],
           "company_sizes_any": []
         }
       },
@@ -672,10 +1081,22 @@
         "status": "ACTIVE",
         "notes": "ANPD-sanction period.",
         "conditions": {
-          "jurisdictions_any": ["BR"],
-          "markets_any": ["BR"],
+          "jurisdictions_any": [
+            "BR"
+          ],
+          "markets_any": [
+            "BR"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE", "HEALTH_TECH"],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH"
+          ],
           "company_sizes_any": []
         }
       }
@@ -693,10 +1114,23 @@
         "effective_from": "2014-06-23",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["BR"],
-          "markets_any": ["BR"],
-          "industries_any": ["TECHNOLOGY", "MEDIA", "ECOMMERCE"],
-          "product_types_any": ["DIGITAL_PLATFORM", "SOCIAL_PLATFORM", "MARKETPLACE", "SEARCH_SERVICE"],
+          "jurisdictions_any": [
+            "BR"
+          ],
+          "markets_any": [
+            "BR"
+          ],
+          "industries_any": [
+            "TECHNOLOGY",
+            "MEDIA",
+            "ECOMMERCE"
+          ],
+          "product_types_any": [
+            "DIGITAL_PLATFORM",
+            "SOCIAL_PLATFORM",
+            "MARKETPLACE",
+            "SEARCH_SERVICE"
+          ],
           "company_sizes_any": []
         }
       }
@@ -714,10 +1148,21 @@
         "effective_from": "2023-09-14",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["SA"],
-          "markets_any": ["SA"],
+          "jurisdictions_any": [
+            "SA"
+          ],
+          "markets_any": [
+            "SA"
+          ],
           "industries_any": [],
-          "product_types_any": ["AI_MODEL", "AI_SAAS", "DIGITAL_PLATFORM", "SAAS", "MOBILE_APP", "FINANCIAL_SERVICE"],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE"
+          ],
           "company_sizes_any": []
         }
       }
@@ -735,11 +1180,26 @@
         "effective_from": "2017-05-01",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["SA"],
-          "markets_any": ["SA"],
-          "industries_any": ["FINANCIAL_SERVICES", "INSURANCE"],
-          "product_types_any": ["FINANCIAL_SERVICE", "INSURANCE_PRODUCT", "PAYMENTS"],
-          "company_sizes_any": ["MID", "LARGE", "ENTERPRISE"]
+          "jurisdictions_any": [
+            "SA"
+          ],
+          "markets_any": [
+            "SA"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES",
+            "INSURANCE"
+          ],
+          "product_types_any": [
+            "FINANCIAL_SERVICE",
+            "INSURANCE_PRODUCT",
+            "PAYMENTS"
+          ],
+          "company_sizes_any": [
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
         }
       }
     ]
@@ -756,11 +1216,45 @@
         "effective_from": "2013-01-01",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["EU", "UK", "US", "SG", "UAE", "IN", "CA", "AU", "JP", "BR", "SA"],
-          "markets_any": ["EU", "UK", "US", "SG", "UAE", "IN", "CA", "AU", "JP", "BR", "SA"],
-          "industries_any": ["FINANCIAL_SERVICES"],
-          "product_types_any": ["FINANCIAL_SERVICE", "INVESTMENT_PRODUCT", "PAYMENTS"],
-          "company_sizes_any": ["MID", "LARGE", "ENTERPRISE"]
+          "jurisdictions_any": [
+            "EU",
+            "UK",
+            "US",
+            "SG",
+            "UAE",
+            "IN",
+            "CA",
+            "AU",
+            "JP",
+            "BR",
+            "SA"
+          ],
+          "markets_any": [
+            "EU",
+            "UK",
+            "US",
+            "SG",
+            "UAE",
+            "IN",
+            "CA",
+            "AU",
+            "JP",
+            "BR",
+            "SA"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES"
+          ],
+          "product_types_any": [
+            "FINANCIAL_SERVICE",
+            "INVESTMENT_PRODUCT",
+            "PAYMENTS"
+          ],
+          "company_sizes_any": [
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
         }
       }
     ]
@@ -777,11 +1271,363 @@
         "effective_from": "2010-01-01",
         "status": "ACTIVE",
         "conditions": {
-          "jurisdictions_any": ["EU", "UK", "US", "SG", "UAE", "IN", "CA", "AU", "JP", "BR", "SA"],
-          "markets_any": ["EU", "UK", "US", "SG", "UAE", "IN", "CA", "AU", "JP", "BR", "SA"],
-          "industries_any": ["INSURANCE"],
-          "product_types_any": ["INSURANCE_PRODUCT"],
-          "company_sizes_any": ["MID", "LARGE", "ENTERPRISE"]
+          "jurisdictions_any": [
+            "EU",
+            "UK",
+            "US",
+            "SG",
+            "UAE",
+            "IN",
+            "CA",
+            "AU",
+            "JP",
+            "BR",
+            "SA"
+          ],
+          "markets_any": [
+            "EU",
+            "UK",
+            "US",
+            "SG",
+            "UAE",
+            "IN",
+            "CA",
+            "AU",
+            "JP",
+            "BR",
+            "SA"
+          ],
+          "industries_any": [
+            "INSURANCE"
+          ],
+          "product_types_any": [
+            "INSURANCE_PRODUCT"
+          ],
+          "company_sizes_any": [
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "code": "EU_DMA",
+    "name": "EU Digital Markets Act",
+    "authority": "European Union",
+    "summary": "Competition and conduct obligations for designated digital gatekeepers in the EU.",
+    "source_url": "https://digital-markets-act.ec.europa.eu/index_en",
+    "versions": [
+      {
+        "version": 1,
+        "effective_from": "2023-05-02",
+        "status": "ACTIVE",
+        "conditions": {
+          "jurisdictions_any": [
+            "EU"
+          ],
+          "markets_any": [
+            "EU"
+          ],
+          "industries_any": [
+            "TECHNOLOGY",
+            "MEDIA",
+            "ECOMMERCE"
+          ],
+          "product_types_any": [
+            "DIGITAL_PLATFORM",
+            "SEARCH_SERVICE",
+            "MARKETPLACE",
+            "SOCIAL_PLATFORM"
+          ],
+          "company_sizes_any": [
+            "LARGE",
+            "ENTERPRISE"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "code": "EU_DORA",
+    "name": "EU Digital Operational Resilience Act (DORA)",
+    "authority": "European Union",
+    "summary": "ICT risk management, incident reporting, and third-party oversight requirements for financial entities.",
+    "source_url": "https://finance.ec.europa.eu/banking-and-banking-union/digital-operational-resilience-act-dora_en",
+    "versions": [
+      {
+        "version": 1,
+        "effective_from": "2025-01-17",
+        "status": "ACTIVE",
+        "conditions": {
+          "jurisdictions_any": [
+            "EU"
+          ],
+          "markets_any": [
+            "EU"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES",
+            "INSURANCE"
+          ],
+          "product_types_any": [
+            "FINANCIAL_SERVICE",
+            "INSURANCE_PRODUCT",
+            "PAYMENTS",
+            "SAAS"
+          ],
+          "company_sizes_any": [
+            "SME",
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "code": "EU_DATA_ACT",
+    "name": "EU Data Act",
+    "authority": "European Union",
+    "summary": "Rules on access and sharing of data generated by connected products and related services.",
+    "source_url": "https://digital-strategy.ec.europa.eu/en/policies/data-act",
+    "versions": [
+      {
+        "version": 1,
+        "effective_from": "2025-09-12",
+        "status": "ACTIVE",
+        "conditions": {
+          "jurisdictions_any": [
+            "EU"
+          ],
+          "markets_any": [
+            "EU"
+          ],
+          "industries_any": [
+            "TECHNOLOGY",
+            "MANUFACTURING"
+          ],
+          "product_types_any": [
+            "IOT_DEVICE",
+            "AI_EMBEDDED",
+            "DIGITAL_PLATFORM",
+            "SAAS"
+          ],
+          "company_sizes_any": [
+            "SME",
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "code": "UK_PECR",
+    "name": "UK Privacy and Electronic Communications Regulations (PECR)",
+    "authority": "United Kingdom",
+    "summary": "Rules on electronic marketing, cookies, and communications privacy in the UK.",
+    "source_url": "https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/",
+    "versions": [
+      {
+        "version": 1,
+        "effective_from": "2003-12-11",
+        "status": "ACTIVE",
+        "conditions": {
+          "jurisdictions_any": [
+            "UK"
+          ],
+          "markets_any": [
+            "UK"
+          ],
+          "industries_any": [
+            "TECHNOLOGY",
+            "ECOMMERCE",
+            "MEDIA"
+          ],
+          "product_types_any": [
+            "DIGITAL_PLATFORM",
+            "MOBILE_APP",
+            "SAAS",
+            "SOCIAL_PLATFORM",
+            "SEARCH_SERVICE"
+          ],
+          "company_sizes_any": []
+        }
+      }
+    ]
+  },
+  {
+    "code": "UK_PSR_2017",
+    "name": "UK Payment Services Regulations 2017",
+    "authority": "United Kingdom",
+    "summary": "Regulatory requirements for payment service providers, including safeguarding and conduct obligations.",
+    "source_url": "https://www.legislation.gov.uk/uksi/2017/752/contents/made",
+    "versions": [
+      {
+        "version": 1,
+        "effective_from": "2018-01-13",
+        "status": "ACTIVE",
+        "conditions": {
+          "jurisdictions_any": [
+            "UK"
+          ],
+          "markets_any": [
+            "UK"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES"
+          ],
+          "product_types_any": [
+            "PAYMENTS",
+            "FINANCIAL_SERVICE"
+          ],
+          "company_sizes_any": []
+        }
+      }
+    ]
+  },
+  {
+    "code": "UK_MLR_2017",
+    "name": "UK Money Laundering Regulations 2017",
+    "authority": "United Kingdom",
+    "summary": "Anti-money laundering and counter-terrorist financing requirements for relevant UK firms.",
+    "source_url": "https://www.legislation.gov.uk/uksi/2017/692/contents",
+    "versions": [
+      {
+        "version": 1,
+        "effective_from": "2017-06-26",
+        "status": "ACTIVE",
+        "conditions": {
+          "jurisdictions_any": [
+            "UK"
+          ],
+          "markets_any": [
+            "UK"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES",
+            "INSURANCE"
+          ],
+          "product_types_any": [
+            "FINANCIAL_SERVICE",
+            "PAYMENTS",
+            "CRYPTO_ASSET",
+            "INVESTMENT_PRODUCT"
+          ],
+          "company_sizes_any": []
+        }
+      }
+    ]
+  },
+  {
+    "code": "IN_CERT_IN_DIRECTIONS_2022",
+    "name": "India CERT-In Cyber Incident Reporting Directions",
+    "authority": "India",
+    "summary": "Mandatory cyber incident reporting and log retention obligations for specified entities in India.",
+    "source_url": "https://www.cert-in.org.in/PDF/CERT-In_Directions_70B_28.04.2022.pdf",
+    "versions": [
+      {
+        "version": 1,
+        "effective_from": "2022-06-27",
+        "status": "ACTIVE",
+        "conditions": {
+          "jurisdictions_any": [
+            "IN"
+          ],
+          "markets_any": [
+            "IN"
+          ],
+          "industries_any": [
+            "TECHNOLOGY",
+            "FINANCIAL_SERVICES",
+            "HEALTHCARE",
+            "ENERGY",
+            "TELECOM",
+            "ECOMMERCE"
+          ],
+          "product_types_any": [
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "IOT_DEVICE",
+            "FINANCIAL_SERVICE",
+            "PAYMENTS"
+          ],
+          "company_sizes_any": [
+            "SME",
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "code": "IN_PSS_ACT",
+    "name": "India Payment and Settlement Systems Act",
+    "authority": "India",
+    "summary": "Legal framework for authorization and regulation of payment systems by RBI.",
+    "source_url": "https://www.rbi.org.in/Scripts/Acts.aspx",
+    "versions": [
+      {
+        "version": 1,
+        "effective_from": "2007-12-20",
+        "status": "ACTIVE",
+        "conditions": {
+          "jurisdictions_any": [
+            "IN"
+          ],
+          "markets_any": [
+            "IN"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES"
+          ],
+          "product_types_any": [
+            "PAYMENTS",
+            "FINANCIAL_SERVICE"
+          ],
+          "company_sizes_any": []
+        }
+      }
+    ]
+  },
+  {
+    "code": "IN_SEBI_CYBERSECURITY_FRAMEWORK",
+    "name": "SEBI Cybersecurity and Cyber Resilience Framework",
+    "authority": "India",
+    "summary": "Cybersecurity and resilience controls for SEBI-regulated market intermediaries and market infrastructure institutions.",
+    "source_url": "https://www.sebi.gov.in/legal/circulars/aug-2024/cybersecurity-and-cyber-resilience-framework-cscrf-for-sebi-regulated-entities-res_85710.html",
+    "versions": [
+      {
+        "version": 1,
+        "effective_from": "2024-08-20",
+        "status": "ACTIVE",
+        "conditions": {
+          "jurisdictions_any": [
+            "IN"
+          ],
+          "markets_any": [
+            "IN"
+          ],
+          "industries_any": [
+            "FINANCIAL_SERVICES"
+          ],
+          "product_types_any": [
+            "INVESTMENT_PRODUCT",
+            "FINANCIAL_SERVICE",
+            "CRYPTO_ASSET"
+          ],
+          "company_sizes_any": [
+            "SME",
+            "MID",
+            "LARGE",
+            "ENTERPRISE"
+          ]
         }
       }
     ]

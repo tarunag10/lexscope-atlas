@@ -1,0 +1,1759 @@
+{
+  "generated_at": "2026-03-11T18:03:37Z",
+  "description": "Master snapshot of current app regulation catalog (seed + auto-sourced)",
+  "regulation_count": 46,
+  "items": [
+    {
+      "code": "AU_CDR",
+      "name": "Australia Consumer Data Right",
+      "authority": "Australia",
+      "summary": "Data portability and consent-based data sharing framework in designated sectors.",
+      "source_url": "https://www.cdr.gov.au/",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2020-07-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "AU"
+            ],
+            "markets_any": [
+              "AU"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES",
+              "ENERGY",
+              "TELECOM"
+            ],
+            "product_types_any": [
+              "FINANCIAL_SERVICE",
+              "PAYMENTS",
+              "SAAS"
+            ],
+            "company_sizes_any": [
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "AU_CPS_234",
+      "name": "APRA CPS 234",
+      "authority": "Australia",
+      "summary": "Information security prudential standard for APRA-regulated entities.",
+      "source_url": "https://www.apra.gov.au/prudential-standard-cps-234-information-security",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2019-07-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "AU"
+            ],
+            "markets_any": [
+              "AU"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES",
+              "INSURANCE"
+            ],
+            "product_types_any": [
+              "FINANCIAL_SERVICE",
+              "INSURANCE_PRODUCT",
+              "PAYMENTS"
+            ],
+            "company_sizes_any": [
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "AU_PRIVACY_ACT",
+      "name": "Australia Privacy Act",
+      "authority": "Australia",
+      "summary": "Privacy principles and obligations for handling personal information in Australia.",
+      "source_url": "https://www.legislation.gov.au/C2004A03712/latest/text",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "1988-12-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "AU"
+            ],
+            "markets_any": [
+              "AU"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH"
+            ],
+            "company_sizes_any": [
+              "SME",
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "BASEL_III",
+      "name": "Basel III (Implemented Locally)",
+      "authority": "Global (via local regulators)",
+      "summary": "Bank capital and liquidity standards transposed into local regulation.",
+      "source_url": "https://www.bis.org/bcbs/basel3.htm",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2013-01-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "EU",
+              "UK",
+              "US",
+              "SG",
+              "UAE",
+              "IN",
+              "CA",
+              "AU",
+              "JP",
+              "BR",
+              "SA"
+            ],
+            "markets_any": [
+              "EU",
+              "UK",
+              "US",
+              "SG",
+              "UAE",
+              "IN",
+              "CA",
+              "AU",
+              "JP",
+              "BR",
+              "SA"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES"
+            ],
+            "product_types_any": [
+              "FINANCIAL_SERVICE",
+              "INVESTMENT_PRODUCT",
+              "PAYMENTS"
+            ],
+            "company_sizes_any": [
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "BR_LGPD",
+      "name": "Brazil LGPD",
+      "authority": "Brazil",
+      "summary": "General data protection framework for Brazil personal data processing.",
+      "source_url": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2020-09-18",
+          "repealed_on": "2022-08-01",
+          "status": "REPEALED",
+          "notes": "Pre-ANPD enforcement transition period.",
+          "conditions": {
+            "jurisdictions_any": [
+              "BR"
+            ],
+            "markets_any": [
+              "BR"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP"
+            ],
+            "company_sizes_any": []
+          }
+        },
+        {
+          "version": 2,
+          "effective_from": "2022-08-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "ANPD-sanction period.",
+          "conditions": {
+            "jurisdictions_any": [
+              "BR"
+            ],
+            "markets_any": [
+              "BR"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "BR_MARCO_CIVIL",
+      "name": "Brazil Marco Civil da Internet",
+      "authority": "Brazil",
+      "summary": "Internet governance, intermediary obligations, and user rights framework.",
+      "source_url": "https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2014/lei/l12965.htm",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2014-06-23",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "BR"
+            ],
+            "markets_any": [
+              "BR"
+            ],
+            "industries_any": [
+              "TECHNOLOGY",
+              "MEDIA",
+              "ECOMMERCE"
+            ],
+            "product_types_any": [
+              "DIGITAL_PLATFORM",
+              "SOCIAL_PLATFORM",
+              "MARKETPLACE",
+              "SEARCH_SERVICE"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "CA_OSFI_B10",
+      "name": "OSFI Guideline B-10 (Third-Party Risk)",
+      "authority": "Canada",
+      "summary": "Third-party risk management expectations for federally regulated financial institutions.",
+      "source_url": "https://www.osfi-bsif.gc.ca/",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2024-05-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "CA"
+            ],
+            "markets_any": [
+              "CA"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES",
+              "INSURANCE"
+            ],
+            "product_types_any": [
+              "FINANCIAL_SERVICE",
+              "INSURANCE_PRODUCT",
+              "PAYMENTS"
+            ],
+            "company_sizes_any": [
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "CA_PIPEDA",
+      "name": "Canada PIPEDA",
+      "authority": "Canada",
+      "summary": "Federal privacy law for private-sector organizations in commercial activities.",
+      "source_url": "https://laws-lois.justice.gc.ca/eng/acts/P-8.6/",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2001-01-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "CA"
+            ],
+            "markets_any": [
+              "CA"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "CRA",
+      "name": "EU Cyber Resilience Act",
+      "authority": "European Union",
+      "summary": "Cybersecurity requirements for products with digital elements in the EU.",
+      "source_url": "https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2026-01-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "EU"
+            ],
+            "markets_any": [
+              "EU"
+            ],
+            "industries_any": [
+              "TECHNOLOGY",
+              "MANUFACTURING"
+            ],
+            "product_types_any": [
+              "SAAS",
+              "IOT_DEVICE",
+              "AI_EMBEDDED"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "EU_AI_ACT",
+      "name": "EU AI Act",
+      "authority": "European Union",
+      "summary": "Risk-based framework governing AI systems and general-purpose AI in the EU market.",
+      "source_url": "https://artificialintelligenceact.eu/",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2024-08-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "Core obligations phased by timeline.",
+          "conditions": {
+            "jurisdictions_any": [
+              "EU"
+            ],
+            "markets_any": [
+              "EU"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "AI_EMBEDDED"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "EU_DATA_ACT",
+      "name": "EU Data Act",
+      "authority": "European Union",
+      "summary": "Rules on access and sharing of data generated by connected products and related services.",
+      "source_url": "https://digital-strategy.ec.europa.eu/en/policies/data-act",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2025-09-12",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "EU"
+            ],
+            "markets_any": [
+              "EU"
+            ],
+            "industries_any": [
+              "TECHNOLOGY",
+              "MANUFACTURING"
+            ],
+            "product_types_any": [
+              "IOT_DEVICE",
+              "AI_EMBEDDED",
+              "DIGITAL_PLATFORM",
+              "SAAS"
+            ],
+            "company_sizes_any": [
+              "SME",
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "EU_DMA",
+      "name": "EU Digital Markets Act",
+      "authority": "European Union",
+      "summary": "Competition and conduct obligations for designated digital gatekeepers in the EU.",
+      "source_url": "https://digital-markets-act.ec.europa.eu/index_en",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2023-05-02",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "EU"
+            ],
+            "markets_any": [
+              "EU"
+            ],
+            "industries_any": [
+              "TECHNOLOGY",
+              "MEDIA",
+              "ECOMMERCE"
+            ],
+            "product_types_any": [
+              "DIGITAL_PLATFORM",
+              "SEARCH_SERVICE",
+              "MARKETPLACE",
+              "SOCIAL_PLATFORM"
+            ],
+            "company_sizes_any": [
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "EU_DORA",
+      "name": "EU Digital Operational Resilience Act (DORA)",
+      "authority": "European Union",
+      "summary": "ICT risk management, incident reporting, and third-party oversight requirements for financial entities.",
+      "source_url": "https://finance.ec.europa.eu/banking-and-banking-union/digital-operational-resilience-act-dora_en",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2025-01-17",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "EU"
+            ],
+            "markets_any": [
+              "EU"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES",
+              "INSURANCE"
+            ],
+            "product_types_any": [
+              "FINANCIAL_SERVICE",
+              "INSURANCE_PRODUCT",
+              "PAYMENTS",
+              "SAAS"
+            ],
+            "company_sizes_any": [
+              "SME",
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "EU_DSA",
+      "name": "Digital Services Act",
+      "authority": "European Union",
+      "summary": "Platform and intermediary due diligence obligations for services offered in the EU.",
+      "source_url": "https://digital-strategy.ec.europa.eu/en/policies/digital-services-act-package",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2024-02-17",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "EU"
+            ],
+            "markets_any": [
+              "EU"
+            ],
+            "industries_any": [
+              "ECOMMERCE",
+              "TECHNOLOGY",
+              "MEDIA"
+            ],
+            "product_types_any": [
+              "DIGITAL_PLATFORM",
+              "MARKETPLACE",
+              "SOCIAL_PLATFORM",
+              "SEARCH_SERVICE"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "EU_GDPR",
+      "name": "EU GDPR",
+      "authority": "European Union",
+      "summary": "Data protection and privacy regulation for personal data linked to EU individuals.",
+      "source_url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2018-05-25",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "EU"
+            ],
+            "markets_any": [
+              "EU"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH",
+              "INSURANCE_PRODUCT"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "EU_MIFID_II",
+      "name": "MiFID II",
+      "authority": "European Union",
+      "summary": "Rules for investment firms, trading venues, and investment services.",
+      "source_url": "https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/financial-markets/securities-markets_en",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2018-01-03",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "EU"
+            ],
+            "markets_any": [
+              "EU"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES"
+            ],
+            "product_types_any": [
+              "INVESTMENT_PRODUCT",
+              "FINANCIAL_SERVICE",
+              "CRYPTO_ASSET"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "EU_SOLVENCY_II",
+      "name": "Solvency II",
+      "authority": "European Union",
+      "summary": "Prudential framework for EU insurers and reinsurers.",
+      "source_url": "https://www.eiopa.europa.eu/rulebook/solvency-ii_en",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2016-01-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "EU"
+            ],
+            "markets_any": [
+              "EU"
+            ],
+            "industries_any": [
+              "INSURANCE"
+            ],
+            "product_types_any": [
+              "INSURANCE_PRODUCT"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "GLOBAL_INSURANCE_PRUDENTIAL",
+      "name": "Insurance Prudential / Reporting Frameworks",
+      "authority": "Global (jurisdiction specific)",
+      "summary": "Insurance solvency, capital, and reporting obligations via local insurance regulators.",
+      "source_url": "https://www.iaisweb.org/",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2010-01-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "EU",
+              "UK",
+              "US",
+              "SG",
+              "UAE",
+              "IN",
+              "CA",
+              "AU",
+              "JP",
+              "BR",
+              "SA"
+            ],
+            "markets_any": [
+              "EU",
+              "UK",
+              "US",
+              "SG",
+              "UAE",
+              "IN",
+              "CA",
+              "AU",
+              "JP",
+              "BR",
+              "SA"
+            ],
+            "industries_any": [
+              "INSURANCE"
+            ],
+            "product_types_any": [
+              "INSURANCE_PRODUCT"
+            ],
+            "company_sizes_any": [
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "IN_CERT_IN_DIRECTIONS_2022",
+      "name": "India CERT-In Cyber Incident Reporting Directions",
+      "authority": "India",
+      "summary": "Mandatory cyber incident reporting and log retention obligations for specified entities in India.",
+      "source_url": "https://www.cert-in.org.in/PDF/CERT-In_Directions_70B_28.04.2022.pdf",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2022-06-27",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "IN"
+            ],
+            "markets_any": [
+              "IN"
+            ],
+            "industries_any": [
+              "TECHNOLOGY",
+              "FINANCIAL_SERVICES",
+              "HEALTHCARE",
+              "ENERGY",
+              "TELECOM",
+              "ECOMMERCE"
+            ],
+            "product_types_any": [
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "IOT_DEVICE",
+              "FINANCIAL_SERVICE",
+              "PAYMENTS"
+            ],
+            "company_sizes_any": [
+              "SME",
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "IN_DPDPA",
+      "name": "India Digital Personal Data Protection Act",
+      "authority": "India",
+      "summary": "Personal data processing obligations for data fiduciaries handling digital personal data.",
+      "source_url": "https://www.meity.gov.in/digital-personal-data-protection-act-2023",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2023-08-11",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "IN"
+            ],
+            "markets_any": [
+              "IN"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "IN_IT_ACT",
+      "name": "India IT Act + Intermediary Rules",
+      "authority": "India",
+      "summary": "Intermediary due diligence and digital platform obligations under Indian law.",
+      "source_url": "https://www.meity.gov.in/content/intermediary-guidelines-and-digital-media-ethics-code-rules-2021",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2021-02-25",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "IN"
+            ],
+            "markets_any": [
+              "IN"
+            ],
+            "industries_any": [
+              "TECHNOLOGY",
+              "MEDIA",
+              "ECOMMERCE"
+            ],
+            "product_types_any": [
+              "DIGITAL_PLATFORM",
+              "SOCIAL_PLATFORM",
+              "MARKETPLACE",
+              "SEARCH_SERVICE"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "IN_PSS_ACT",
+      "name": "India Payment and Settlement Systems Act",
+      "authority": "India",
+      "summary": "Legal framework for authorization and regulation of payment systems by RBI.",
+      "source_url": "https://www.rbi.org.in/Scripts/Acts.aspx",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2007-12-20",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "IN"
+            ],
+            "markets_any": [
+              "IN"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES"
+            ],
+            "product_types_any": [
+              "PAYMENTS",
+              "FINANCIAL_SERVICE"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "IN_RBI_DIGITAL_LENDING",
+      "name": "RBI Digital Lending Guidelines",
+      "authority": "India",
+      "summary": "Compliance obligations for digital lending ecosystem participants.",
+      "source_url": "https://www.rbi.org.in/",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2022-09-02",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "IN"
+            ],
+            "markets_any": [
+              "IN"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES"
+            ],
+            "product_types_any": [
+              "FINANCIAL_SERVICE",
+              "PAYMENTS"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "IN_SEBI_CYBERSECURITY_FRAMEWORK",
+      "name": "SEBI Cybersecurity and Cyber Resilience Framework",
+      "authority": "India",
+      "summary": "Cybersecurity and resilience controls for SEBI-regulated market intermediaries and market infrastructure institutions.",
+      "source_url": "https://www.sebi.gov.in/legal/circulars/aug-2024/cybersecurity-and-cyber-resilience-framework-cscrf-for-sebi-regulated-entities-res_85710.html",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2024-08-20",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "IN"
+            ],
+            "markets_any": [
+              "IN"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES"
+            ],
+            "product_types_any": [
+              "INVESTMENT_PRODUCT",
+              "FINANCIAL_SERVICE",
+              "CRYPTO_ASSET"
+            ],
+            "company_sizes_any": [
+              "SME",
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "IN_UPI_COMPLIANCE",
+      "name": "India UPI / Payment System Compliance",
+      "authority": "India",
+      "summary": "Payment system operators and participants must comply with NPCI and RBI payment system obligations.",
+      "source_url": "https://www.rbi.org.in/",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2021-01-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "Sample extension pack rule.",
+          "conditions": {
+            "jurisdictions_any": [
+              "IN"
+            ],
+            "markets_any": [
+              "IN"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES"
+            ],
+            "product_types_any": [
+              "PAYMENTS",
+              "FINANCIAL_SERVICE"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "JP_APPI",
+      "name": "Japan APPI",
+      "authority": "Japan",
+      "summary": "Data protection framework for handling personal information.",
+      "source_url": "https://www.ppc.go.jp/en/legal/",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2017-05-30",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "JP"
+            ],
+            "markets_any": [
+              "JP"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "JP_FIEA",
+      "name": "Japan Financial Instruments and Exchange Act",
+      "authority": "Japan",
+      "summary": "Regulatory framework for securities and investment services in Japan.",
+      "source_url": "https://www.jpx.co.jp/english/rules-participants/rules/regulations/",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2007-09-30",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "JP"
+            ],
+            "markets_any": [
+              "JP"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES"
+            ],
+            "product_types_any": [
+              "INVESTMENT_PRODUCT",
+              "FINANCIAL_SERVICE",
+              "CRYPTO_ASSET"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "NIS2",
+      "name": "NIS2 Directive",
+      "authority": "European Union",
+      "summary": "Cybersecurity risk management and incident reporting for essential and important entities.",
+      "source_url": "https://digital-strategy.ec.europa.eu/en/policies/nis2-directive",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2024-10-18",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "EU"
+            ],
+            "markets_any": [
+              "EU"
+            ],
+            "industries_any": [
+              "TECHNOLOGY",
+              "HEALTHCARE",
+              "ENERGY",
+              "TELECOM",
+              "FINANCIAL_SERVICES"
+            ],
+            "product_types_any": [
+              "SAAS",
+              "DIGITAL_PLATFORM",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH",
+              "PAYMENTS"
+            ],
+            "company_sizes_any": [
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "SA_PDPL",
+      "name": "Saudi Personal Data Protection Law",
+      "authority": "Saudi Arabia",
+      "summary": "Data protection and transfer controls for personal data in Saudi Arabia.",
+      "source_url": "https://sdaia.gov.sa/en/Sectors/Pages/sector_pdpl.aspx",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2023-09-14",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "SA"
+            ],
+            "markets_any": [
+              "SA"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "SA_SAMA_CSF",
+      "name": "Saudi SAMA Cybersecurity Framework",
+      "authority": "Saudi Arabia",
+      "summary": "Cybersecurity control framework for financial institutions regulated by SAMA.",
+      "source_url": "https://www.sama.gov.sa/en-US/Laws/Pages/CyberSecurity.aspx",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2017-05-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "SA"
+            ],
+            "markets_any": [
+              "SA"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES",
+              "INSURANCE"
+            ],
+            "product_types_any": [
+              "FINANCIAL_SERVICE",
+              "INSURANCE_PRODUCT",
+              "PAYMENTS"
+            ],
+            "company_sizes_any": [
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "SG_CYBERSECURITY_ACT",
+      "name": "Singapore Cybersecurity Act",
+      "authority": "Singapore",
+      "summary": "Cybersecurity requirements for critical information infrastructure and incident management.",
+      "source_url": "https://www.csa.gov.sg/legislation",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2018-08-31",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "SG"
+            ],
+            "markets_any": [
+              "SG"
+            ],
+            "industries_any": [
+              "TECHNOLOGY",
+              "FINANCIAL_SERVICES",
+              "HEALTHCARE",
+              "ENERGY",
+              "TELECOM"
+            ],
+            "product_types_any": [
+              "SAAS",
+              "DIGITAL_PLATFORM",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH",
+              "IOT_DEVICE",
+              "PAYMENTS"
+            ],
+            "company_sizes_any": [
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "SG_PDPA",
+      "name": "Singapore PDPA",
+      "authority": "Singapore",
+      "summary": "Personal data protection law for private sector organizations in Singapore.",
+      "source_url": "https://www.pdpc.gov.sg/Overview-of-PDPA/The-Legislation/Personal-Data-Protection-Act",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2014-07-02",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "SG"
+            ],
+            "markets_any": [
+              "SG"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "UAE_CENTRAL_BANK_REGS",
+      "name": "UAE Central Bank Consumer Protection Regulation",
+      "authority": "United Arab Emirates",
+      "summary": "Consumer protection and conduct obligations for licensed financial institutions.",
+      "source_url": "https://www.centralbank.ae/en/our-operations/regulations/",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2021-07-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "UAE"
+            ],
+            "markets_any": [
+              "UAE"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES",
+              "INSURANCE"
+            ],
+            "product_types_any": [
+              "FINANCIAL_SERVICE",
+              "INSURANCE_PRODUCT",
+              "PAYMENTS"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "UAE_PDPL",
+      "name": "UAE Federal PDPL",
+      "authority": "United Arab Emirates",
+      "summary": "Federal personal data protection framework for UAE personal data processing.",
+      "source_url": "https://u.ae/en/about-the-uae/digital-uae/data/data-protection-laws",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2022-01-02",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "UAE"
+            ],
+            "markets_any": [
+              "UAE"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "UK_CONSUMER_DUTY",
+      "name": "FCA Consumer Duty",
+      "authority": "United Kingdom",
+      "summary": "Higher consumer protection standard for regulated UK financial firms.",
+      "source_url": "https://www.fca.org.uk/firms/consumer-duty",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2023-07-31",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "UK"
+            ],
+            "markets_any": [
+              "UK"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES",
+              "INSURANCE"
+            ],
+            "product_types_any": [
+              "FINANCIAL_SERVICE",
+              "INVESTMENT_PRODUCT",
+              "INSURANCE_PRODUCT",
+              "PAYMENTS"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "UK_DATA_PROTECTION_ACT",
+      "name": "UK Data Protection Act 2018",
+      "authority": "United Kingdom",
+      "summary": "UK implementation and supplement to UK GDPR framework.",
+      "source_url": "https://www.legislation.gov.uk/ukpga/2018/12/contents",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2018-05-25",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "UK"
+            ],
+            "markets_any": [
+              "UK"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "UK_GDPR",
+      "name": "UK GDPR",
+      "authority": "United Kingdom",
+      "summary": "Data protection obligations for personal data processing linked to the UK.",
+      "source_url": "https://www.legislation.gov.uk/eur/2016/679/contents",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2021-01-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "UK"
+            ],
+            "markets_any": [
+              "UK"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "UK_MLR_2017",
+      "name": "UK Money Laundering Regulations 2017",
+      "authority": "United Kingdom",
+      "summary": "Anti-money laundering and counter-terrorist financing requirements for relevant UK firms.",
+      "source_url": "https://www.legislation.gov.uk/uksi/2017/692/contents",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2017-06-26",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "UK"
+            ],
+            "markets_any": [
+              "UK"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES",
+              "INSURANCE"
+            ],
+            "product_types_any": [
+              "FINANCIAL_SERVICE",
+              "PAYMENTS",
+              "CRYPTO_ASSET",
+              "INVESTMENT_PRODUCT"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "UK_ONLINE_SAFETY_ACT",
+      "name": "UK Online Safety Act",
+      "authority": "United Kingdom",
+      "summary": "Duties of care and platform safety obligations for user-to-user and search services.",
+      "source_url": "https://www.legislation.gov.uk/ukpga/2023/50/contents",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2024-01-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "UK"
+            ],
+            "markets_any": [
+              "UK"
+            ],
+            "industries_any": [
+              "TECHNOLOGY",
+              "MEDIA",
+              "ECOMMERCE",
+              "GAMING"
+            ],
+            "product_types_any": [
+              "SOCIAL_PLATFORM",
+              "DIGITAL_PLATFORM",
+              "SEARCH_SERVICE",
+              "MARKETPLACE"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "UK_PECR",
+      "name": "UK Privacy and Electronic Communications Regulations (PECR)",
+      "authority": "United Kingdom",
+      "summary": "Rules on electronic marketing, cookies, and communications privacy in the UK.",
+      "source_url": "https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2003-12-11",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "UK"
+            ],
+            "markets_any": [
+              "UK"
+            ],
+            "industries_any": [
+              "TECHNOLOGY",
+              "ECOMMERCE",
+              "MEDIA"
+            ],
+            "product_types_any": [
+              "DIGITAL_PLATFORM",
+              "MOBILE_APP",
+              "SAAS",
+              "SOCIAL_PLATFORM",
+              "SEARCH_SERVICE"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "UK_PSR_2017",
+      "name": "UK Payment Services Regulations 2017",
+      "authority": "United Kingdom",
+      "summary": "Regulatory requirements for payment service providers, including safeguarding and conduct obligations.",
+      "source_url": "https://www.legislation.gov.uk/uksi/2017/752/contents/made",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2018-01-13",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "UK"
+            ],
+            "markets_any": [
+              "UK"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES"
+            ],
+            "product_types_any": [
+              "PAYMENTS",
+              "FINANCIAL_SERVICE"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "US_CCPA_CPRA",
+      "name": "California CCPA/CPRA",
+      "authority": "United States (California)",
+      "summary": "Consumer privacy obligations for qualifying businesses handling California residents' personal data.",
+      "source_url": "https://oag.ca.gov/privacy/ccpa",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2020-01-01",
+          "repealed_on": "2023-01-01",
+          "status": "REPEALED",
+          "notes": "Original CCPA baseline period.",
+          "conditions": {
+            "jurisdictions_any": [
+              "US"
+            ],
+            "markets_any": [
+              "US"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH"
+            ],
+            "company_sizes_any": [
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        },
+        {
+          "version": 2,
+          "effective_from": "2023-01-01",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "CPRA expanded obligations and enforcement regime.",
+          "conditions": {
+            "jurisdictions_any": [
+              "US"
+            ],
+            "markets_any": [
+              "US"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH"
+            ],
+            "company_sizes_any": [
+              "SME",
+              "MID",
+              "LARGE",
+              "ENTERPRISE"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "code": "US_COPPA",
+      "name": "COPPA",
+      "authority": "United States",
+      "summary": "Protects personal information of children under 13 collected online.",
+      "source_url": "https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "2000-04-21",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "US"
+            ],
+            "markets_any": [
+              "US"
+            ],
+            "industries_any": [
+              "TECHNOLOGY",
+              "MEDIA",
+              "EDTECH",
+              "GAMING"
+            ],
+            "product_types_any": [
+              "MOBILE_APP",
+              "DIGITAL_PLATFORM",
+              "SOCIAL_PLATFORM",
+              "SAAS"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "US_FTC_ACT",
+      "name": "FTC Act (Section 5)",
+      "authority": "United States",
+      "summary": "Prohibits unfair or deceptive acts and practices in commerce.",
+      "source_url": "https://www.ftc.gov/legal-library/browse/statutes/federal-trade-commission-act",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "1914-09-26",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "US"
+            ],
+            "markets_any": [
+              "US"
+            ],
+            "industries_any": [],
+            "product_types_any": [
+              "AI_MODEL",
+              "AI_SAAS",
+              "DIGITAL_PLATFORM",
+              "SAAS",
+              "MOBILE_APP",
+              "FINANCIAL_SERVICE",
+              "HEALTH_TECH",
+              "IOT_DEVICE",
+              "PAYMENTS",
+              "CRYPTO_ASSET"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "US_GLBA",
+      "name": "Gramm-Leach-Bliley Act (GLBA)",
+      "authority": "United States",
+      "summary": "Privacy and safeguarding obligations for financial institutions.",
+      "source_url": "https://www.ftc.gov/business-guidance/privacy-security/gramm-leach-bliley-act",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "1999-11-12",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "US"
+            ],
+            "markets_any": [
+              "US"
+            ],
+            "industries_any": [
+              "FINANCIAL_SERVICES"
+            ],
+            "product_types_any": [
+              "FINANCIAL_SERVICE",
+              "INVESTMENT_PRODUCT",
+              "PAYMENTS"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    },
+    {
+      "code": "US_HIPAA",
+      "name": "HIPAA",
+      "authority": "United States",
+      "summary": "Privacy and security rules for protected health information by covered entities and business associates.",
+      "source_url": "https://www.hhs.gov/hipaa/index.html",
+      "versions": [
+        {
+          "version": 1,
+          "effective_from": "1996-08-21",
+          "repealed_on": null,
+          "status": "ACTIVE",
+          "notes": "",
+          "conditions": {
+            "jurisdictions_any": [
+              "US"
+            ],
+            "markets_any": [
+              "US"
+            ],
+            "industries_any": [
+              "HEALTHCARE"
+            ],
+            "product_types_any": [
+              "HEALTH_TECH"
+            ],
+            "company_sizes_any": []
+          }
+        }
+      ]
+    }
+  ]
+}
