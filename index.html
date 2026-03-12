@@ -14,16 +14,40 @@
         --ink: #13223a;
         --muted: #4c5f7a;
         --line: #d5dfef;
-        --brand: #0f6b7a;
-        --brand-2: #1d8f9f;
+        --brand: #0a7a8a;
+        --brand-2: #1a9db0;
+        --brand-glow: rgba(10, 122, 138, 0.25);
         --ok-bg: #e5f8eb;
         --ok-line: #bce7cc;
+        --ok-accent: #22a855;
         --no-bg: #ffefeb;
         --no-line: #ffd2c8;
+        --no-accent: #e05538;
+        --neutral-accent: #8896a7;
         --shadow: 0 24px 50px rgba(23, 39, 64, 0.1);
+        --shadow-hover: 0 28px 60px rgba(23, 39, 64, 0.16);
       }
 
       * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      /* Page load fade-in */
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(18px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
 
       body {
         margin: 0;
@@ -39,16 +63,29 @@
         max-width: 1240px;
         margin: 0 auto;
         padding: 28px 16px 40px;
+        animation: fadeInUp 0.6s ease-out both;
       }
 
+      /* ── Hero ── */
       .hero {
         background: linear-gradient(140deg, #0f2238, #11485f);
         color: #eff9ff;
         border-radius: 20px;
-        padding: 22px;
+        padding: 28px 26px;
         box-shadow: var(--shadow);
         position: relative;
         overflow: hidden;
+        animation: fadeInUp 0.5s ease-out both;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(110deg, transparent 30%, rgba(119, 217, 224, 0.08) 45%, rgba(255, 255, 255, 0.1) 50%, rgba(119, 217, 224, 0.08) 55%, transparent 70%);
+        background-size: 200% 100%;
+        animation: shimmer 6s ease-in-out infinite;
+        pointer-events: none;
       }
 
       .hero::after {
@@ -60,17 +97,50 @@
         background: radial-gradient(circle, rgba(119, 217, 224, 0.25), transparent 62%);
       }
 
+      .hero-title-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #1a9db0, #77d9e0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow: 0 4px 16px rgba(26, 157, 176, 0.35);
+      }
+      .hero-icon::after {
+        content: "";
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 2.5px solid #fff;
+        background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.4), transparent 60%);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+      }
+
       h1 {
         margin: 0;
         font-family: "Space Grotesk", sans-serif;
         letter-spacing: -0.02em;
         font-size: clamp(1.8rem, 4vw, 3rem);
+        position: relative;
+        z-index: 1;
       }
 
       .sub {
         margin-top: 10px;
         max-width: 900px;
         opacity: 0.95;
+        position: relative;
+        z-index: 1;
       }
 
       .pill-row {
@@ -78,6 +148,8 @@
         flex-wrap: wrap;
         gap: 8px;
         margin-top: 14px;
+        position: relative;
+        z-index: 1;
       }
 
       .admin-hidden {
@@ -88,10 +160,18 @@
         border: 1px solid rgba(207, 231, 255, 0.45);
         background: rgba(255, 255, 255, 0.1);
         border-radius: 999px;
-        padding: 6px 10px;
+        padding: 6px 14px;
         font-size: 0.82rem;
+        backdrop-filter: blur(4px);
+        box-shadow: 0 0 12px rgba(119, 217, 224, 0.1);
+        transition: box-shadow 0.3s, background 0.3s;
+      }
+      .pill:hover {
+        background: rgba(255, 255, 255, 0.16);
+        box-shadow: 0 0 18px rgba(119, 217, 224, 0.2);
       }
 
+      /* ── Grid & Cards ── */
       .grid {
         margin-top: 16px;
         display: grid;
@@ -109,7 +189,10 @@
         background: var(--surface);
         backdrop-filter: blur(7px);
         box-shadow: var(--shadow);
-        padding: 16px;
+        padding: 20px;
+        animation: fadeInUp 0.5s ease-out both;
+        animation-delay: 0.1s;
+        transition: box-shadow 0.3s;
       }
 
       .card h2 {
@@ -121,7 +204,24 @@
       .hint {
         margin-top: 7px;
         color: var(--muted);
-        font-size: 0.86rem;
+        font-size: 0.82rem;
+      }
+
+      /* ── Form Section Dividers ── */
+      .form-section-label {
+        grid-column: 1 / -1;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        font-weight: 700;
+        padding-top: 10px;
+        margin-bottom: -4px;
+        border-top: 1px solid var(--line);
+      }
+      .form-section-label:first-child {
+        border-top: none;
+        padding-top: 0;
       }
 
       .form-grid {
@@ -133,20 +233,33 @@
 
       label {
         display: block;
-        margin-bottom: 6px;
-        font-size: 0.9rem;
-        font-weight: 700;
+        margin-bottom: 5px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--muted);
+        letter-spacing: 0.01em;
+      }
+      label .label-icon {
+        margin-right: 4px;
       }
 
       select, input, textarea {
         width: 100%;
         min-height: 42px;
-        border: 1px solid #c7d5e8;
+        border: 1.5px solid #c7d5e8;
         border-radius: 11px;
-        padding: 8px;
+        padding: 8px 10px;
         background: #fff;
         color: var(--ink);
         font: inherit;
+        font-size: 0.92rem;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+
+      select:focus, input:focus, textarea:focus {
+        outline: none;
+        border-color: var(--brand);
+        box-shadow: 0 0 0 3px var(--brand-glow);
       }
 
       select[multiple] { min-height: 120px; }
@@ -157,7 +270,7 @@
       }
 
       .actions {
-        margin-top: 12px;
+        margin-top: 14px;
         display: flex;
         flex-wrap: wrap;
         gap: 9px;
@@ -166,20 +279,49 @@
       button {
         border: 0;
         border-radius: 12px;
-        padding: 10px 16px;
+        padding: 12px 20px;
         font: inherit;
         font-weight: 800;
         cursor: pointer;
+        transition: transform 0.12s, box-shadow 0.2s, background 0.2s, opacity 0.2s;
+      }
+      button:active {
+        transform: scale(0.97);
       }
 
       .primary {
         color: #fff;
         background: linear-gradient(120deg, var(--brand), var(--brand-2));
+        box-shadow: 0 4px 14px var(--brand-glow);
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .primary:hover {
+        box-shadow: 0 6px 22px var(--brand-glow);
+        filter: brightness(1.06);
+      }
+      .primary .btn-icon {
+        display: inline-block;
+        transition: transform 0.2s;
+      }
+      .primary:hover .btn-icon {
+        transform: translateX(2px);
+      }
+      .primary.loading {
+        pointer-events: none;
+        opacity: 0.85;
+      }
+      .primary.loading .btn-icon {
+        animation: spin 0.7s linear infinite;
       }
 
       .subtle {
         color: #2c4560;
         background: #e9f0fa;
+      }
+      .subtle:hover {
+        background: #dce6f4;
       }
 
       .status {
@@ -188,50 +330,113 @@
         color: #2f4f66;
       }
 
+      /* ── Results ── */
       .results {
         margin-top: 16px;
         display: grid;
         gap: 12px;
       }
 
+      /* Summary metrics row */
+      .summary {
+        background: linear-gradient(160deg, #dff3f6, #e7eefb);
+      }
+      .summary-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 14px;
+      }
+      @media (max-width: 600px) {
+        .summary-metrics { grid-template-columns: 1fr; }
+      }
+      .metric-card {
+        background: rgba(255,255,255,0.7);
+        border-radius: 14px;
+        padding: 16px;
+        text-align: center;
+        border: 1px solid var(--line);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      .metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(23,39,64,0.08);
+      }
+      .metric-icon {
+        font-size: 1.5rem;
+        margin-bottom: 4px;
+      }
+      .metric-number {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1.1;
+      }
+      .metric-number.brand { color: var(--brand); }
+      .metric-number.green { color: var(--ok-accent); }
+      .metric-number.red { color: var(--no-accent); }
+      .metric-label {
+        font-size: 0.78rem;
+        color: var(--muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-top: 2px;
+      }
+
+      /* Tab bar */
       .tabs {
         display: flex;
-        gap: 8px;
-        margin-bottom: 10px;
+        gap: 4px;
+        margin-bottom: 14px;
         flex-wrap: wrap;
+        position: relative;
+        border-bottom: 2px solid var(--line);
+        padding-bottom: 0;
       }
 
       .tab-btn {
-        border: 1px solid #c7d5e8;
-        background: #edf4fd;
-        color: #29435c;
-        border-radius: 999px;
-        padding: 8px 12px;
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        border-radius: 10px 10px 0 0;
+        padding: 10px 18px;
         font-weight: 700;
+        font-size: 0.9rem;
+        position: relative;
+        transition: color 0.2s, background 0.2s;
       }
-
+      .tab-btn:hover {
+        color: var(--ink);
+        background: rgba(10, 122, 138, 0.05);
+      }
+      .tab-btn::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2.5px;
+        border-radius: 2px 2px 0 0;
+        background: transparent;
+        transition: background 0.25s;
+      }
       .tab-btn.active {
-        background: linear-gradient(120deg, var(--brand), var(--brand-2));
-        color: #fff;
-        border-color: transparent;
+        color: var(--brand);
+        background: transparent;
+      }
+      .tab-btn.active::after {
+        background: linear-gradient(90deg, var(--brand), var(--brand-2));
       }
 
+      .tab-panel {
+        animation: fadeIn 0.25s ease-out;
+      }
       .tab-panel.hidden {
         display: none;
       }
 
-      .footer-credit {
-        margin-top: 18px;
-        text-align: center;
-        color: #5a6c84;
-        font-size: 0.9rem;
-        font-weight: 600;
-      }
-
-      .summary {
-        background: linear-gradient(160deg, #dff3f6, #e7eefb);
-      }
-
+      /* ── Regulation Cards ── */
       .reg-list {
         display: grid;
         gap: 10px;
@@ -239,36 +444,188 @@
       }
 
       .reg {
-        border-radius: 12px;
+        border-radius: 14px;
         border: 1px solid transparent;
-        padding: 12px;
+        padding: 16px 16px 14px 20px;
+        position: relative;
+        transition: transform 0.2s, box-shadow 0.2s;
+        cursor: default;
+      }
+      .reg:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(23,39,64,0.08);
+      }
+      .reg::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 10px;
+        bottom: 10px;
+        width: 4px;
+        border-radius: 0 4px 4px 0;
       }
 
       .reg.ok { background: var(--ok-bg); border-color: var(--ok-line); }
+      .reg.ok::before { background: var(--ok-accent); }
       .reg.no { background: var(--no-bg); border-color: var(--no-line); }
+      .reg.no::before { background: var(--no-accent); }
+
+      .reg-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+      }
 
       .name {
         font-weight: 800;
+        font-size: 1.02rem;
+      }
+
+      .authority-badge {
+        display: inline-block;
+        background: rgba(0,0,0,0.06);
+        border-radius: 6px;
+        padding: 2px 8px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--muted);
+        white-space: nowrap;
+        flex-shrink: 0;
       }
 
       .meta {
         margin-top: 5px;
         color: #35506a;
-        font-size: 0.87rem;
+        font-size: 0.84rem;
       }
 
       .reason {
         margin-top: 6px;
-        font-size: 0.93rem;
+        font-size: 0.92rem;
+        line-height: 1.45;
       }
 
-      a { color: #045f85; }
+      /* Confidence bar */
+      .confidence-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+        font-size: 0.82rem;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .confidence-bar {
+        width: 80px;
+        height: 6px;
+        border-radius: 3px;
+        background: rgba(0,0,0,0.08);
+        overflow: hidden;
+      }
+      .confidence-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.4s ease-out;
+      }
+      .confidence-fill.green { background: var(--ok-accent); }
+      .confidence-fill.red { background: var(--no-accent); }
+
+      /* Dimension pills */
+      .dim-checks {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 8px;
+      }
+      .dim-pill {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 6px;
+      }
+      .dim-pill.pass { background: #d4f5de; color: #1a7a3a; }
+      .dim-pill.fail { background: #fddcd5; color: #b83a1f; }
+      .dim-pill.neutral { background: #e8ecf2; color: #5a6c84; }
+
+      /* Expand/collapse details */
+      .reg-details {
+        display: none;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(0,0,0,0.06);
+        animation: fadeIn 0.2s ease-out;
+      }
+      .reg-details.open { display: block; }
+      .reg-toggle {
+        font-size: 0.78rem;
+        color: var(--brand);
+        font-weight: 700;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px 0;
+        margin-top: 6px;
+        transition: opacity 0.2s;
+      }
+      .reg-toggle:hover { opacity: 0.75; }
+      .reg-toggle:active { transform: none; }
+
+      /* Source link button */
+      .source-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--brand);
+        text-decoration: none;
+        padding: 4px 10px;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.6);
+        transition: background 0.2s, box-shadow 0.2s;
+      }
+      .source-link:hover {
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      }
+
+      /* ── Footer ── */
+      .footer-credit {
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+        text-align: center;
+        color: #5a6c84;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      a { color: var(--brand); }
+
+      /* ── Responsive tweaks ── */
+      @media (max-width: 600px) {
+        .hero { padding: 20px 16px; }
+        .hero-icon { width: 38px; height: 38px; border-radius: 10px; }
+        .hero-icon::after { width: 20px; height: 20px; }
+        .card { padding: 16px; }
+        .reg { padding: 14px 14px 12px 18px; }
+        .summary-metrics { gap: 8px; }
+        .metric-card { padding: 12px; }
+        .metric-number { font-size: 1.6rem; }
+      }
     </style>
   </head>
   <body>
     <main class="wrap">
       <section class="hero">
-        <h1>LexScope Atlas</h1>
+        <div class="hero-title-row">
+          <div class="hero-icon"></div>
+          <h1>LexScope Atlas</h1>
+        </div>
         <p class="sub">Global regulatory applicability triage with version-aware rule evaluation, time-travel checks by effective date, and no-code admin rule imports.</p>
         <div class="pill-row">
           <span class="pill" id="catalogPill">Loading catalog…</span>
@@ -281,50 +638,53 @@
           <h2>Applicability Check</h2>
           <p class="hint">Choose company profile and markets. "As of date" picks the active regulation version for that point in time.</p>
           <div class="form-grid">
+            <div class="form-section-label">Company Profile</div>
             <div>
-              <label for="jurisdiction">Home Jurisdiction</label>
+              <label for="jurisdiction"><span class="label-icon">🌍</span>Home Jurisdiction</label>
               <select id="jurisdiction"></select>
             </div>
             <div>
-              <label for="industry">Industry</label>
+              <label for="industry"><span class="label-icon">🏢</span>Industry</label>
               <select id="industry"></select>
             </div>
             <div>
-              <label for="company_size">Company Size</label>
+              <label for="company_size"><span class="label-icon">👥</span>Company Size</label>
               <select id="company_size"></select>
             </div>
             <div>
-              <label for="product_type">Product Type</label>
+              <label for="product_type"><span class="label-icon">📦</span>Product Type</label>
               <select id="product_type"></select>
             </div>
             <div>
-              <label for="entity_type">Entity Type</label>
+              <label for="entity_type"><span class="label-icon">🏛</span>Entity Type</label>
               <select id="entity_type"></select>
             </div>
             <div>
-              <label for="as_of_date">As Of Date</label>
+              <label for="as_of_date"><span class="label-icon">📅</span>As Of Date</label>
               <input id="as_of_date" type="date" />
             </div>
+            <div class="form-section-label">Financial Thresholds</div>
             <div>
-              <label for="annual_revenue_usd">Annual Revenue (USD)</label>
+              <label for="annual_revenue_usd"><span class="label-icon">💰</span>Annual Revenue (USD)</label>
               <input id="annual_revenue_usd" type="number" min="0" step="1000" placeholder="e.g. 5000000" />
             </div>
             <div>
-              <label for="annual_turnover_usd">Annual Turnover (USD)</label>
+              <label for="annual_turnover_usd"><span class="label-icon">💵</span>Annual Turnover (USD)</label>
               <input id="annual_turnover_usd" type="number" min="0" step="1000" placeholder="e.g. 5000000" />
             </div>
             <div>
-              <label for="monthly_active_users">Monthly Active Users</label>
+              <label for="monthly_active_users"><span class="label-icon">📊</span>Monthly Active Users</label>
               <input id="monthly_active_users" type="number" min="0" step="1" placeholder="e.g. 1000000" />
             </div>
+            <div class="form-section-label">Markets</div>
             <div>
-              <label for="markets">Markets Served</label>
+              <label for="markets"><span class="label-icon">🗺</span>Markets Served</label>
               <select id="markets" multiple></select>
               <div class="hint">Cmd/Ctrl + click for multiple markets.</div>
             </div>
           </div>
           <div class="actions">
-            <button class="primary" id="runBtn" type="button">Evaluate</button>
+            <button class="primary" id="runBtn" type="button">Evaluate <span class="btn-icon">▶</span></button>
             <button class="subtle" id="resetBtn" type="button">Reset</button>
           </div>
         </article>
@@ -698,16 +1058,62 @@
         };
       }
 
+      function renderRegCard(r, type) {
+        const cls = type === "ok" ? "ok" : "no";
+        const confPct = (r.confidence * 100).toFixed(0);
+        const confColor = type === "ok" ? "green" : "red";
+        const checksHtml = r.dimension_explainability.map((d) =>
+          `<span class="dim-pill ${d.status}">${d.status === "pass" ? "✓" : (d.status === "fail" ? "✗" : "•")} ${d.label}</span>`
+        ).join("");
+        const detailHtml = r.dimension_explainability.map((d) =>
+          `<div class="meta" style="margin-top:3px"><span class="dim-pill ${d.status}" style="margin-right:4px">${d.status === "pass" ? "✓" : (d.status === "fail" ? "✗" : "•")} ${d.label}</span> ${d.detail}</div>`
+        ).join("");
+        const uid = `reg_${r.code}_${type}`;
+        return `
+          <article class="reg ${cls}">
+            <div class="reg-header">
+              <div class="name">${r.name}</div>
+              <span class="authority-badge">${r.authority}</span>
+            </div>
+            <div class="meta">v${r.version} · Effective ${r.effective_from}${r.repealed_on ? ` · Repealed ${r.repealed_on}` : ""}${r.notes ? ` · ${r.notes}` : ""}</div>
+            <div class="reason">${r.reason}</div>
+            <div class="confidence-row">
+              Confidence
+              <div class="confidence-bar"><div class="confidence-fill ${confColor}" style="width:${confPct}%"></div></div>
+              ${confPct}%
+            </div>
+            <div class="dim-checks">${checksHtml}</div>
+            <button class="reg-toggle" onclick="document.getElementById('${uid}').classList.toggle('open');this.textContent=this.textContent==='Show details ▾'?'Hide details ▴':'Show details ▾'">Show details ▾</button>
+            <div class="reg-details" id="${uid}">${detailHtml}</div>
+            ${r.source_url ? `<a class="source-link" href="${r.source_url}" target="_blank" rel="noreferrer">↗ Source</a>` : ""}
+          </article>
+        `;
+      }
+
       function renderResults(profile, results) {
         const applicable = results.filter(r => r.applicable).sort((a, b) => b.confidence - a.confidence);
         const notApplicable = results.filter(r => !r.applicable).sort((a, b) => b.confidence - a.confidence);
         document.getElementById("results").innerHTML = `
           <section class="card summary">
             <h2>Evaluation Summary</h2>
-            <div class="status">As Of: ${profile.as_of_date}</div>
-            <div class="status">Regulations Evaluated: ${results.length}</div>
-            <div class="status">Applicable: ${applicable.length}</div>
-            <div class="status">Not Applicable: ${notApplicable.length}</div>
+            <div class="meta" style="margin-top:4px">As of ${profile.as_of_date}</div>
+            <div class="summary-metrics">
+              <div class="metric-card">
+                <div class="metric-icon">📋</div>
+                <div class="metric-number brand">${results.length}</div>
+                <div class="metric-label">Evaluated</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon">✅</div>
+                <div class="metric-number green">${applicable.length}</div>
+                <div class="metric-label">Applicable</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon">⛔</div>
+                <div class="metric-number red">${notApplicable.length}</div>
+                <div class="metric-label">Not Applicable</div>
+              </div>
+            </div>
           </section>
           <section class="card">
             <div class="tabs">
@@ -715,28 +1121,10 @@
               <button class="tab-btn" data-tab="not_applicable" type="button">Not Applicable (${notApplicable.length})</button>
             </div>
             <div class="tab-panel" data-panel="relevant">
-              <div class="reg-list">${applicable.length ? applicable.map((r) => `
-                <article class="reg ok">
-                  <div class="name">✔ ${r.name} (${r.authority})</div>
-                  <div class="meta">v${r.version} | Effective ${r.effective_from}${r.repealed_on ? ` | Repealed ${r.repealed_on}` : ""}</div>
-                  <div class="reason">${r.reason}</div>
-                  <div class="meta">Confidence ${(r.confidence * 100).toFixed(0)}%${r.notes ? ` | ${r.notes}` : ""}</div>
-                  <div class="meta">Checks: ${r.dimension_explainability.map((d) => `${d.status === "pass" ? "✓" : (d.status === "fail" ? "✗" : "•")} ${d.label}`).join(" | ")}</div>
-                  <a href="${r.source_url}" target="_blank" rel="noreferrer">Source</a>
-                </article>
-              `).join("") : `<div class="hint">No relevant regulations for this profile.</div>`}</div>
+              <div class="reg-list">${applicable.length ? applicable.map((r) => renderRegCard(r, "ok")).join("") : `<div class="hint">No relevant regulations for this profile.</div>`}</div>
             </div>
             <div class="tab-panel hidden" data-panel="not_applicable">
-              <div class="reg-list">${notApplicable.length ? notApplicable.map((r) => `
-                <article class="reg no">
-                  <div class="name">✘ ${r.name} (${r.authority})</div>
-                  <div class="meta">v${r.version} | Effective ${r.effective_from}${r.repealed_on ? ` | Repealed ${r.repealed_on}` : ""}</div>
-                  <div class="reason">${r.reason}</div>
-                  <div class="meta">Confidence ${(r.confidence * 100).toFixed(0)}%${r.notes ? ` | ${r.notes}` : ""}</div>
-                  <div class="meta">Checks: ${r.dimension_explainability.map((d) => `${d.status === "pass" ? "✓" : (d.status === "fail" ? "✗" : "•")} ${d.label}`).join(" | ")}</div>
-                  <a href="${r.source_url}" target="_blank" rel="noreferrer">Source</a>
-                </article>
-              `).join("") : `<div class="hint">No non-applicable regulations.</div>`}</div>
+              <div class="reg-list">${notApplicable.length ? notApplicable.map((r) => renderRegCard(r, "no")).join("") : `<div class="hint">No non-applicable regulations.</div>`}</div>
             </div>
           </section>
         `;
@@ -841,6 +1229,10 @@
       }
 
       async function evaluate() {
+        const btn = document.getElementById("runBtn");
+        btn.classList.add("loading");
+        btn.querySelector(".btn-icon").textContent = "⟳";
+
         const profile = readProfile();
         if (!profile.markets.length) profile.markets = [profile.jurisdiction];
 
@@ -854,6 +1246,10 @@
         }
         renderResults(profile, resolved);
         document.getElementById("catalogPill").textContent = `${catalog.length} regulations loaded`;
+
+        btn.classList.remove("loading");
+        btn.querySelector(".btn-icon").textContent = "▶";
+        document.getElementById("results").scrollIntoView({ behavior: "smooth", block: "start" });
       }
 
       async function readImportData() {
