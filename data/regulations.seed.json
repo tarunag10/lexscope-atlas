@@ -93,6 +93,9 @@
             "SEARCH_SERVICE"
           ],
           "company_sizes_any": []
+        },
+        "thresholds": {
+          "min_monthly_active_users": 100000
         }
       }
     ]
@@ -1345,6 +1348,21 @@
             "LARGE",
             "ENTERPRISE"
           ]
+        },
+        "entity_types_any": [
+          "PUBLIC_COMPANY",
+          "PRIVATE_COMPANY"
+        ],
+        "thresholds": {
+          "min_monthly_active_users": 45000000,
+          "min_annual_turnover_usd": 8000000000
+        },
+        "exemptions": {
+          "company_sizes_any": [
+            "MICRO",
+            "SME",
+            "MID"
+          ]
         }
       }
     ]
@@ -1456,6 +1474,9 @@
             "SEARCH_SERVICE"
           ],
           "company_sizes_any": []
+        },
+        "thresholds": {
+          "min_monthly_active_users": 50000
         }
       }
     ]
@@ -1486,6 +1507,21 @@
             "FINANCIAL_SERVICE"
           ],
           "company_sizes_any": []
+        },
+        "entity_types_any": [
+          "PAYMENT_INSTITUTION",
+          "BANK",
+          "PRIVATE_COMPANY",
+          "PUBLIC_COMPANY"
+        ],
+        "thresholds": {
+          "min_annual_turnover_usd": 250000
+        },
+        "exemptions": {
+          "company_sizes_any": [
+            "MICRO"
+          ],
+          "max_annual_turnover_usd": 200000
         }
       }
     ]
@@ -1562,6 +1598,25 @@
             "LARGE",
             "ENTERPRISE"
           ]
+        },
+        "entity_types_any": [
+          "PRIVATE_COMPANY",
+          "PUBLIC_COMPANY",
+          "PAYMENT_INSTITUTION",
+          "BANK",
+          "MARKETPLACE_OPERATOR"
+        ],
+        "thresholds": {
+          "min_monthly_active_users": 100000
+        },
+        "exemptions": {
+          "company_sizes_any": [
+            "MICRO"
+          ],
+          "entity_types_any": [
+            "STARTUP"
+          ],
+          "max_monthly_active_users": 50000
         }
       }
     ]
@@ -1592,6 +1647,15 @@
             "FINANCIAL_SERVICE"
           ],
           "company_sizes_any": []
+        },
+        "entity_types_any": [
+          "PAYMENT_INSTITUTION",
+          "BANK",
+          "PRIVATE_COMPANY",
+          "PUBLIC_COMPANY"
+        ],
+        "thresholds": {
+          "min_annual_turnover_usd": 100000
         }
       }
     ]

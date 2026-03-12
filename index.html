@@ -298,8 +298,24 @@
               <select id="product_type"></select>
             </div>
             <div>
+              <label for="entity_type">Entity Type</label>
+              <select id="entity_type"></select>
+            </div>
+            <div>
               <label for="as_of_date">As Of Date</label>
               <input id="as_of_date" type="date" />
+            </div>
+            <div>
+              <label for="annual_revenue_usd">Annual Revenue (USD)</label>
+              <input id="annual_revenue_usd" type="number" min="0" step="1000" placeholder="e.g. 5000000" />
+            </div>
+            <div>
+              <label for="annual_turnover_usd">Annual Turnover (USD)</label>
+              <input id="annual_turnover_usd" type="number" min="0" step="1000" placeholder="e.g. 5000000" />
+            </div>
+            <div>
+              <label for="monthly_active_users">Monthly Active Users</label>
+              <input id="monthly_active_users" type="number" min="0" step="1" placeholder="e.g. 1000000" />
             </div>
             <div>
               <label for="markets">Markets Served</label>
@@ -373,8 +389,22 @@
           ["IOT_DEVICE", "IoT device"], ["FINANCIAL_SERVICE", "Financial service"], ["INVESTMENT_PRODUCT", "Investment product"],
           ["INSURANCE_PRODUCT", "Insurance product"], ["HEALTH_TECH", "Health-tech solution"], ["PAYMENTS", "Payments service"],
           ["CRYPTO_ASSET", "Crypto-asset service"]
+        ],
+        entity_types: [
+          ["PRIVATE_COMPANY", "Private company"], ["PUBLIC_COMPANY", "Public company"], ["STARTUP", "Startup"],
+          ["BANK", "Bank"], ["INSURER", "Insurer"], ["PAYMENT_INSTITUTION", "Payment institution"],
+          ["VASP", "Virtual asset service provider"], ["MARKETPLACE_OPERATOR", "Marketplace operator"]
         ]
       };
+
+      const BRANCH_RULES = [
+        {
+          id: "UK_FINANCIAL_PAYMENTS_FORCE_PSR",
+          when: { jurisdiction: "UK", industry: "FINANCIAL_SERVICES", product_type: "PAYMENTS" },
+          force_include_codes: ["UK_PSR_2017"],
+          explanation: "UK payments activity in financial services triggers explicit Payment Services Regulations screening."
+        }
+      ];
 
       function parseDate(str) {
         return new Date(`${str}T00:00:00Z`);
@@ -394,6 +424,34 @@
           industries_any: normalizeArray(c.industries_any),
           product_types_any: normalizeArray(c.product_types_any),
           company_sizes_any: normalizeArray(c.company_sizes_any),
+          entity_types_any: normalizeArray(c.entity_types_any),
+        };
+      }
+
+      function normalizeThresholds(raw) {
+        const t = raw || {};
+        const numeric = (value) => {
+          const n = Number(value);
+          return Number.isFinite(n) ? n : null;
+        };
+        return {
+          min_annual_revenue_usd: numeric(t.min_annual_revenue_usd),
+          min_annual_turnover_usd: numeric(t.min_annual_turnover_usd),
+          min_monthly_active_users: numeric(t.min_monthly_active_users),
+          max_annual_revenue_usd: numeric(t.max_annual_revenue_usd),
+          max_annual_turnover_usd: numeric(t.max_annual_turnover_usd),
+          max_monthly_active_users: numeric(t.max_monthly_active_users),
+        };
+      }
+
+      function normalizeExemptions(raw) {
+        const ex = raw || {};
+        return {
+          company_sizes_any: normalizeArray(ex.company_sizes_any),
+          entity_types_any: normalizeArray(ex.entity_types_any),
+          max_annual_revenue_usd: normalizeThresholds(ex).max_annual_revenue_usd,
+          max_annual_turnover_usd: normalizeThresholds(ex).max_annual_turnover_usd,
+          max_monthly_active_users: normalizeThresholds(ex).max_monthly_active_users,
         };
       }
 
@@ -421,6 +479,9 @@
               status: String(v.status || "ACTIVE").toUpperCase(),
               notes: String(v.notes || ""),
               conditions: normalizeConditions(v.conditions),
+              entity_types_any: normalizeArray(v.entity_types_any || (v.conditions ? v.conditions.entity_types_any : [])),
+              thresholds: normalizeThresholds(v.thresholds),
+              exemptions: normalizeExemptions(v.exemptions),
             }))
           };
         }).filter(x => x.code && x.name);
@@ -441,28 +502,153 @@
         return !allowed.length || allowed.includes(value);
       }
 
-      function evaluateOne(profile, reg, version) {
+      function toNumberOrNull(value) {
+        if (value === null || value === undefined || value === "") return null;
+        const n = Number(value);
+        return Number.isFinite(n) ? n : null;
+      }
+
+      function evaluateBranchRules(profile) {
+        const forcedCodes = new Set();
+        const explanations = [];
+        BRANCH_RULES.forEach((rule) => {
+          const ok = Object.entries(rule.when).every(([k, v]) => profile[k] === v);
+          if (ok) {
+            rule.force_include_codes.forEach((code) => forcedCodes.add(code));
+            explanations.push(rule.explanation);
+          }
+        });
+        return { forcedCodes, explanations };
+      }
+
+      function evaluateOne(profile, reg, version, branchContext) {
         const c = version.conditions;
-        const labels = {
-          jurisdiction: "home jurisdiction",
-          market: "served markets",
-          industry: "industry",
-          product_type: "product type",
-          company_size: "company size",
-        };
-        const checks = {
-          jurisdiction: match(profile.jurisdiction, c.jurisdictions_any),
-          market: !c.markets_any.length || profile.markets.some(m => c.markets_any.includes(m)),
-          industry: match(profile.industry, c.industries_any),
-          product_type: match(profile.product_type, c.product_types_any),
-          company_size: match(profile.company_size, c.company_sizes_any),
+        const t = version.thresholds || {};
+        const ex = version.exemptions || {};
+        const checks = [];
+        const addCheck = (id, label, status, detail) => checks.push({ id, label, status, detail });
+        const passFail = (condition, passDetail, failDetail) => condition ? ["pass", passDetail] : ["fail", failDetail];
+
+        let status;
+        let detail;
+
+        [status, detail] = passFail(
+          match(profile.jurisdiction, c.jurisdictions_any),
+          "Matches jurisdiction scope.",
+          "Jurisdiction is outside this rule scope."
+        );
+        addCheck("jurisdiction", "Home jurisdiction", status, detail);
+
+        [status, detail] = passFail(
+          !c.markets_any.length || profile.markets.some((m) => c.markets_any.includes(m)),
+          "Served markets overlap with scope.",
+          "No served market overlap with scope."
+        );
+        addCheck("market", "Served markets", status, detail);
+
+        [status, detail] = passFail(
+          match(profile.industry, c.industries_any),
+          "Industry is in scope.",
+          "Industry is outside this rule scope."
+        );
+        addCheck("industry", "Industry", status, detail);
+
+        [status, detail] = passFail(
+          match(profile.product_type, c.product_types_any),
+          "Product type is in scope.",
+          "Product type is outside this rule scope."
+        );
+        addCheck("product_type", "Product type", status, detail);
+
+        [status, detail] = passFail(
+          match(profile.company_size, c.company_sizes_any),
+          "Company size is in scope.",
+          "Company size is outside this rule scope."
+        );
+        addCheck("company_size", "Company size", status, detail);
+
+        if ((version.entity_types_any || []).length) {
+          [status, detail] = passFail(
+            version.entity_types_any.includes(profile.entity_type),
+            "Entity type is in scope.",
+            "Entity type is outside this rule scope."
+          );
+          addCheck("entity_type", "Entity type", status, detail);
+        } else {
+          addCheck("entity_type", "Entity type", "neutral", "No entity-type restriction.");
+        }
+
+        const thresholdCheck = (field, labelText, minKey, maxKey) => {
+          const minValue = t[minKey];
+          const maxValue = t[maxKey];
+          const value = profile[field];
+          if (minValue === null && maxValue === null) {
+            addCheck(field, labelText, "neutral", "No threshold set.");
+            return;
+          }
+          if (value === null) {
+            addCheck(field, labelText, "fail", "Threshold exists but profile value is missing.");
+            return;
+          }
+          if (minValue !== null && value < minValue) {
+            addCheck(field, labelText, "fail", `Below minimum threshold (${minValue}).`);
+            return;
+          }
+          if (maxValue !== null && value > maxValue) {
+            addCheck(field, labelText, "fail", `Above maximum threshold (${maxValue}).`);
+            return;
+          }
+          addCheck(field, labelText, "pass", "Threshold requirement satisfied.");
         };
 
-        const met = Object.keys(checks).filter(k => checks[k]);
-        const missed = Object.keys(checks).filter(k => !checks[k]);
-        const applicable = missed.length === 0;
-        const metLabels = met.map((k) => labels[k]).join(", ");
-        const missedLabels = missed.map((k) => labels[k]).join(", ");
+        thresholdCheck("annual_revenue_usd", "Annual revenue", "min_annual_revenue_usd", "max_annual_revenue_usd");
+        thresholdCheck("annual_turnover_usd", "Annual turnover", "min_annual_turnover_usd", "max_annual_turnover_usd");
+        thresholdCheck("monthly_active_users", "Monthly active users", "min_monthly_active_users", "max_monthly_active_users");
+
+        const exemptionChecks = [];
+        if (ex.company_sizes_any.length) exemptionChecks.push(ex.company_sizes_any.includes(profile.company_size));
+        if (ex.entity_types_any.length) exemptionChecks.push(ex.entity_types_any.includes(profile.entity_type));
+        if (ex.max_annual_revenue_usd !== null) exemptionChecks.push(profile.annual_revenue_usd !== null && profile.annual_revenue_usd <= ex.max_annual_revenue_usd);
+        if (ex.max_annual_turnover_usd !== null) exemptionChecks.push(profile.annual_turnover_usd !== null && profile.annual_turnover_usd <= ex.max_annual_turnover_usd);
+        if (ex.max_monthly_active_users !== null) exemptionChecks.push(profile.monthly_active_users !== null && profile.monthly_active_users <= ex.max_monthly_active_users);
+        const exemptionTriggered = exemptionChecks.length > 0 && exemptionChecks.every(Boolean);
+
+        addCheck(
+          "exemptions",
+          "Exemptions",
+          exemptionChecks.length ? (exemptionTriggered ? "fail" : "pass") : "neutral",
+          exemptionChecks.length
+            ? (exemptionTriggered ? "Exemption criteria triggered (rule carved out)." : "No exemption criteria triggered.")
+            : "No exemption criteria configured."
+        );
+
+        const hardFailures = checks.filter((k) => k.status === "fail" && k.id !== "exemptions");
+        let applicable = hardFailures.length === 0 && !exemptionTriggered;
+        let branchApplied = false;
+        if (!applicable && branchContext.forcedCodes.has(reg.code)) {
+          applicable = true;
+          branchApplied = true;
+          addCheck("branching", "Conditional branching", "pass", branchContext.explanations.join(" "));
+        } else if (branchContext.explanations.length) {
+          addCheck("branching", "Conditional branching", "neutral", "Branch rule exists but does not target this regulation.");
+        }
+
+        const relevantChecks = checks.filter((k) => k.status !== "neutral");
+        const passCount = relevantChecks.filter((k) => k.status === "pass").length;
+        const confidence = relevantChecks.length ? Number((passCount / relevantChecks.length).toFixed(2)) : 0.5;
+
+        const failedLabels = checks.filter((k) => k.status === "fail").map((k) => k.label.toLowerCase());
+        const passedLabels = checks.filter((k) => k.status === "pass").map((k) => k.label.toLowerCase());
+        let reason = "";
+        if (branchApplied) {
+          reason = `This is included via conditional branch logic: ${branchContext.explanations.join(" ")}`;
+        } else if (exemptionTriggered) {
+          reason = "This likely does not apply because an exemption carve-out was triggered for this profile.";
+        } else if (applicable) {
+          reason = `This likely applies because the profile passed scoped checks (${passedLabels.join(", ")}).`;
+        } else {
+          reason = `This likely does not apply because these checks failed: ${failedLabels.join(", ")}.`;
+        }
 
         return {
           code: reg.code,
@@ -475,10 +661,9 @@
           repealed_on: version.repealed_on,
           notes: version.notes,
           applicable,
-          confidence: Number((met.length / 5).toFixed(2)),
-          reason: applicable
-            ? `This likely applies because your profile matches all scope checks (${metLabels}).`
-            : `This likely does not apply for now because ${missedLabels} did not match this rule's scope. Other checks matched: ${metLabels}.`
+          confidence,
+          reason,
+          dimension_explainability: checks
         };
       }
 
@@ -504,6 +689,10 @@
           industry: document.getElementById("industry").value,
           company_size: document.getElementById("company_size").value,
           product_type: document.getElementById("product_type").value,
+          entity_type: document.getElementById("entity_type").value,
+          annual_revenue_usd: toNumberOrNull(document.getElementById("annual_revenue_usd").value),
+          annual_turnover_usd: toNumberOrNull(document.getElementById("annual_turnover_usd").value),
+          monthly_active_users: toNumberOrNull(document.getElementById("monthly_active_users").value),
           as_of_date: document.getElementById("as_of_date").value || TODAY,
           markets: selectedValues(document.getElementById("markets"))
         };
@@ -532,6 +721,7 @@
                   <div class="meta">v${r.version} | Effective ${r.effective_from}${r.repealed_on ? ` | Repealed ${r.repealed_on}` : ""}</div>
                   <div class="reason">${r.reason}</div>
                   <div class="meta">Confidence ${(r.confidence * 100).toFixed(0)}%${r.notes ? ` | ${r.notes}` : ""}</div>
+                  <div class="meta">Checks: ${r.dimension_explainability.map((d) => `${d.status === "pass" ? "✓" : (d.status === "fail" ? "✗" : "•")} ${d.label}`).join(" | ")}</div>
                   <a href="${r.source_url}" target="_blank" rel="noreferrer">Source</a>
                 </article>
               `).join("") : `<div class="hint">No relevant regulations for this profile.</div>`}</div>
@@ -543,6 +733,7 @@
                   <div class="meta">v${r.version} | Effective ${r.effective_from}${r.repealed_on ? ` | Repealed ${r.repealed_on}` : ""}</div>
                   <div class="reason">${r.reason}</div>
                   <div class="meta">Confidence ${(r.confidence * 100).toFixed(0)}%${r.notes ? ` | ${r.notes}` : ""}</div>
+                  <div class="meta">Checks: ${r.dimension_explainability.map((d) => `${d.status === "pass" ? "✓" : (d.status === "fail" ? "✗" : "•")} ${d.label}`).join(" | ")}</div>
                   <a href="${r.source_url}" target="_blank" rel="noreferrer">Source</a>
                 </article>
               `).join("") : `<div class="hint">No non-applicable regulations.</div>`}</div>
@@ -596,12 +787,29 @@
             repealed_on: row.repealed_on || null,
             status: (row.status || "ACTIVE").toUpperCase(),
             notes: row.notes || "",
+            entity_types_any: split(row.entity_types_any),
+            thresholds: {
+              min_annual_revenue_usd: toNumberOrNull(row.min_annual_revenue_usd),
+              min_annual_turnover_usd: toNumberOrNull(row.min_annual_turnover_usd),
+              min_monthly_active_users: toNumberOrNull(row.min_monthly_active_users),
+              max_annual_revenue_usd: toNumberOrNull(row.max_annual_revenue_usd),
+              max_annual_turnover_usd: toNumberOrNull(row.max_annual_turnover_usd),
+              max_monthly_active_users: toNumberOrNull(row.max_monthly_active_users),
+            },
+            exemptions: {
+              company_sizes_any: split(row.exemption_company_sizes_any),
+              entity_types_any: split(row.exemption_entity_types_any),
+              max_annual_revenue_usd: toNumberOrNull(row.exemption_max_annual_revenue_usd),
+              max_annual_turnover_usd: toNumberOrNull(row.exemption_max_annual_turnover_usd),
+              max_monthly_active_users: toNumberOrNull(row.exemption_max_monthly_active_users),
+            },
             conditions: {
               jurisdictions_any: split(row.jurisdictions_any),
               markets_any: split(row.markets_any),
               industries_any: split(row.industries_any),
               product_types_any: split(row.product_types_any),
               company_sizes_any: split(row.company_sizes_any),
+              entity_types_any: split(row.entity_types_any),
             }
           });
         }
@@ -637,11 +845,12 @@
         if (!profile.markets.length) profile.markets = [profile.jurisdiction];
 
         const catalog = await loadCatalog();
+        const branchContext = evaluateBranchRules(profile);
         const resolved = [];
         for (const reg of catalog) {
           const v = chooseVersion(reg, profile.as_of_date);
           if (!v) continue;
-          resolved.push(evaluateOne(profile, reg, v));
+          resolved.push(evaluateOne(profile, reg, v, branchContext));
         }
         renderResults(profile, resolved);
         document.getElementById("catalogPill").textContent = `${catalog.length} regulations loaded`;
@@ -694,8 +903,12 @@
         fillSelect("industry", OPTIONS.industries, ["TECHNOLOGY"]);
         fillSelect("company_size", OPTIONS.company_sizes, ["SME"]);
         fillSelect("product_type", OPTIONS.product_types, ["AI_SAAS"]);
+        fillSelect("entity_type", OPTIONS.entity_types, ["PRIVATE_COMPANY"]);
         fillSelect("markets", OPTIONS.jurisdictions, ["EU", "UK", "US"]);
         document.getElementById("as_of_date").value = TODAY;
+        document.getElementById("annual_revenue_usd").value = "";
+        document.getElementById("annual_turnover_usd").value = "";
+        document.getElementById("monthly_active_users").value = "";
       }
 
       async function bootstrap() {
