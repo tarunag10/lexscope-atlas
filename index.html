@@ -593,6 +593,49 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       }
 
+      /* ── Profile bar ── */
+      .profile-bar {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+      .profile-bar select {
+        flex: 1;
+        min-width: 140px;
+      }
+
+      /* ── Export bar ── */
+      .export-bar {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+        justify-content: flex-end;
+      }
+
+      /* ── Comparison diff ── */
+      .diff-section { margin-top: 16px; }
+      .diff-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-size: 0.88rem;
+        margin-bottom: 4px;
+      }
+      .diff-row.added { background: var(--ok-bg); color: var(--ok-accent); }
+      .diff-row.removed { background: var(--no-bg); color: var(--no-accent); }
+      .diff-arrow { font-weight: 700; }
+      .diff-summary {
+        display: flex;
+        gap: 16px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+      }
+
       /* ── Footer ── */
       .footer-credit {
         margin-top: 24px;
@@ -637,6 +680,12 @@
         <article class="card">
           <h2>Applicability Check</h2>
           <p class="hint">Choose company profile and markets. "As of date" picks the active regulation version for that point in time.</p>
+          <div class="profile-bar">
+            <select id="profileSelect"><option value="">— Saved Profiles —</option></select>
+            <button class="subtle" id="loadProfileBtn" type="button">Load</button>
+            <button class="subtle" id="saveProfileBtn" type="button">Save</button>
+            <button class="subtle" id="deleteProfileBtn" type="button">Delete</button>
+          </div>
           <div class="form-grid">
             <div class="form-section-label">Company Profile</div>
             <div>
@@ -685,6 +734,7 @@
           </div>
           <div class="actions">
             <button class="primary" id="runBtn" type="button">Evaluate <span class="btn-icon">▶</span></button>
+            <button class="subtle" id="compareBtn" type="button">Compare</button>
             <button class="subtle" id="resetBtn" type="button">Reset</button>
           </div>
         </article>
@@ -723,8 +773,12 @@
 
     <script>
       const STORAGE_KEY = "lexscope_atlas_imports_v1";
+      const PROFILES_KEY = "lexscope_profiles_v1";
       const TODAY = new Date().toISOString().slice(0, 10);
       let adminMode = false;
+      let lastResults = null;
+      let lastProfile = null;
+      let comparisonBaseline = null;
 
       const OPTIONS = {
         jurisdictions: [
@@ -763,6 +817,42 @@
           when: { jurisdiction: "UK", industry: "FINANCIAL_SERVICES", product_type: "PAYMENTS" },
           force_include_codes: ["UK_PSR_2017"],
           explanation: "UK payments activity in financial services triggers explicit Payment Services Regulations screening."
+        },
+        {
+          id: "EU_FINANCIAL_FORCE_MIFID",
+          when: { jurisdiction: "EU", industry: "FINANCIAL_SERVICES" },
+          force_include_codes: ["EU_MIFID_II"],
+          explanation: "EU financial services entities must be screened against MiFID II investment regulation."
+        },
+        {
+          id: "US_HEALTHCARE_FORCE_HIPAA",
+          when: { jurisdiction: "US", industry: "HEALTHCARE" },
+          force_include_codes: ["US_HIPAA"],
+          explanation: "US healthcare entities must comply with HIPAA patient data protection rules."
+        },
+        {
+          id: "US_FINANCIAL_PAYMENTS_FORCE_GLBA",
+          when: { jurisdiction: "US", industry: "FINANCIAL_SERVICES", product_type: "PAYMENTS" },
+          force_include_codes: ["US_GLBA"],
+          explanation: "US financial services with payments activity triggers Gramm-Leach-Bliley Act screening."
+        },
+        {
+          id: "EU_INSURANCE_FORCE_SOLVENCY",
+          when: { jurisdiction: "EU", industry: "INSURANCE" },
+          force_include_codes: ["EU_SOLVENCY_II"],
+          explanation: "EU insurance entities must be screened against Solvency II prudential requirements."
+        },
+        {
+          id: "IN_FINANCIAL_PAYMENTS_FORCE_PSS",
+          when: { jurisdiction: "IN", industry: "FINANCIAL_SERVICES", product_type: "PAYMENTS" },
+          force_include_codes: ["IN_PSS_ACT"],
+          explanation: "Indian financial services with payments activity triggers Payment and Settlement Systems Act screening."
+        },
+        {
+          id: "UK_FINANCIAL_FORCE_CONSUMER_DUTY",
+          when: { jurisdiction: "UK", industry: "FINANCIAL_SERVICES" },
+          force_include_codes: ["UK_CONSUMER_DUTY"],
+          explanation: "UK financial services entities must be screened against FCA Consumer Duty requirements."
         }
       ];
 
@@ -1114,6 +1204,10 @@
                 <div class="metric-label">Not Applicable</div>
               </div>
             </div>
+            <div class="export-bar">
+              <button class="subtle" onclick="exportJSON()" type="button">Export JSON</button>
+              <button class="subtle" onclick="exportCSV()" type="button">Export CSV</button>
+            </div>
           </section>
           <section class="card">
             <div class="tabs">
@@ -1244,6 +1338,8 @@
           if (!v) continue;
           resolved.push(evaluateOne(profile, reg, v, branchContext));
         }
+        lastProfile = profile;
+        lastResults = resolved;
         renderResults(profile, resolved);
         document.getElementById("catalogPill").textContent = `${catalog.length} regulations loaded`;
 
@@ -1288,6 +1384,164 @@
         evaluate();
       }
 
+      // ── Export Functions ──
+      function downloadBlob(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      function exportJSON() {
+        if (!lastResults || !lastProfile) return;
+        const payload = { profile: lastProfile, results: lastResults, exported_at: new Date().toISOString() };
+        downloadBlob(new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" }), "lexscope_results.json");
+      }
+
+      function exportCSV() {
+        if (!lastResults || !lastProfile) return;
+        const headers = ["code","name","applicable","confidence","reason","failed_checks"];
+        const rows = lastResults.map(r => {
+          const failed = r.dimension_explainability.filter(d => d.status === "fail").map(d => d.label).join("; ");
+          return [r.code, `"${r.name}"`, r.applicable, r.confidence, `"${r.reason.replace(/"/g, '""')}"`, `"${failed}"`].join(",");
+        });
+        downloadBlob(new Blob([headers.join(",") + "\n" + rows.join("\n")], { type: "text/csv" }), "lexscope_results.csv");
+      }
+
+      // ── Profile Functions ──
+      function getSavedProfiles() {
+        return JSON.parse(localStorage.getItem(PROFILES_KEY) || "{}");
+      }
+
+      function refreshProfileDropdown() {
+        const sel = document.getElementById("profileSelect");
+        const profiles = getSavedProfiles();
+        sel.innerHTML = '<option value="">— Saved Profiles —</option>';
+        for (const name of Object.keys(profiles)) {
+          const o = document.createElement("option");
+          o.value = name;
+          o.textContent = name;
+          sel.appendChild(o);
+        }
+      }
+
+      function saveProfile() {
+        const name = prompt("Profile name:");
+        if (!name) return;
+        const profiles = getSavedProfiles();
+        const p = readProfile();
+        profiles[name] = p;
+        localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
+        refreshProfileDropdown();
+        document.getElementById("profileSelect").value = name;
+      }
+
+      function loadProfile() {
+        const name = document.getElementById("profileSelect").value;
+        if (!name) return;
+        const profiles = getSavedProfiles();
+        const p = profiles[name];
+        if (!p) return;
+        document.getElementById("jurisdiction").value = p.jurisdiction;
+        document.getElementById("industry").value = p.industry;
+        document.getElementById("company_size").value = p.company_size;
+        document.getElementById("product_type").value = p.product_type;
+        document.getElementById("entity_type").value = p.entity_type;
+        document.getElementById("as_of_date").value = p.as_of_date || TODAY;
+        document.getElementById("annual_revenue_usd").value = p.annual_revenue_usd ?? "";
+        document.getElementById("annual_turnover_usd").value = p.annual_turnover_usd ?? "";
+        document.getElementById("monthly_active_users").value = p.monthly_active_users ?? "";
+        const marketsEl = document.getElementById("markets");
+        Array.from(marketsEl.options).forEach(o => { o.selected = (p.markets || []).includes(o.value); });
+      }
+
+      function deleteProfile() {
+        const name = document.getElementById("profileSelect").value;
+        if (!name) return;
+        if (!confirm(`Delete profile "${name}"?`)) return;
+        const profiles = getSavedProfiles();
+        delete profiles[name];
+        localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
+        refreshProfileDropdown();
+      }
+
+      // ── Comparison Functions ──
+      async function handleCompare() {
+        const btn = document.getElementById("compareBtn");
+        if (!comparisonBaseline) {
+          if (!lastResults) {
+            await evaluate();
+          }
+          comparisonBaseline = { profile: { ...lastProfile }, results: [...lastResults] };
+          btn.textContent = "Run Comparison";
+          btn.style.background = "var(--brand)";
+          btn.style.color = "#fff";
+        } else {
+          await evaluate();
+          renderComparison(comparisonBaseline, { profile: lastProfile, results: lastResults });
+          comparisonBaseline = null;
+          btn.textContent = "Compare";
+          btn.style.background = "";
+          btn.style.color = "";
+        }
+      }
+
+      function clearComparison() {
+        comparisonBaseline = null;
+        const btn = document.getElementById("compareBtn");
+        btn.textContent = "Compare";
+        btn.style.background = "";
+        btn.style.color = "";
+        const diffEl = document.getElementById("comparisonDiff");
+        if (diffEl) diffEl.remove();
+      }
+
+      function renderComparison(baseline, current) {
+        const baseApplicable = new Set(baseline.results.filter(r => r.applicable).map(r => r.code));
+        const currApplicable = new Set(current.results.filter(r => r.applicable).map(r => r.code));
+        const allCodes = new Map();
+        [...baseline.results, ...current.results].forEach(r => allCodes.set(r.code, r.name));
+
+        const added = [];
+        const removed = [];
+        for (const [code, name] of allCodes) {
+          const wasBefore = baseApplicable.has(code);
+          const isNow = currApplicable.has(code);
+          if (!wasBefore && isNow) added.push({ code, name });
+          if (wasBefore && !isNow) removed.push({ code, name });
+        }
+
+        if (!added.length && !removed.length) {
+          alert("No changes in applicability between the two evaluations.");
+          return;
+        }
+
+        let html = `<section class="card" id="comparisonDiff">
+          <h2>Comparison Diff</h2>
+          <div class="diff-summary">
+            <span>Before: ${baseApplicable.size} applicable</span>
+            <span>→</span>
+            <span>After: ${currApplicable.size} applicable</span>
+          </div>
+          <button class="subtle" onclick="clearComparison()" type="button" style="margin-bottom:10px">Clear Comparison</button>
+          <div class="diff-section">`;
+        for (const r of added) {
+          html += `<div class="diff-row added"><span class="diff-arrow">＋</span> ${r.name} (${r.code})</div>`;
+        }
+        for (const r of removed) {
+          html += `<div class="diff-row removed"><span class="diff-arrow">－</span> ${r.name} (${r.code})</div>`;
+        }
+        html += `</div></section>`;
+
+        const existing = document.getElementById("comparisonDiff");
+        if (existing) existing.remove();
+        document.getElementById("results").insertAdjacentHTML("afterbegin", html);
+      }
+
       function setAdminMode(enabled) {
         adminMode = enabled;
         const panel = document.getElementById("adminPanel");
@@ -1309,16 +1563,22 @@
 
       async function bootstrap() {
         resetDefaults();
+        refreshProfileDropdown();
         const params = new URLSearchParams(window.location.search);
         setAdminMode(params.get("admin") === "1");
         await evaluate();
       }
 
       document.getElementById("runBtn").addEventListener("click", evaluate);
+      document.getElementById("compareBtn").addEventListener("click", handleCompare);
       document.getElementById("resetBtn").addEventListener("click", async () => {
+        clearComparison();
         resetDefaults();
         await evaluate();
       });
+      document.getElementById("saveProfileBtn").addEventListener("click", saveProfile);
+      document.getElementById("loadProfileBtn").addEventListener("click", () => { loadProfile(); evaluate(); });
+      document.getElementById("deleteProfileBtn").addEventListener("click", deleteProfile);
       document.getElementById("importBtn").addEventListener("click", importRules);
       document.getElementById("clearImportBtn").addEventListener("click", clearImports);
 

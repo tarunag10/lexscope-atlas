@@ -59,6 +59,9 @@
             "INSURANCE_PRODUCT"
           ],
           "company_sizes_any": []
+        },
+        "exemptions": {
+          "max_monthly_active_users": 250
         }
       }
     ]
@@ -95,7 +98,7 @@
           "company_sizes_any": []
         },
         "thresholds": {
-          "min_monthly_active_users": 100000
+          "min_monthly_active_users": 45000000
         }
       }
     ]
@@ -197,6 +200,12 @@
             "LARGE",
             "ENTERPRISE"
           ]
+        },
+        "exemptions": {
+          "company_sizes_any": [
+            "MICRO",
+            "SME"
+          ]
         }
       }
     ]
@@ -229,6 +238,11 @@
             "AI_EMBEDDED"
           ],
           "company_sizes_any": []
+        },
+        "exemptions": {
+          "company_sizes_any": [
+            "MICRO"
+          ]
         }
       }
     ]
@@ -330,6 +344,9 @@
             "MARKETPLACE"
           ],
           "company_sizes_any": []
+        },
+        "thresholds": {
+          "min_monthly_active_users": 19000000
         }
       }
     ]
@@ -438,6 +455,9 @@
             "LARGE",
             "ENTERPRISE"
           ]
+        },
+        "thresholds": {
+          "min_annual_revenue_usd": 25000000
         }
       },
       {
@@ -596,6 +616,9 @@
             "HEALTH_TECH"
           ],
           "company_sizes_any": []
+        },
+        "exemptions": {
+          "max_annual_revenue_usd": 750000
         }
       }
     ]
@@ -735,6 +758,9 @@
             "HEALTH_TECH"
           ],
           "company_sizes_any": []
+        },
+        "thresholds": {
+          "min_annual_revenue_usd": 10000000
         }
       }
     ]
@@ -906,6 +932,9 @@
             "LARGE",
             "ENTERPRISE"
           ]
+        },
+        "thresholds": {
+          "min_annual_turnover_usd": 3000000
         }
       }
     ]
@@ -1012,6 +1041,9 @@
             "HEALTH_TECH"
           ],
           "company_sizes_any": []
+        },
+        "thresholds": {
+          "min_monthly_active_users": 5000
         }
       }
     ]
@@ -1258,6 +1290,9 @@
             "LARGE",
             "ENTERPRISE"
           ]
+        },
+        "thresholds": {
+          "min_annual_revenue_usd": 500000000
         }
       }
     ]
@@ -1355,7 +1390,7 @@
         ],
         "thresholds": {
           "min_monthly_active_users": 45000000,
-          "min_annual_turnover_usd": 8000000000
+          "min_annual_turnover_usd": 82500000000
         },
         "exemptions": {
           "company_sizes_any": [
@@ -1400,6 +1435,11 @@
             "MID",
             "LARGE",
             "ENTERPRISE"
+          ]
+        },
+        "exemptions": {
+          "company_sizes_any": [
+            "MICRO"
           ]
         }
       }
