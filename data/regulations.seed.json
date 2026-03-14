@@ -26,7 +26,34 @@
           ],
           "company_sizes_any": []
         }
+      },
+      {
+        "version": 2,
+        "effective_from": "2027-01-01",
+        "repealed_on": null,
+        "status": "ACTIVE",
+        "notes": "Full enforcement of all risk-level obligations incl. general-purpose AI.",
+        "conditions": {
+          "jurisdictions_any": [
+            "EU"
+          ],
+          "markets_any": [
+            "EU"
+          ],
+          "industries_any": [],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "AI_EMBEDDED"
+          ],
+          "company_sizes_any": []
+        }
       }
+    ],
+    "related_regulations": [
+      "EU_GDPR",
+      "EU_DSA",
+      "CRA"
     ]
   },
   {
@@ -63,7 +90,42 @@
         "exemptions": {
           "max_monthly_active_users": 250
         }
+      },
+      {
+        "version": 2,
+        "effective_from": "2026-06-01",
+        "repealed_on": null,
+        "status": "ACTIVE",
+        "notes": "Proposed amendment expanding scope to AI-processed personal data.",
+        "conditions": {
+          "jurisdictions_any": [
+            "EU"
+          ],
+          "markets_any": [
+            "EU"
+          ],
+          "industries_any": [],
+          "product_types_any": [
+            "AI_MODEL",
+            "AI_SAAS",
+            "DIGITAL_PLATFORM",
+            "SAAS",
+            "MOBILE_APP",
+            "FINANCIAL_SERVICE",
+            "HEALTH_TECH",
+            "INSURANCE_PRODUCT"
+          ],
+          "company_sizes_any": []
+        },
+        "exemptions": {
+          "max_monthly_active_users": 250
+        }
       }
+    ],
+    "related_regulations": [
+      "EU_DSA",
+      "EU_AI_ACT",
+      "EU_DATA_ACT"
     ]
   },
   {
@@ -101,6 +163,11 @@
           "min_monthly_active_users": 45000000
         }
       }
+    ],
+    "related_regulations": [
+      "EU_GDPR",
+      "EU_DMA",
+      "EU_AI_ACT"
     ]
   },
   {
@@ -132,6 +199,10 @@
           "company_sizes_any": []
         }
       }
+    ],
+    "related_regulations": [
+      "EU_DORA",
+      "EU_SOLVENCY_II"
     ]
   },
   {
@@ -161,6 +232,10 @@
           "company_sizes_any": []
         }
       }
+    ],
+    "related_regulations": [
+      "EU_DORA",
+      "EU_MIFID_II"
     ]
   },
   {
@@ -208,6 +283,10 @@
           ]
         }
       }
+    ],
+    "related_regulations": [
+      "EU_DORA",
+      "CRA"
     ]
   },
   {
@@ -245,6 +324,10 @@
           ]
         }
       }
+    ],
+    "related_regulations": [
+      "NIS2",
+      "EU_AI_ACT"
     ]
   },
   {
@@ -278,6 +361,10 @@
           "company_sizes_any": []
         }
       }
+    ],
+    "related_regulations": [
+      "UK_DATA_PROTECTION_ACT",
+      "UK_PECR"
     ]
   },
   {
@@ -311,6 +398,10 @@
           "company_sizes_any": []
         }
       }
+    ],
+    "related_regulations": [
+      "UK_GDPR",
+      "UK_PECR"
     ]
   },
   {
@@ -763,6 +854,10 @@
           "min_annual_revenue_usd": 10000000
         }
       }
+    ],
+    "related_regulations": [
+      "IN_IT_ACT",
+      "IN_CERT_IN_DIRECTIONS_2022"
     ]
   },
   {
@@ -797,6 +892,10 @@
           "company_sizes_any": []
         }
       }
+    ],
+    "related_regulations": [
+      "IN_DPDPA",
+      "IN_CERT_IN_DIRECTIONS_2022"
     ]
   },
   {
@@ -1400,6 +1499,10 @@
           ]
         }
       }
+    ],
+    "related_regulations": [
+      "EU_DSA",
+      "EU_DATA_ACT"
     ]
   },
   {
@@ -1443,6 +1546,11 @@
           ]
         }
       }
+    ],
+    "related_regulations": [
+      "NIS2",
+      "EU_MIFID_II",
+      "EU_SOLVENCY_II"
     ]
   },
   {
@@ -1519,6 +1627,10 @@
           "min_monthly_active_users": 50000
         }
       }
+    ],
+    "related_regulations": [
+      "UK_GDPR",
+      "UK_DATA_PROTECTION_ACT"
     ]
   },
   {
@@ -1698,6 +1810,9 @@
           "min_annual_turnover_usd": 100000
         }
       }
+    ],
+    "related_regulations": [
+      "IN_RBI_DIGITAL_LENDING"
     ]
   },
   {

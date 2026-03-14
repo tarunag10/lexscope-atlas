@@ -1,0 +1,172 @@
+export const DEFAULT_PROFILE = {
+  jurisdiction: "EU",
+  industry: "TECHNOLOGY",
+  company_size: "SME",
+  product_type: "AI_SAAS",
+  entity_type: "PRIVATE_COMPANY",
+  annual_revenue_usd: 5000000,
+  annual_turnover_usd: 5000000,
+  monthly_active_users: 100000,
+  as_of_date: "2025-01-15",
+  markets: ["EU", "UK", "US"],
+};
+
+export const SIMPLE_REG = {
+  code: "TEST_REG",
+  name: "Test Regulation",
+  authority: "Test Authority",
+  summary: "A test regulation.",
+  source_url: "https://example.com",
+  related_regulations: [],
+  versions: [
+    {
+      version: 1,
+      effective_from: "2020-01-01",
+      repealed_on: null,
+      status: "ACTIVE",
+      notes: "",
+      conditions: {
+        jurisdictions_any: ["EU"],
+        markets_any: ["EU"],
+        industries_any: [],
+        product_types_any: ["AI_SAAS"],
+        company_sizes_any: [],
+        entity_types_any: [],
+      },
+      entity_types_any: [],
+      thresholds: {
+        min_annual_revenue_usd: null,
+        max_annual_revenue_usd: null,
+        min_annual_turnover_usd: null,
+        max_annual_turnover_usd: null,
+        min_monthly_active_users: null,
+        max_monthly_active_users: null,
+      },
+      exemptions: {
+        company_sizes_any: [],
+        entity_types_any: [],
+        max_annual_revenue_usd: null,
+        max_annual_turnover_usd: null,
+        max_monthly_active_users: null,
+      },
+    },
+  ],
+};
+
+export const MULTI_VERSION_REG = {
+  code: "MULTI_V",
+  name: "Multi Version Reg",
+  authority: "Test",
+  summary: "Has 2 versions.",
+  source_url: "",
+  related_regulations: ["TEST_REG"],
+  versions: [
+    {
+      version: 1,
+      effective_from: "2020-01-01",
+      repealed_on: "2023-06-01",
+      status: "REPEALED",
+      notes: "Original version",
+      conditions: {
+        jurisdictions_any: ["EU"],
+        markets_any: [],
+        industries_any: [],
+        product_types_any: [],
+        company_sizes_any: [],
+        entity_types_any: [],
+      },
+      entity_types_any: [],
+      thresholds: {
+        min_annual_revenue_usd: null,
+        max_annual_revenue_usd: null,
+        min_annual_turnover_usd: null,
+        max_annual_turnover_usd: null,
+        min_monthly_active_users: null,
+        max_monthly_active_users: null,
+      },
+      exemptions: {
+        company_sizes_any: [],
+        entity_types_any: [],
+        max_annual_revenue_usd: null,
+        max_annual_turnover_usd: null,
+        max_monthly_active_users: null,
+      },
+    },
+    {
+      version: 2,
+      effective_from: "2023-06-01",
+      repealed_on: null,
+      status: "ACTIVE",
+      notes: "Updated version",
+      conditions: {
+        jurisdictions_any: ["EU"],
+        markets_any: [],
+        industries_any: [],
+        product_types_any: [],
+        company_sizes_any: [],
+        entity_types_any: [],
+      },
+      entity_types_any: [],
+      thresholds: {
+        min_annual_revenue_usd: null,
+        max_annual_revenue_usd: null,
+        min_annual_turnover_usd: null,
+        max_annual_turnover_usd: null,
+        min_monthly_active_users: null,
+        max_monthly_active_users: null,
+      },
+      exemptions: {
+        company_sizes_any: [],
+        entity_types_any: [],
+        max_annual_revenue_usd: null,
+        max_annual_turnover_usd: null,
+        max_monthly_active_users: null,
+      },
+    },
+  ],
+};
+
+export const THRESHOLD_REG = {
+  code: "THRESH_REG",
+  name: "Threshold Regulation",
+  authority: "Test",
+  summary: "Has thresholds.",
+  source_url: "",
+  related_regulations: [],
+  versions: [
+    {
+      version: 1,
+      effective_from: "2020-01-01",
+      repealed_on: null,
+      status: "ACTIVE",
+      notes: "",
+      conditions: {
+        jurisdictions_any: ["EU"],
+        markets_any: [],
+        industries_any: [],
+        product_types_any: [],
+        company_sizes_any: [],
+        entity_types_any: [],
+      },
+      entity_types_any: [],
+      thresholds: {
+        min_annual_revenue_usd: 1000000,
+        max_annual_revenue_usd: 50000000,
+        min_annual_turnover_usd: null,
+        max_annual_turnover_usd: null,
+        min_monthly_active_users: 10000,
+        max_monthly_active_users: null,
+      },
+      exemptions: {
+        company_sizes_any: ["MICRO"],
+        entity_types_any: [],
+        max_annual_revenue_usd: null,
+        max_annual_turnover_usd: null,
+        max_monthly_active_users: null,
+      },
+    },
+  ],
+};
+
+export const CSV_SAMPLE = `code,name,authority,summary,source_url,version,effective_from,status,jurisdictions_any,markets_any,industries_any,product_types_any,company_sizes_any
+CSV_TEST,CSV Test Reg,CSV Auth,A CSV regulation,,1,2021-01-01,ACTIVE,EU|UK,EU,TECHNOLOGY,AI_SAAS,`;
