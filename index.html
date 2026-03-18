@@ -7,845 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
-    <style>
-      /* ── Theme Variables ── */
-      :root {
-        --bg: #f2f6fb;
-        --surface: rgba(255, 255, 255, 0.86);
-        --ink: #13223a;
-        --muted: #4c5f7a;
-        --line: #d5dfef;
-        --brand: #0a7a8a;
-        --brand-2: #1a9db0;
-        --brand-glow: rgba(10, 122, 138, 0.25);
-        --ok-bg: #e5f8eb;
-        --ok-line: #bce7cc;
-        --ok-accent: #22a855;
-        --no-bg: #ffefeb;
-        --no-line: #ffd2c8;
-        --no-accent: #e05538;
-        --neutral-accent: #8896a7;
-        --shadow: 0 24px 50px rgba(23, 39, 64, 0.1);
-        --shadow-hover: 0 28px 60px rgba(23, 39, 64, 0.16);
-        --input-bg: #fff;
-        --input-border: #c7d5e8;
-        --subtle-bg: #e9f0fa;
-        --subtle-color: #2c4560;
-        --subtle-hover: #dce6f4;
-        --meta-color: #35506a;
-        --hero-bg: linear-gradient(140deg, #0f2238, #11485f);
-        --summary-bg: linear-gradient(160deg, #dff3f6, #e7eefb);
-        --body-gradient-1: #d7f4fb;
-        --body-gradient-2: #e4e9ff;
-        --badge-bg: rgba(0,0,0,0.06);
-        --footer-color: #5a6c84;
-        --dim-pass-bg: #d4f5de;
-        --dim-pass-color: #1a7a3a;
-        --dim-fail-bg: #fddcd5;
-        --dim-fail-color: #b83a1f;
-        --dim-neutral-bg: #e8ecf2;
-        --dim-neutral-color: #5a6c84;
-        --metric-card-bg: rgba(255,255,255,0.7);
-        --source-link-bg: rgba(255,255,255,0.6);
-        --conf-bar-bg: rgba(0,0,0,0.08);
-      }
-
-      [data-theme="dark"] {
-        --bg: #0d1117;
-        --surface: rgba(22, 27, 34, 0.92);
-        --ink: #e6edf3;
-        --muted: #8b949e;
-        --line: #30363d;
-        --brand: #39c5cf;
-        --brand-2: #58d5e3;
-        --brand-glow: rgba(57, 197, 207, 0.25);
-        --ok-bg: #0d2818;
-        --ok-line: #1a4d2e;
-        --ok-accent: #3fb950;
-        --no-bg: #2d1117;
-        --no-line: #5c2d2d;
-        --no-accent: #f85149;
-        --neutral-accent: #6e7681;
-        --shadow: 0 24px 50px rgba(0, 0, 0, 0.4);
-        --shadow-hover: 0 28px 60px rgba(0, 0, 0, 0.5);
-        --input-bg: #161b22;
-        --input-border: #30363d;
-        --subtle-bg: #21262d;
-        --subtle-color: #c9d1d9;
-        --subtle-hover: #30363d;
-        --meta-color: #8b949e;
-        --hero-bg: linear-gradient(140deg, #010409, #0d1117);
-        --summary-bg: linear-gradient(160deg, #0d1117, #161b22);
-        --body-gradient-1: transparent;
-        --body-gradient-2: transparent;
-        --badge-bg: rgba(255,255,255,0.08);
-        --footer-color: #8b949e;
-        --dim-pass-bg: #0d2818;
-        --dim-pass-color: #3fb950;
-        --dim-fail-bg: #2d1117;
-        --dim-fail-color: #f85149;
-        --dim-neutral-bg: #21262d;
-        --dim-neutral-color: #8b949e;
-        --metric-card-bg: rgba(255,255,255,0.04);
-        --source-link-bg: rgba(255,255,255,0.05);
-        --conf-bar-bg: rgba(255,255,255,0.1);
-      }
-
-      * { box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
-
-      @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(18px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      @keyframes shimmer {
-        0% { background-position: -200% 0; }
-        100% { background-position: 200% 0; }
-      }
-      @keyframes spin {
-        to { transform: rotate(360deg); }
-      }
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-
-      body {
-        margin: 0;
-        font-family: "Manrope", sans-serif;
-        color: var(--ink);
-        background:
-          radial-gradient(1200px 800px at -10% -10%, var(--body-gradient-1) 0%, transparent 50%),
-          radial-gradient(900px 700px at 105% 0%, var(--body-gradient-2) 0%, transparent 46%),
-          var(--bg);
-      }
-
-      .wrap {
-        max-width: 1240px;
-        margin: 0 auto;
-        padding: 28px 16px 40px;
-        animation: fadeInUp 0.6s ease-out both;
-      }
-
-      /* ── Hero ── */
-      .hero {
-        background: var(--hero-bg);
-        color: #eff9ff;
-        border-radius: 20px;
-        padding: 28px 26px;
-        box-shadow: var(--shadow);
-        position: relative;
-        overflow: hidden;
-        animation: fadeInUp 0.5s ease-out both;
-      }
-
-      .hero::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(110deg, transparent 30%, rgba(119, 217, 224, 0.08) 45%, rgba(255, 255, 255, 0.1) 50%, rgba(119, 217, 224, 0.08) 55%, transparent 70%);
-        background-size: 200% 100%;
-        animation: shimmer 6s ease-in-out infinite;
-        pointer-events: none;
-      }
-
-      .hero::after {
-        content: "";
-        position: absolute;
-        inset: auto -20% -60% auto;
-        width: 380px;
-        height: 380px;
-        background: radial-gradient(circle, rgba(119, 217, 224, 0.25), transparent 62%);
-      }
-
-      .hero-title-row {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        position: relative;
-        z-index: 1;
-      }
-
-      .hero-icon {
-        width: 46px;
-        height: 46px;
-        border-radius: 14px;
-        background: linear-gradient(135deg, #1a9db0, #77d9e0);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        box-shadow: 0 4px 16px rgba(26, 157, 176, 0.35);
-      }
-      .hero-icon::after {
-        content: "";
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        border: 2.5px solid #fff;
-        background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.4), transparent 60%);
-        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
-      }
-
-      h1 {
-        margin: 0;
-        font-family: "Space Grotesk", sans-serif;
-        letter-spacing: -0.02em;
-        font-size: clamp(1.8rem, 4vw, 3rem);
-        position: relative;
-        z-index: 1;
-      }
-
-      .sub {
-        margin-top: 10px;
-        max-width: 900px;
-        opacity: 0.95;
-        position: relative;
-        z-index: 1;
-      }
-
-      .pill-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 14px;
-        position: relative;
-        z-index: 1;
-      }
-
-      .admin-hidden { display: none; }
-
-      .pill {
-        border: 1px solid rgba(207, 231, 255, 0.45);
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 999px;
-        padding: 6px 14px;
-        font-size: 0.82rem;
-        backdrop-filter: blur(4px);
-        box-shadow: 0 0 12px rgba(119, 217, 224, 0.1);
-        transition: box-shadow 0.3s, background 0.3s;
-      }
-      .pill:hover {
-        background: rgba(255, 255, 255, 0.16);
-        box-shadow: 0 0 18px rgba(119, 217, 224, 0.2);
-      }
-
-      /* ── Theme Toggle ── */
-      .theme-toggle {
-        position: relative;
-        z-index: 2;
-        background: rgba(255,255,255,0.12);
-        border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 10px;
-        padding: 6px 12px;
-        color: #eff9ff;
-        cursor: pointer;
-        font-size: 1.1rem;
-        line-height: 1;
-        transition: background 0.2s;
-      }
-      .theme-toggle:hover {
-        background: rgba(255,255,255,0.2);
-      }
-      .theme-toggle:active { transform: none; }
-
-      /* ── Grid & Cards ── */
-      .grid {
-        margin-top: 16px;
-        display: grid;
-        grid-template-columns: 1.35fr 1fr;
-        gap: 14px;
-      }
-      @media (max-width: 980px) {
-        .grid { grid-template-columns: 1fr; }
-      }
-
-      .card {
-        border-radius: 18px;
-        border: 1px solid var(--line);
-        background: var(--surface);
-        backdrop-filter: blur(7px);
-        box-shadow: var(--shadow);
-        padding: 20px;
-        animation: fadeInUp 0.5s ease-out both;
-        animation-delay: 0.1s;
-        transition: box-shadow 0.3s;
-      }
-      .card h2 {
-        margin: 0;
-        font-family: "Space Grotesk", sans-serif;
-        font-size: 1.15rem;
-      }
-      .hint {
-        margin-top: 7px;
-        color: var(--muted);
-        font-size: 0.82rem;
-      }
-
-      /* ── Form Section Dividers ── */
-      .form-section-label {
-        grid-column: 1 / -1;
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--muted);
-        font-weight: 700;
-        padding-top: 10px;
-        margin-bottom: -4px;
-        border-top: 1px solid var(--line);
-      }
-      .form-section-label:first-child {
-        border-top: none;
-        padding-top: 0;
-      }
-
-      .form-grid {
-        margin-top: 12px;
-        display: grid;
-        gap: 10px;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      }
-
-      label {
-        display: block;
-        margin-bottom: 5px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--muted);
-        letter-spacing: 0.01em;
-      }
-      label .label-icon { margin-right: 4px; }
-
-      select, input, textarea {
-        width: 100%;
-        min-height: 42px;
-        border: 1.5px solid var(--input-border);
-        border-radius: 11px;
-        padding: 8px 10px;
-        background: var(--input-bg);
-        color: var(--ink);
-        font: inherit;
-        font-size: 0.92rem;
-        transition: border-color 0.2s, box-shadow 0.2s;
-      }
-      select:focus, input:focus, textarea:focus {
-        outline: none;
-        border-color: var(--brand);
-        box-shadow: 0 0 0 3px var(--brand-glow);
-      }
-      select[multiple] { min-height: 120px; }
-      textarea { min-height: 130px; resize: vertical; }
-
-      .actions {
-        margin-top: 14px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 9px;
-      }
-
-      button {
-        border: 0;
-        border-radius: 12px;
-        padding: 12px 20px;
-        font: inherit;
-        font-weight: 800;
-        cursor: pointer;
-        transition: transform 0.12s, box-shadow 0.2s, background 0.2s, opacity 0.2s;
-      }
-      button:active { transform: scale(0.97); }
-
-      .primary {
-        color: #fff;
-        background: linear-gradient(120deg, var(--brand), var(--brand-2));
-        box-shadow: 0 4px 14px var(--brand-glow);
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-      }
-      .primary:hover {
-        box-shadow: 0 6px 22px var(--brand-glow);
-        filter: brightness(1.06);
-      }
-      .primary .btn-icon {
-        display: inline-block;
-        transition: transform 0.2s;
-      }
-      .primary:hover .btn-icon { transform: translateX(2px); }
-      .primary.loading { pointer-events: none; opacity: 0.85; }
-      .primary.loading .btn-icon { animation: spin 0.7s linear infinite; }
-
-      .subtle {
-        color: var(--subtle-color);
-        background: var(--subtle-bg);
-      }
-      .subtle:hover { background: var(--subtle-hover); }
-
-      .status {
-        margin-top: 8px;
-        font-size: 0.9rem;
-        color: var(--meta-color);
-      }
-
-      /* ── Results ── */
-      .results {
-        margin-top: 16px;
-        display: grid;
-        gap: 12px;
-      }
-
-      .summary { background: var(--summary-bg); }
-      .summary-metrics {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-        margin-top: 14px;
-      }
-      @media (max-width: 600px) {
-        .summary-metrics { grid-template-columns: 1fr; }
-      }
-      .metric-card {
-        background: var(--metric-card-bg);
-        border-radius: 14px;
-        padding: 16px;
-        text-align: center;
-        border: 1px solid var(--line);
-        transition: transform 0.2s, box-shadow 0.2s;
-      }
-      .metric-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(23,39,64,0.08);
-      }
-      .metric-icon { font-size: 1.5rem; margin-bottom: 4px; }
-      .metric-number {
-        font-family: "Space Grotesk", sans-serif;
-        font-size: 2rem;
-        font-weight: 700;
-        line-height: 1.1;
-      }
-      .metric-number.brand { color: var(--brand); }
-      .metric-number.green { color: var(--ok-accent); }
-      .metric-number.red { color: var(--no-accent); }
-      .metric-label {
-        font-size: 0.78rem;
-        color: var(--muted);
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        margin-top: 2px;
-      }
-
-      /* Tab bar */
-      .tabs {
-        display: flex;
-        gap: 4px;
-        margin-bottom: 14px;
-        flex-wrap: wrap;
-        position: relative;
-        border-bottom: 2px solid var(--line);
-        padding-bottom: 0;
-      }
-      .tab-btn {
-        border: none;
-        background: transparent;
-        color: var(--muted);
-        border-radius: 10px 10px 0 0;
-        padding: 10px 18px;
-        font-weight: 700;
-        font-size: 0.9rem;
-        position: relative;
-        transition: color 0.2s, background 0.2s;
-      }
-      .tab-btn:hover {
-        color: var(--ink);
-        background: rgba(10, 122, 138, 0.05);
-      }
-      .tab-btn::after {
-        content: "";
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        right: 0;
-        height: 2.5px;
-        border-radius: 2px 2px 0 0;
-        background: transparent;
-        transition: background 0.25s;
-      }
-      .tab-btn.active { color: var(--brand); background: transparent; }
-      .tab-btn.active::after {
-        background: linear-gradient(90deg, var(--brand), var(--brand-2));
-      }
-      .tab-panel { animation: fadeIn 0.25s ease-out; }
-      .tab-panel.hidden { display: none; }
-
-      /* ── Regulation Cards ── */
-      .reg-list { display: grid; gap: 10px; margin-top: 10px; }
-      .reg {
-        border-radius: 14px;
-        border: 1px solid transparent;
-        padding: 16px 16px 14px 20px;
-        position: relative;
-        transition: transform 0.2s, box-shadow 0.2s;
-        cursor: default;
-      }
-      .reg:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 28px rgba(23,39,64,0.08);
-      }
-      .reg::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 10px;
-        bottom: 10px;
-        width: 4px;
-        border-radius: 0 4px 4px 0;
-      }
-      .reg.ok { background: var(--ok-bg); border-color: var(--ok-line); }
-      .reg.ok::before { background: var(--ok-accent); }
-      .reg.no { background: var(--no-bg); border-color: var(--no-line); }
-      .reg.no::before { background: var(--no-accent); }
-
-      .reg-header {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 10px;
-      }
-      .name { font-weight: 800; font-size: 1.02rem; }
-      .authority-badge {
-        display: inline-block;
-        background: var(--badge-bg);
-        border-radius: 6px;
-        padding: 2px 8px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: var(--muted);
-        white-space: nowrap;
-        flex-shrink: 0;
-      }
-      .meta {
-        margin-top: 5px;
-        color: var(--meta-color);
-        font-size: 0.84rem;
-      }
-      .reason { margin-top: 6px; font-size: 0.92rem; line-height: 1.45; }
-
-      .confidence-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-top: 8px;
-        font-size: 0.82rem;
-        color: var(--muted);
-        font-weight: 600;
-      }
-      .confidence-bar {
-        width: 80px;
-        height: 6px;
-        border-radius: 3px;
-        background: var(--conf-bar-bg);
-        overflow: hidden;
-      }
-      .confidence-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease-out; }
-      .confidence-fill.green { background: var(--ok-accent); }
-      .confidence-fill.red { background: var(--no-accent); }
-
-      .dim-checks { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
-      .dim-pill {
-        display: inline-block;
-        font-size: 0.72rem;
-        font-weight: 600;
-        padding: 2px 8px;
-        border-radius: 6px;
-      }
-      .dim-pill.pass { background: var(--dim-pass-bg); color: var(--dim-pass-color); }
-      .dim-pill.fail { background: var(--dim-fail-bg); color: var(--dim-fail-color); }
-      .dim-pill.neutral { background: var(--dim-neutral-bg); color: var(--dim-neutral-color); }
-
-      .reg-details {
-        display: none;
-        margin-top: 10px;
-        padding-top: 10px;
-        border-top: 1px solid rgba(0,0,0,0.06);
-        animation: fadeIn 0.2s ease-out;
-      }
-      .reg-details.open { display: block; }
-      .reg-toggle {
-        font-size: 0.78rem;
-        color: var(--brand);
-        font-weight: 700;
-        cursor: pointer;
-        background: none;
-        border: none;
-        padding: 4px 0;
-        margin-top: 6px;
-        transition: opacity 0.2s;
-      }
-      .reg-toggle:hover { opacity: 0.75; }
-      .reg-toggle:active { transform: none; }
-
-      .source-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        margin-top: 8px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--brand);
-        text-decoration: none;
-        padding: 4px 10px;
-        border-radius: 8px;
-        border: 1px solid var(--line);
-        background: var(--source-link-bg);
-        transition: background 0.2s, box-shadow 0.2s;
-      }
-      .source-link:hover {
-        background: var(--input-bg);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      }
-
-      .profile-bar {
-        display: flex;
-        gap: 6px;
-        align-items: center;
-        margin-bottom: 12px;
-        flex-wrap: wrap;
-      }
-      .profile-bar select { flex: 1; min-width: 140px; }
-
-      .export-bar {
-        display: flex;
-        gap: 8px;
-        margin-top: 12px;
-        justify-content: flex-end;
-      }
-
-      /* ── Comparison diff ── */
-      .diff-section { margin-top: 16px; }
-      .diff-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 6px 10px;
-        border-radius: 8px;
-        font-size: 0.88rem;
-        margin-bottom: 4px;
-      }
-      .diff-row.added { background: var(--ok-bg); color: var(--ok-accent); }
-      .diff-row.removed { background: var(--no-bg); color: var(--no-accent); }
-      .diff-arrow { font-weight: 700; }
-      .diff-summary {
-        display: flex;
-        gap: 16px;
-        font-weight: 600;
-        font-size: 0.95rem;
-        margin-bottom: 10px;
-      }
-
-      /* ── Timeline ── */
-      .timeline-bar {
-        display: flex;
-        align-items: center;
-        gap: 0;
-        margin-top: 10px;
-        padding: 8px 0;
-        overflow-x: auto;
-      }
-      .timeline-node {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-width: 100px;
-        position: relative;
-      }
-      .timeline-dot {
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        background: var(--muted);
-        border: 2px solid var(--line);
-        z-index: 1;
-      }
-      .timeline-dot.active {
-        background: var(--ok-accent);
-        border-color: var(--ok-accent);
-        box-shadow: 0 0 8px rgba(34,168,85,0.4);
-      }
-      .timeline-dot.repealed {
-        background: var(--no-accent);
-        border-color: var(--no-accent);
-      }
-      .timeline-label {
-        font-size: 0.7rem;
-        font-weight: 600;
-        margin-top: 4px;
-        text-align: center;
-        color: var(--muted);
-      }
-      .timeline-label.active { color: var(--ok-accent); font-weight: 700; }
-      .timeline-connector {
-        height: 2px;
-        flex: 1;
-        min-width: 30px;
-        background: var(--line);
-        margin-top: -7px;
-      }
-      .timeline-toggle {
-        font-size: 0.75rem;
-        color: var(--brand);
-        font-weight: 700;
-        cursor: pointer;
-        background: none;
-        border: none;
-        padding: 2px 0;
-        margin-top: 4px;
-      }
-      .timeline-toggle:hover { opacity: 0.7; }
-      .timeline-toggle:active { transform: none; }
-      .timeline-wrap { display: none; }
-      .timeline-wrap.open { display: block; }
-
-      /* ── Related Regulations ── */
-      .related-list {
-        margin-top: 8px;
-        padding-left: 16px;
-      }
-      .related-item {
-        font-size: 0.82rem;
-        color: var(--muted);
-        padding: 2px 0;
-      }
-      .related-item .related-code {
-        font-weight: 700;
-        color: var(--brand);
-      }
-
-      /* ── Toast ── */
-      .toast {
-        position: fixed;
-        bottom: 24px;
-        left: 50%;
-        transform: translateX(-50%) translateY(80px);
-        background: var(--ink);
-        color: var(--bg);
-        padding: 10px 22px;
-        border-radius: 12px;
-        font-size: 0.88rem;
-        font-weight: 600;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-        z-index: 9999;
-        opacity: 0;
-        transition: transform 0.3s, opacity 0.3s;
-        pointer-events: none;
-      }
-      .toast.visible {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
-
-      /* ── Print / PDF ── */
-      #printableReport { display: none; }
-
-      @media print {
-        body * { visibility: hidden; }
-        #printableReport, #printableReport * { visibility: visible; }
-        #printableReport {
-          display: block !important;
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 100%;
-          padding: 20px;
-          font-family: "Manrope", sans-serif;
-          color: #000;
-          background: #fff;
-        }
-        #printableReport h1 { font-size: 1.4rem; margin-bottom: 4px; }
-        #printableReport h2 { font-size: 1.1rem; margin-top: 16px; }
-        #printableReport table {
-          width: 100%;
-          border-collapse: collapse;
-          font-size: 0.82rem;
-          margin-top: 8px;
-        }
-        #printableReport th, #printableReport td {
-          border: 1px solid #ccc;
-          padding: 6px 8px;
-          text-align: left;
-        }
-        #printableReport th { background: #f0f0f0; font-weight: 700; }
-        #printableReport .print-meta { color: #555; font-size: 0.8rem; margin-top: 4px; }
-      }
-
-      /* ── Footer ── */
-      .footer-credit {
-        margin-top: 24px;
-        padding-top: 16px;
-        border-top: 1px solid var(--line);
-        text-align: center;
-        color: var(--footer-color);
-        font-size: 0.9rem;
-        font-weight: 600;
-      }
-
-      a { color: var(--brand); }
-
-      /* ── Dark mode auto-detection ── */
-      @media (prefers-color-scheme: dark) {
-        html:not([data-theme="light"]) {
-          --bg: #0d1117;
-          --surface: rgba(22, 27, 34, 0.92);
-          --ink: #e6edf3;
-          --muted: #8b949e;
-          --line: #30363d;
-          --brand: #39c5cf;
-          --brand-2: #58d5e3;
-          --brand-glow: rgba(57, 197, 207, 0.25);
-          --ok-bg: #0d2818;
-          --ok-line: #1a4d2e;
-          --ok-accent: #3fb950;
-          --no-bg: #2d1117;
-          --no-line: #5c2d2d;
-          --no-accent: #f85149;
-          --neutral-accent: #6e7681;
-          --shadow: 0 24px 50px rgba(0, 0, 0, 0.4);
-          --shadow-hover: 0 28px 60px rgba(0, 0, 0, 0.5);
-          --input-bg: #161b22;
-          --input-border: #30363d;
-          --subtle-bg: #21262d;
-          --subtle-color: #c9d1d9;
-          --subtle-hover: #30363d;
-          --meta-color: #8b949e;
-          --hero-bg: linear-gradient(140deg, #010409, #0d1117);
-          --summary-bg: linear-gradient(160deg, #0d1117, #161b22);
-          --body-gradient-1: transparent;
-          --body-gradient-2: transparent;
-          --badge-bg: rgba(255,255,255,0.08);
-          --footer-color: #8b949e;
-          --dim-pass-bg: #0d2818;
-          --dim-pass-color: #3fb950;
-          --dim-fail-bg: #2d1117;
-          --dim-fail-color: #f85149;
-          --dim-neutral-bg: #21262d;
-          --dim-neutral-color: #8b949e;
-          --metric-card-bg: rgba(255,255,255,0.04);
-          --source-link-bg: rgba(255,255,255,0.05);
-          --conf-bar-bg: rgba(255,255,255,0.1);
-        }
-      }
-
-      /* ── Responsive tweaks ── */
-      @media (max-width: 600px) {
-        .hero { padding: 20px 16px; }
-        .hero-icon { width: 38px; height: 38px; border-radius: 10px; }
-        .hero-icon::after { width: 20px; height: 20px; }
-        .card { padding: 16px; }
-        .reg { padding: 14px 14px 12px 18px; }
-        .summary-metrics { gap: 8px; }
-        .metric-card { padding: 12px; }
-        .metric-number { font-size: 1.6rem; }
-      }
-    </style>
+    <link rel="stylesheet" href="shared.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
   </head>
   <body>
     <main class="wrap">
@@ -902,10 +65,12 @@
             <div>
               <label for="annual_revenue_usd"><span class="label-icon">💰</span>Annual Revenue (USD)</label>
               <input id="annual_revenue_usd" type="number" min="0" step="1000" placeholder="e.g. 5000000" />
+              <div class="currency-hint" id="revenueHint"></div>
             </div>
             <div>
               <label for="annual_turnover_usd"><span class="label-icon">💵</span>Annual Turnover (USD)</label>
               <input id="annual_turnover_usd" type="number" min="0" step="1000" placeholder="e.g. 5000000" />
+              <div class="currency-hint" id="turnoverHint"></div>
             </div>
             <div>
               <label for="monthly_active_users"><span class="label-icon">📊</span>Monthly Active Users</label>
@@ -958,6 +123,7 @@
       <div id="printableReport"></div>
       <div class="toast" id="toast"></div>
       <div class="footer-credit">Created by Tarun Agarwal</div>
+
     </main>
 
     <script type="module">
@@ -967,41 +133,231 @@
         match, toNumberOrNull, evaluateBranchRules, evaluateOne, parseCsv,
         profileToParams, paramsToProfile, buildTimeline, buildDependencyGraph
       } from "./engine.js";
-
-      const STORAGE_KEY = "lexscope_atlas_imports_v1";
-      const PROFILES_KEY = "lexscope_profiles_v1";
-      const THEME_KEY = "lexscope_theme";
-      const TODAY = new Date().toISOString().slice(0, 10);
+      import {
+        STORAGE_KEY, PROFILES_KEY, THEME_KEY, API_KEYS_KEY, TODAY,
+        getApiKeys, initTheme, toggleTheme, updateThemeIcon, showToast,
+        storeResults, renderNav, initPage
+      } from "./shared.js";
       let adminMode = false;
       let lastResults = null;
       let lastProfile = null;
       let comparisonBaseline = null;
+      let countriesCache = null;
+      let exchangeRates = null;
+      let riskCharts = [];
 
-      // ── Theme ──
-      function initTheme() {
-        const saved = localStorage.getItem(THEME_KEY);
-        if (saved) {
-          document.documentElement.setAttribute("data-theme", saved);
+
+      // ── REST Countries + Exchange Rates ──
+      async function loadCountries() {
+        const cacheKey = "lexscope_countries_v1";
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          const { data, ts } = JSON.parse(cached);
+          if (Date.now() - ts < 7 * 86400000) { countriesCache = data; return data; }
         }
-        updateThemeIcon();
+        try {
+          const resp = await fetch("https://restcountries.com/v3.1/all?fields=cca2,flag,currencies,name");
+          if (!resp.ok) return null;
+          const data = await resp.json();
+          const map = {};
+          for (const c of data) {
+            map[c.cca2] = { flag: c.flag, name: c.name?.common, currencies: c.currencies ? Object.keys(c.currencies) : [] };
+          }
+          localStorage.setItem(cacheKey, JSON.stringify({ data: map, ts: Date.now() }));
+          countriesCache = map;
+          return map;
+        } catch { return null; }
       }
 
-      function toggleTheme() {
-        const current = document.documentElement.getAttribute("data-theme");
-        const isDark = current === "dark" ||
-          (!current && window.matchMedia("(prefers-color-scheme: dark)").matches);
-        const next = isDark ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", next);
-        localStorage.setItem(THEME_KEY, next);
-        updateThemeIcon();
+      async function loadExchangeRates() {
+        const cached = sessionStorage.getItem("lexscope_rates");
+        if (cached) { exchangeRates = JSON.parse(cached); return exchangeRates; }
+        try {
+          const resp = await fetch("https://open.er-api.com/v6/latest/USD");
+          if (!resp.ok) return null;
+          const data = await resp.json();
+          exchangeRates = data.rates;
+          sessionStorage.setItem("lexscope_rates", JSON.stringify(exchangeRates));
+          return exchangeRates;
+        } catch { return null; }
       }
 
-      function updateThemeIcon() {
-        const el = document.getElementById("themeToggle");
-        const theme = document.documentElement.getAttribute("data-theme");
-        const isDark = theme === "dark" ||
-          (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches);
-        el.textContent = isDark ? "\u2600\uFE0F" : "\uD83C\uDF19";
+      function enrichSelectsWithFlags() {
+        if (!countriesCache) return;
+        for (const id of ["jurisdiction", "markets"]) {
+          const el = document.getElementById(id);
+          for (const opt of el.options) {
+            const c = countriesCache[opt.value];
+            if (c && c.flag && !opt.textContent.startsWith(c.flag)) {
+              opt.textContent = c.flag + " " + opt.textContent;
+            }
+          }
+        }
+      }
+
+      function updateCurrencyHints() {
+        if (!countriesCache || !exchangeRates) return;
+        const jur = document.getElementById("jurisdiction").value;
+        const c = countriesCache[jur];
+        if (!c || !c.currencies.length) {
+          document.getElementById("revenueHint").textContent = "";
+          document.getElementById("turnoverHint").textContent = "";
+          return;
+        }
+        const cur = c.currencies[0];
+        const rate = exchangeRates[cur];
+        if (!rate || cur === "USD") {
+          document.getElementById("revenueHint").textContent = "";
+          document.getElementById("turnoverHint").textContent = "";
+          return;
+        }
+        const rev = parseFloat(document.getElementById("annual_revenue_usd").value);
+        const turn = parseFloat(document.getElementById("annual_turnover_usd").value);
+        document.getElementById("revenueHint").textContent = rev ? `≈ ${cur} ${(rev * rate).toLocaleString(undefined, {maximumFractionDigits:0})}` : `Local currency: ${cur}`;
+        document.getElementById("turnoverHint").textContent = turn ? `≈ ${cur} ${(turn * rate).toLocaleString(undefined, {maximumFractionDigits:0})}` : "";
+      }
+
+      // ── Risk Dashboard (Chart.js) ──
+      function destroyRiskCharts() {
+        riskCharts.forEach(c => c.destroy());
+        riskCharts = [];
+      }
+
+      function renderRiskDashboard(results) {
+        destroyRiskCharts();
+        const existing = document.getElementById("riskDashboard");
+        if (existing) existing.remove();
+
+        const applicable = results.filter(r => r.applicable);
+        const notApplicable = results.filter(r => !r.applicable);
+        if (!results.length) return;
+
+        const isDark = document.documentElement.getAttribute("data-theme") === "dark" ||
+          (!document.documentElement.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        const textColor = isDark ? "#e6edf3" : "#13223a";
+        const gridColor = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)";
+
+        const dashHtml = `<section class="card" id="riskDashboard">
+          <h2>Risk Dashboard</h2>
+          <div class="risk-dashboard">
+            <div class="chart-box"><h3>Applicability Breakdown</h3><canvas id="chartDonut"></canvas></div>
+            <div class="chart-box"><h3>Confidence Scores</h3><canvas id="chartBar"></canvas></div>
+            <div class="chart-box full-width"><h3>Dimension Heatmap</h3><canvas id="chartHeatmap"></canvas></div>
+          </div>
+        </section>`;
+
+        const summary = document.querySelector("#results .summary");
+        if (summary) summary.insertAdjacentHTML("afterend", dashHtml);
+        else document.getElementById("results").insertAdjacentHTML("afterbegin", dashHtml);
+
+        // Donut
+        const donutCtx = document.getElementById("chartDonut");
+        if (donutCtx) {
+          riskCharts.push(new Chart(donutCtx, {
+            type: "doughnut",
+            data: { labels: ["Applicable", "Not Applicable"], datasets: [{ data: [applicable.length, notApplicable.length], backgroundColor: ["#22a855", "#e05538"], borderWidth: 0 }] },
+            options: { responsive: true, plugins: { legend: { labels: { color: textColor } } } }
+          }));
+        }
+
+        // Horizontal bar - confidence of applicable regs
+        const sorted = [...applicable].sort((a, b) => b.confidence - a.confidence).slice(0, 15);
+        const barCtx = document.getElementById("chartBar");
+        if (barCtx) {
+          riskCharts.push(new Chart(barCtx, {
+            type: "bar",
+            data: { labels: sorted.map(r => r.code), datasets: [{ label: "Confidence", data: sorted.map(r => Math.round(r.confidence * 100)), backgroundColor: "rgba(10,122,138,0.7)", borderRadius: 4 }] },
+            options: { indexAxis: "y", responsive: true, scales: { x: { max: 100, ticks: { color: textColor }, grid: { color: gridColor } }, y: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } } }, plugins: { legend: { display: false } } }
+          }));
+        }
+
+        // Dimension heatmap as grouped bar
+        const dims = ["jurisdiction", "industry", "company_size", "product_type", "entity_type"];
+        const dimLabels = ["Jurisdiction", "Industry", "Size", "Product", "Entity"];
+        const passCount = dims.map(() => 0);
+        const failCount = dims.map(() => 0);
+        for (const r of results) {
+          if (!r.dimension_explainability) continue;
+          for (const d of r.dimension_explainability) {
+            const idx = dims.indexOf(d.dimension);
+            if (idx === -1) continue;
+            if (d.status === "pass") passCount[idx]++;
+            else failCount[idx]++;
+          }
+        }
+        const heatCtx = document.getElementById("chartHeatmap");
+        if (heatCtx) {
+          riskCharts.push(new Chart(heatCtx, {
+            type: "bar",
+            data: { labels: dimLabels, datasets: [
+              { label: "Pass", data: passCount, backgroundColor: "rgba(34,168,85,0.7)", borderRadius: 4 },
+              { label: "Fail", data: failCount, backgroundColor: "rgba(224,85,56,0.7)", borderRadius: 4 }
+            ] },
+            options: { responsive: true, scales: { x: { ticks: { color: textColor }, grid: { display: false } }, y: { ticks: { color: textColor }, grid: { color: gridColor } } }, plugins: { legend: { labels: { color: textColor } } } }
+          }));
+        }
+      }
+
+      // ── News Feed (GNews) ──
+      async function loadNewsFeed(results) {
+        const panel = document.querySelector('[data-panel="news"]');
+        if (!panel) return;
+        const cached = sessionStorage.getItem("lexscope_news");
+        if (cached) { panel.innerHTML = cached; return; }
+
+        const keys = getApiKeys();
+        if (!keys.gnews) {
+          panel.innerHTML = `<div class="news-apikey-prompt">GNews API key required for regulatory news.<br><a href="settings.html" class="subtle" style="display:inline-block;padding:8px 16px;border-radius:8px;background:var(--subtle-bg);color:var(--ink);text-decoration:none;font-weight:600">Open Settings</a></div>`;
+          return;
+        }
+
+        panel.innerHTML = `<div class="hint" style="text-align:center;padding:20px">Loading news...</div>`;
+        const applicable = results.filter(r => r.applicable).sort((a, b) => b.confidence - a.confidence).slice(0, 3);
+        const queries = applicable.map(r => r.name.split(/[\s(]/)[0]).filter(Boolean);
+        if (!queries.length) queries.push("regulatory compliance");
+
+        let articles = [];
+        for (const q of queries.slice(0, 3)) {
+          try {
+            const resp = await fetch(`https://gnews.io/api/v4/search?q=${encodeURIComponent(q + " regulation")}&lang=en&max=3&apikey=${keys.gnews}`);
+            if (resp.ok) {
+              const data = await resp.json();
+              if (data.articles) articles.push(...data.articles);
+            }
+          } catch {}
+        }
+
+        // Dedupe by title
+        const seen = new Set();
+        articles = articles.filter(a => { if (seen.has(a.title)) return false; seen.add(a.title); return true; });
+
+        if (!articles.length) {
+          panel.innerHTML = `<div class="hint" style="text-align:center;padding:20px">No news articles found.</div>`;
+          return;
+        }
+
+        let html = `<div class="news-grid">`;
+        for (const a of articles) {
+          const date = new Date(a.publishedAt).toLocaleDateString();
+          html += `<div class="news-card">
+            ${a.image ? `<img src="${a.image}" alt="" loading="lazy" />` : ""}
+            <div class="news-body">
+              <div class="news-title"><a href="${a.url}" target="_blank" rel="noreferrer">${a.title}</a></div>
+              <div class="news-meta">${a.source?.name || ""} · ${date}</div>
+              <div class="news-snippet">${a.description || ""}</div>
+            </div>
+          </div>`;
+        }
+        html += `</div>`;
+        panel.innerHTML = html;
+        sessionStorage.setItem("lexscope_news", html);
+      }
+
+
+      // ── Theme (delegates to shared.js, re-renders charts) ──
+      function handleToggleTheme() {
+        toggleTheme();
+        if (lastResults && typeof Chart !== "undefined") renderRiskDashboard(lastResults);
       }
 
       // ── DOM Helpers ──
@@ -1034,13 +390,6 @@
           as_of_date: document.getElementById("as_of_date").value || TODAY,
           markets: selectedValues(document.getElementById("markets"))
         };
-      }
-
-      function showToast(msg) {
-        const el = document.getElementById("toast");
-        el.textContent = msg;
-        el.classList.add("visible");
-        setTimeout(() => el.classList.remove("visible"), 2500);
       }
 
       // ── Rendering ──
@@ -1174,6 +523,7 @@
               <button class="tab-btn active" data-tab="relevant" type="button">Relevant Regulations (${applicable.length})</button>
               <button class="tab-btn" data-tab="not_applicable" type="button">Not Applicable (${notApplicable.length})</button>
               ${relatedTabBtn}
+              <button class="tab-btn" data-tab="news" type="button">Regulatory News</button>
             </div>
             <div class="tab-panel" data-panel="relevant">
               <div class="reg-list">${applicable.length ? applicable.map((r) => renderRegCard(r, "ok", catalogMap.get(r.code))).join("") : `<div class="hint">No relevant regulations for this profile.</div>`}</div>
@@ -1182,6 +532,7 @@
               <div class="reg-list">${notApplicable.length ? notApplicable.map((r) => renderRegCard(r, "no", catalogMap.get(r.code))).join("") : `<div class="hint">No non-applicable regulations.</div>`}</div>
             </div>
             ${relatedTabPanel}
+            <div class="tab-panel hidden" data-panel="news"><div class="hint" style="text-align:center;padding:20px">Click to load news...</div></div>
           </section>
         `;
 
@@ -1201,6 +552,18 @@
         document.getElementById("exportJsonBtn").addEventListener("click", exportJSON);
         document.getElementById("exportCsvBtn").addEventListener("click", exportCSV);
         document.getElementById("exportPdfBtn").addEventListener("click", exportPDF);
+
+        // Risk dashboard
+        if (typeof Chart !== "undefined") renderRiskDashboard(results);
+
+        // Lazy-load news on tab click
+        let newsLoaded = false;
+        const newsBtn = root.querySelector('[data-tab="news"]');
+        if (newsBtn) {
+          newsBtn.addEventListener("click", () => {
+            if (!newsLoaded) { newsLoaded = true; loadNewsFeed(results); }
+          });
+        }
       }
 
       // ── Catalog ──
@@ -1247,6 +610,7 @@
         }
         lastProfile = profile;
         lastResults = resolved;
+        storeResults(profile, resolved);
         renderResults(profile, resolved, catalogMap);
         document.getElementById("catalogPill").textContent = `${catalog.length} regulations loaded`;
 
@@ -1379,6 +743,7 @@
         localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
         refreshProfileDropdown();
         document.getElementById("profileSelect").value = name;
+        // Cloud sync happens via settings.html when Supabase is configured
       }
 
       function loadProfile() {
@@ -1412,6 +777,7 @@
         delete profiles[name];
         localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
         refreshProfileDropdown();
+        // Cloud sync happens via settings.html when Supabase is configured
       }
 
       // ── Comparison ──
@@ -1523,8 +889,19 @@
       // ── Bootstrap ──
       async function bootstrap() {
         initTheme();
+
+        // Insert nav bar
+        const hero = document.querySelector(".hero");
+        if (hero) hero.after(renderNav("evaluate"));
+
         resetDefaults();
         refreshProfileDropdown();
+
+        // Load countries + rates in background, then enrich
+        Promise.all([loadCountries(), loadExchangeRates()]).then(() => {
+          enrichSelectsWithFlags();
+          updateCurrencyHints();
+        });
 
         const params = new URLSearchParams(window.location.search);
 
@@ -1544,7 +921,7 @@
       document.getElementById("runBtn").addEventListener("click", evaluate);
       document.getElementById("compareBtn").addEventListener("click", handleCompare);
       document.getElementById("shareBtn").addEventListener("click", shareURL);
-      document.getElementById("themeToggle").addEventListener("click", toggleTheme);
+      document.getElementById("themeToggle").addEventListener("click", handleToggleTheme);
       document.getElementById("resetBtn").addEventListener("click", async () => {
         clearComparison();
         resetDefaults();
@@ -1555,6 +932,14 @@
       document.getElementById("deleteProfileBtn").addEventListener("click", deleteProfile);
       document.getElementById("importBtn").addEventListener("click", importRules);
       document.getElementById("clearImportBtn").addEventListener("click", clearImports);
+
+
+
+      // Currency hints
+      document.getElementById("jurisdiction").addEventListener("change", updateCurrencyHints);
+      document.getElementById("annual_revenue_usd").addEventListener("input", updateCurrencyHints);
+      document.getElementById("annual_turnover_usd").addEventListener("input", updateCurrencyHints);
+
 
       bootstrap().catch((err) => {
         document.getElementById("results").innerHTML = `<section class='card'>${err.message}</section>`;

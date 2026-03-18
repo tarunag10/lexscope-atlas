@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Risk Dashboard - LexScope Atlas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="shared.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="hero">
+        <div class="hero-title-row">
+          <div class="hero-icon"></div>
+          <h1>LexScope Atlas</h1>
+          <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+        </div>
+        <p class="sub">Risk Dashboard &mdash; Visual breakdown of your latest regulatory evaluation.</p>
+      </section>
+
+      <div id="dashContent">
+        <div class="page-card" style="text-align:center;padding:40px">
+          <p style="color:var(--muted)">No evaluation data found. <a href="index.html">Run an evaluation</a> first, then come back here.</p>
+        </div>
+      </div>
+
+      <div class="toast" id="toast"></div>
+      <div class="footer-credit">Created by Tarun Agarwal</div>
+    </main>
+
+    <script type="module">
+      import { initPage, isDarkMode, getStoredResults, getStoredProfile, toggleTheme } from "./shared.js";
+
+      initPage("dashboard");
+
+      let riskCharts = [];
+
+      function destroyRiskCharts() {
+        riskCharts.forEach(c => c.destroy());
+        riskCharts = [];
+      }
+
+      function renderDashboard() {
+        const results = getStoredResults();
+        const profile = getStoredProfile();
+        if (!results || !results.length) return;
+
+        destroyRiskCharts();
+
+        const applicable = results.filter(r => r.applicable);
+        const notApplicable = results.filter(r => !r.applicable);
+        const dark = isDarkMode();
+        const textColor = dark ? "#e6edf3" : "#13223a";
+        const gridColor = dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)";
+
+        const container = document.getElementById("dashContent");
+        container.innerHTML = `
+          <div class="page-card">
+            <h2>Evaluation Overview</h2>
+            <div class="meta" style="margin-bottom:12px">${profile ? `As of ${profile.as_of_date} &middot; ${profile.jurisdiction} &middot; ${profile.industry}` : ""}</div>
+            <div class="summary-metrics">
+              <div class="metric-card">
+                <div class="metric-icon">📋</div>
+                <div class="metric-number brand">${results.length}</div>
+                <div class="metric-label">Evaluated</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon">✅</div>
+                <div class="metric-number green">${applicable.length}</div>
+                <div class="metric-label">Applicable</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon">⛔</div>
+                <div class="metric-number red">${notApplicable.length}</div>
+                <div class="metric-label">Not Applicable</div>
+              </div>
+            </div>
+          </div>
+          <div class="page-card">
+            <h2>Risk Charts</h2>
+            <div class="risk-dashboard">
+              <div class="chart-box"><h3>Applicability Breakdown</h3><canvas id="chartDonut"></canvas></div>
+              <div class="chart-box"><h3>Confidence Scores (Top 15)</h3><canvas id="chartBar"></canvas></div>
+              <div class="chart-box full-width"><h3>Dimension Pass / Fail Heatmap</h3><canvas id="chartHeatmap"></canvas></div>
+            </div>
+          </div>
+        `;
+
+        // Donut
+        riskCharts.push(new Chart(document.getElementById("chartDonut"), {
+          type: "doughnut",
+          data: { labels: ["Applicable", "Not Applicable"], datasets: [{ data: [applicable.length, notApplicable.length], backgroundColor: ["#22a855", "#e05538"], borderWidth: 0 }] },
+          options: { responsive: true, plugins: { legend: { labels: { color: textColor } } } }
+        }));
+
+        // Horizontal bar
+        const sorted = [...applicable].sort((a, b) => b.confidence - a.confidence).slice(0, 15);
+        riskCharts.push(new Chart(document.getElementById("chartBar"), {
+          type: "bar",
+          data: { labels: sorted.map(r => r.code), datasets: [{ label: "Confidence", data: sorted.map(r => Math.round(r.confidence * 100)), backgroundColor: "rgba(10,122,138,0.7)", borderRadius: 4 }] },
+          options: { indexAxis: "y", responsive: true, scales: { x: { max: 100, ticks: { color: textColor }, grid: { color: gridColor } }, y: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } } }, plugins: { legend: { display: false } } }
+        }));
+
+        // Dimension heatmap
+        const dims = ["jurisdiction", "industry", "company_size", "product_type", "entity_type"];
+        const dimLabels = ["Jurisdiction", "Industry", "Size", "Product", "Entity"];
+        const passCount = dims.map(() => 0);
+        const failCount = dims.map(() => 0);
+        for (const r of results) {
+          if (!r.dimension_explainability) continue;
+          for (const d of r.dimension_explainability) {
+            const idx = dims.indexOf(d.dimension);
+            if (idx === -1) continue;
+            if (d.status === "pass") passCount[idx]++; else failCount[idx]++;
+          }
+        }
+        riskCharts.push(new Chart(document.getElementById("chartHeatmap"), {
+          type: "bar",
+          data: { labels: dimLabels, datasets: [
+            { label: "Pass", data: passCount, backgroundColor: "rgba(34,168,85,0.7)", borderRadius: 4 },
+            { label: "Fail", data: failCount, backgroundColor: "rgba(224,85,56,0.7)", borderRadius: 4 }
+          ] },
+          options: { responsive: true, scales: { x: { ticks: { color: textColor }, grid: { display: false } }, y: { ticks: { color: textColor }, grid: { color: gridColor } } }, plugins: { legend: { labels: { color: textColor } } } }
+        }));
+      }
+
+      renderDashboard();
+
+      // Re-render on theme toggle
+      document.getElementById("themeToggle").addEventListener("click", () => {
+        toggleTheme();
+        renderDashboard();
+      });
+    </script>
+  </body>
+</html>

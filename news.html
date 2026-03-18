@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regulatory News - LexScope Atlas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="shared.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="hero">
+        <div class="hero-title-row">
+          <div class="hero-icon"></div>
+          <h1>LexScope Atlas</h1>
+          <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+        </div>
+        <p class="sub">Regulatory News &mdash; Latest articles relevant to your applicable regulations.</p>
+      </section>
+
+      <div class="page-card" id="newsContent">
+        <h2>Regulatory News</h2>
+        <div id="newsFeed" style="text-align:center;padding:20px;color:var(--muted)">Loading...</div>
+      </div>
+
+      <div class="toast" id="toast"></div>
+      <div class="footer-credit">Created by Tarun Agarwal</div>
+    </main>
+
+    <script type="module">
+      import { initPage, getApiKeys, getStoredResults, showToast } from "./shared.js";
+
+      initPage("news");
+
+      async function loadNews() {
+        const feed = document.getElementById("newsFeed");
+        const keys = getApiKeys();
+
+        if (!keys.gnews) {
+          feed.innerHTML = `<div class="news-apikey-prompt">
+            <p>A GNews API key is required to load regulatory news.</p>
+            <a href="settings.html" class="subtle" style="display:inline-block;padding:8px 16px;border-radius:8px;background:var(--subtle-bg);color:var(--ink);text-decoration:none;font-weight:600">Open Settings</a>
+          </div>`;
+          return;
+        }
+
+        // Check sessionStorage cache
+        const cached = sessionStorage.getItem("lexscope_news");
+        if (cached) { feed.innerHTML = cached; return; }
+
+        const results = getStoredResults();
+        const applicable = results ? results.filter(r => r.applicable).sort((a, b) => b.confidence - a.confidence).slice(0, 3) : [];
+        const queries = applicable.map(r => r.name.split(/[\s(]/)[0]).filter(Boolean);
+        if (!queries.length) queries.push("regulatory compliance");
+
+        let articles = [];
+        for (const q of queries.slice(0, 3)) {
+          try {
+            const resp = await fetch(`https://gnews.io/api/v4/search?q=${encodeURIComponent(q + " regulation")}&lang=en&max=3&apikey=${keys.gnews}`);
+            if (resp.ok) {
+              const data = await resp.json();
+              if (data.articles) articles.push(...data.articles);
+            }
+          } catch {}
+        }
+
+        // Dedupe
+        const seen = new Set();
+        articles = articles.filter(a => { if (seen.has(a.title)) return false; seen.add(a.title); return true; });
+
+        if (!articles.length) {
+          feed.innerHTML = `<p>No news articles found. Try running an evaluation first for relevant results.</p>`;
+          return;
+        }
+
+        let html = `<div class="news-grid">`;
+        for (const a of articles) {
+          const date = new Date(a.publishedAt).toLocaleDateString();
+          html += `<div class="news-card">
+            ${a.image ? `<img src="${a.image}" alt="" loading="lazy" />` : ""}
+            <div class="news-body">
+              <div class="news-title"><a href="${a.url}" target="_blank" rel="noreferrer">${a.title}</a></div>
+              <div class="news-meta">${a.source?.name || ""} &middot; ${date}</div>
+              <div class="news-snippet">${a.description || ""}</div>
+            </div>
+          </div>`;
+        }
+        html += `</div>`;
+        feed.innerHTML = html;
+        sessionStorage.setItem("lexscope_news", html);
+      }
+
+      loadNews();
+    </script>
+  </body>
+</html>
