@@ -203,15 +203,30 @@ export function evaluateOne(profile, reg, version, branchContext) {
   let status;
   let detail;
 
-  [status, detail] = passFail(
-    match(profile.jurisdiction, c.jurisdictions_any),
-    "Matches jurisdiction scope.",
-    "Jurisdiction is outside this rule scope."
-  );
+  // Jurisdiction + market: market-based regulations (those with markets_any populated)
+  // apply when the company serves those markets, regardless of home jurisdiction.
+  const homeJurMatch = match(profile.jurisdiction, c.jurisdictions_any);
+  const marketsOverlap = c.markets_any.length > 0 && profile.markets.some((m) => c.markets_any.includes(m));
+
+  if (c.markets_any.length > 0) {
+    // Market-based regulation: pass jurisdiction if home matches OR markets overlap
+    [status, detail] = passFail(
+      homeJurMatch || marketsOverlap,
+      homeJurMatch ? "Matches jurisdiction scope." : "Applies via served markets (extraterritorial reach).",
+      "Jurisdiction is outside this rule scope."
+    );
+  } else {
+    // Jurisdiction-only regulation: standard check
+    [status, detail] = passFail(
+      homeJurMatch,
+      "Matches jurisdiction scope.",
+      "Jurisdiction is outside this rule scope."
+    );
+  }
   addCheck("jurisdiction", "Home jurisdiction", status, detail);
 
   [status, detail] = passFail(
-    !c.markets_any.length || profile.markets.some((m) => c.markets_any.includes(m)),
+    !c.markets_any.length || marketsOverlap,
     "Served markets overlap with scope.",
     "No served market overlap with scope."
   );
