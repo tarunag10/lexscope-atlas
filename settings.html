@@ -26,10 +26,29 @@
         <h2>API Keys</h2>
         <p style="font-size:0.84rem;color:var(--muted);margin-bottom:14px">Bring your own API keys to unlock premium features. Keys are stored locally in your browser and sent only to the respective API provider &mdash; never to our servers.</p>
 
+        <!-- AI Provider Selection -->
+        <div style="margin-bottom:18px">
+          <label style="font-weight:700;font-size:0.88rem;color:var(--ink);margin-bottom:8px;display:block">AI Provider</label>
+          <div style="display:flex;gap:0;max-width:500px" class="auth-modal-tabs">
+            <button type="button" class="active" data-provider="gemini">Gemini</button>
+            <button type="button" data-provider="openai">OpenAI (ChatGPT)</button>
+            <button type="button" data-provider="groq">Groq (Free)</button>
+          </div>
+          <input type="hidden" id="aiProvider" value="gemini" />
+        </div>
+
         <div class="form-grid" style="max-width:500px">
           <div>
-            <label for="keyGemini" style="font-weight:600;font-size:0.84rem;color:var(--muted)">Gemini API Key (AI Chat)</label>
+            <label for="keyGemini" style="font-weight:600;font-size:0.84rem;color:var(--muted)">Gemini API Key</label>
             <input type="password" id="keyGemini" placeholder="AIza..." style="width:100%;padding:8px 10px;border:1px solid var(--input-border);border-radius:8px;background:var(--input-bg);color:var(--ink);font-size:0.88rem" />
+          </div>
+          <div>
+            <label for="keyOpenai" style="font-weight:600;font-size:0.84rem;color:var(--muted)">OpenAI API Key</label>
+            <input type="password" id="keyOpenai" placeholder="sk-..." style="width:100%;padding:8px 10px;border:1px solid var(--input-border);border-radius:8px;background:var(--input-bg);color:var(--ink);font-size:0.88rem" />
+          </div>
+          <div>
+            <label for="keyGroq" style="font-weight:600;font-size:0.84rem;color:var(--muted)">Groq API Key</label>
+            <input type="password" id="keyGroq" placeholder="gsk_..." style="width:100%;padding:8px 10px;border:1px solid var(--input-border);border-radius:8px;background:var(--input-bg);color:var(--ink);font-size:0.88rem" />
           </div>
           <div>
             <label for="keyGnews" style="font-weight:600;font-size:0.84rem;color:var(--muted)">GNews API Key (News Feed)</label>
@@ -105,14 +124,31 @@
       // ── Load saved keys into form ──
       const keys = getApiKeys();
       document.getElementById("keyGemini").value = keys.gemini || "";
+      document.getElementById("keyOpenai").value = keys.openai || "";
+      document.getElementById("keyGroq").value = keys.groq || "";
       document.getElementById("keyGnews").value = keys.gnews || "";
       document.getElementById("keySupabaseUrl").value = keys.supabaseUrl || "";
       document.getElementById("keySupabaseAnon").value = keys.supabaseAnon || "";
 
+      // ── AI Provider toggle ──
+      const savedProvider = keys.aiProvider || "gemini";
+      document.getElementById("aiProvider").value = savedProvider;
+      document.querySelectorAll("[data-provider]").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.provider === savedProvider);
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("[data-provider]").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          document.getElementById("aiProvider").value = btn.dataset.provider;
+        });
+      });
+
       // ── Save keys ──
       document.getElementById("saveKeysBtn").addEventListener("click", () => {
         saveApiKeys({
+          aiProvider: document.getElementById("aiProvider").value,
           gemini: document.getElementById("keyGemini").value.trim(),
+          openai: document.getElementById("keyOpenai").value.trim(),
+          groq: document.getElementById("keyGroq").value.trim(),
           gnews: document.getElementById("keyGnews").value.trim(),
           supabaseUrl: document.getElementById("keySupabaseUrl").value.trim(),
           supabaseAnon: document.getElementById("keySupabaseAnon").value.trim()

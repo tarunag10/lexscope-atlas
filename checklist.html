@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compliance Checklist - LexScope Atlas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="shared.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="hero">
+        <div class="hero-title-row">
+          <div class="hero-icon"></div>
+          <h1>LexScope Atlas</h1>
+          <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+        </div>
+        <p class="sub">Compliance Checklist &mdash; AI-generated action items for each regulation.</p>
+      </section>
+
+      <div class="page-card">
+        <h2>Generate Compliance Checklist</h2>
+        <div id="checklistApp">
+          <div class="checklist-empty" id="noResults" style="display:none">
+            <p>No evaluation data found. <a href="index.html">Run an evaluation</a> first, then come back here.</p>
+          </div>
+          <div id="checklistControls" style="display:none">
+            <div class="checklist-select-row">
+              <div style="flex:1;min-width:200px">
+                <label for="regSelect" style="font-weight:600;font-size:0.84rem;color:var(--muted)">Select Regulation</label>
+                <select id="regSelect"></select>
+              </div>
+              <button class="primary" id="generateBtn" type="button">Generate Checklist</button>
+            </div>
+            <div id="checklistOutput"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast" id="toast"></div>
+      <div class="footer-credit">Created by Tarun Agarwal</div>
+    </main>
+
+    <script type="module">
+      import { initPage, getStoredResults, getStoredProfile, callAI, showToast } from "./shared.js";
+
+      initPage("checklist");
+
+      const results = getStoredResults();
+      const profile = getStoredProfile();
+
+      if (!results || !results.length) {
+        document.getElementById("noResults").style.display = "";
+      } else {
+        document.getElementById("checklistControls").style.display = "";
+        const applicable = results.filter(r => r.applicable).sort((a, b) => b.confidence - a.confidence);
+        const select = document.getElementById("regSelect");
+        for (const r of applicable) {
+          const opt = document.createElement("option");
+          opt.value = r.code;
+          opt.textContent = `${r.code} - ${r.name}`;
+          select.appendChild(opt);
+        }
+        if (!applicable.length) {
+          const opt = document.createElement("option");
+          opt.textContent = "No applicable regulations found";
+          opt.disabled = true;
+          select.appendChild(opt);
+          document.getElementById("generateBtn").disabled = true;
+        }
+      }
+
+      // Load saved checklist state
+      function loadCheckedState(code) {
+        try {
+          return JSON.parse(localStorage.getItem(`lexscope_checklist_${code}`) || "{}");
+        } catch { return {}; }
+      }
+      function saveCheckedState(code, state) {
+        localStorage.setItem(`lexscope_checklist_${code}`, JSON.stringify(state));
+      }
+
+      function renderChecklist(code, items) {
+        const state = loadCheckedState(code);
+        const out = document.getElementById("checklistOutput");
+        let html = `<ul class="checklist-items">`;
+        items.forEach((text, i) => {
+          const checked = state[i] ? "checked" : "";
+          const checkedClass = state[i] ? " checked" : "";
+          html += `
+            <li class="${checkedClass}" data-idx="${i}">
+              <span class="cl-number">${i + 1}.</span>
+              <input type="checkbox" ${checked} data-code="${code}" data-idx="${i}" />
+              <span class="cl-text">${text}</span>
+            </li>`;
+        });
+        html += `</ul>`;
+        out.innerHTML = html;
+
+        // Bind checkbox events
+        out.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          cb.addEventListener("change", () => {
+            const idx = parseInt(cb.dataset.idx);
+            const s = loadCheckedState(cb.dataset.code);
+            s[idx] = cb.checked;
+            saveCheckedState(cb.dataset.code, s);
+            cb.closest("li").classList.toggle("checked", cb.checked);
+          });
+        });
+      }
+
+      // Try loading cached checklist on reg change
+      function tryLoadCached() {
+        const code = document.getElementById("regSelect").value;
+        if (!code) return;
+        const cacheKey = `lexscope_checklist_items_${code}`;
+        const cached = sessionStorage.getItem(cacheKey);
+        if (cached) {
+          renderChecklist(code, JSON.parse(cached));
+        } else {
+          document.getElementById("checklistOutput").innerHTML = "";
+        }
+      }
+
+      document.getElementById("regSelect").addEventListener("change", tryLoadCached);
+      tryLoadCached();
+
+      document.getElementById("generateBtn").addEventListener("click", async () => {
+        const code = document.getElementById("regSelect").value;
+        if (!code) return;
+        const r = results.find(x => x.code === code);
+        if (!r) return;
+
+        const btn = document.getElementById("generateBtn");
+        btn.classList.add("loading");
+        btn.textContent = "Generating...";
+        document.getElementById("checklistOutput").innerHTML = `<div class="checklist-empty">Generating checklist...</div>`;
+
+        const profileCtx = profile ? `Company profile: jurisdiction=${profile.jurisdiction}, industry=${profile.industry}, size=${profile.company_size}, product=${profile.product_type}` : "";
+        const prompt = `You are a regulatory compliance expert. Generate a practical compliance checklist of 8-12 action items for the following regulation.
+
+Regulation: ${r.name} (${r.code})
+${r.reason}
+${profileCtx}
+
+Return ONLY a numbered list (1. 2. 3. etc.) of specific, actionable compliance tasks. Each item should be one concise sentence. No introductions, no conclusions, no markdown formatting.`;
+
+        try {
+          const text = await callAI(prompt);
+          // Parse numbered list
+          const items = text.split("\n")
+            .map(l => l.replace(/^\d+[\.\)]\s*/, "").trim())
+            .filter(l => l.length > 5);
+          sessionStorage.setItem(`lexscope_checklist_items_${code}`, JSON.stringify(items));
+          renderChecklist(code, items);
+        } catch (err) {
+          if (err.message === "NO_KEY") {
+            document.getElementById("checklistOutput").innerHTML = `<div class="checklist-empty">Add an AI key in <a href="settings.html">Settings</a> to generate checklists.</div>`;
+          } else {
+            document.getElementById("checklistOutput").innerHTML = `<div class="checklist-empty" style="color:var(--no-accent)">Error: ${err.message}</div>`;
+          }
+        } finally {
+          btn.classList.remove("loading");
+          btn.textContent = "Generate Checklist";
+        }
+      });
+    </script>
+  </body>
+</html>

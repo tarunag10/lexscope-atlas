@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jurisdiction Comparison - LexScope Atlas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="shared.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="hero">
+        <div class="hero-title-row">
+          <div class="hero-icon"></div>
+          <h1>LexScope Atlas</h1>
+          <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+        </div>
+        <p class="sub">Jurisdiction Comparison &mdash; Side-by-side regulatory applicability across jurisdictions.</p>
+      </section>
+
+      <div class="page-card">
+        <h2>Compare Jurisdictions</h2>
+        <div class="compare-controls">
+          <div class="compare-field">
+            <label for="jurA" style="font-weight:600;font-size:0.84rem;color:var(--muted)">Jurisdiction A</label>
+            <select id="jurA"></select>
+          </div>
+          <div class="compare-field">
+            <label for="jurB" style="font-weight:600;font-size:0.84rem;color:var(--muted)">Jurisdiction B</label>
+            <select id="jurB"></select>
+          </div>
+          <button class="primary" id="compareBtn" type="button">Compare</button>
+        </div>
+        <div id="compareOutput"></div>
+      </div>
+
+      <div class="toast" id="toast"></div>
+      <div class="footer-credit">Created by Tarun Agarwal</div>
+    </main>
+
+    <script type="module">
+      import {
+        OPTIONS, chooseVersion, evaluateOne, evaluateBranchRules
+      } from "./engine.js";
+      import {
+        initPage, loadCatalog, getStoredProfile, showToast, TODAY
+      } from "./shared.js";
+
+      initPage("compare");
+
+      // Populate jurisdiction dropdowns
+      const jurA = document.getElementById("jurA");
+      const jurB = document.getElementById("jurB");
+      for (const [code, label] of OPTIONS.jurisdictions) {
+        jurA.add(new Option(`${label} (${code})`, code));
+        jurB.add(new Option(`${label} (${code})`, code));
+      }
+      // Default: first two distinct jurisdictions
+      if (OPTIONS.jurisdictions.length >= 2) {
+        jurA.value = OPTIONS.jurisdictions[0][0];
+        jurB.value = OPTIONS.jurisdictions[1][0];
+      }
+
+      // Use stored profile as base, or build a sensible default
+      function getBaseProfile() {
+        const stored = getStoredProfile();
+        if (stored) return { ...stored };
+        return {
+          jurisdiction: "US",
+          markets: [],
+          industry: "TECHNOLOGY",
+          product_type: "SAAS",
+          company_size: "SME",
+          entity_type: "PRIVATE_COMPANY",
+          annual_revenue_usd: null,
+          annual_turnover_usd: null,
+          monthly_active_users: null,
+          as_of_date: TODAY
+        };
+      }
+
+      function evaluateForJurisdiction(catalog, baseProfile, jurCode) {
+        const profile = { ...baseProfile, jurisdiction: jurCode, markets: [jurCode] };
+        const branchContext = evaluateBranchRules(profile);
+        const results = [];
+        for (const reg of catalog) {
+          const v = chooseVersion(reg, profile.as_of_date);
+          if (!v) continue;
+          results.push(evaluateOne(profile, reg, v, branchContext));
+        }
+        return results;
+      }
+
+      document.getElementById("compareBtn").addEventListener("click", async () => {
+        const codeA = jurA.value;
+        const codeB = jurB.value;
+        if (codeA === codeB) {
+          showToast("Select two different jurisdictions.");
+          return;
+        }
+
+        const btn = document.getElementById("compareBtn");
+        btn.classList.add("loading");
+        btn.textContent = "Comparing...";
+
+        try {
+          const catalog = await loadCatalog();
+          const base = getBaseProfile();
+          const resA = evaluateForJurisdiction(catalog, base, codeA);
+          const resB = evaluateForJurisdiction(catalog, base, codeB);
+
+          // Build lookup maps
+          const mapA = new Map(resA.map(r => [r.code, r]));
+          const mapB = new Map(resB.map(r => [r.code, r]));
+          const allCodes = [...new Set([...mapA.keys(), ...mapB.keys()])].sort();
+
+          const labelA = OPTIONS.jurisdictions.find(j => j[0] === codeA)?.[1] || codeA;
+          const labelB = OPTIONS.jurisdictions.find(j => j[0] === codeB)?.[1] || codeB;
+
+          let diffCount = 0;
+          let bothApplicable = 0;
+          let neitherApplicable = 0;
+
+          let rows = "";
+          for (const code of allCodes) {
+            const a = mapA.get(code);
+            const b = mapB.get(code);
+            const appA = a?.applicable ?? false;
+            const appB = b?.applicable ?? false;
+            const confA = a ? Math.round(a.confidence * 100) : 0;
+            const confB = b ? Math.round(b.confidence * 100) : 0;
+            const confDiff = Math.abs(confA - confB);
+            const isDiff = appA !== appB;
+            if (isDiff) diffCount++;
+            else if (appA) bothApplicable++;
+            else neitherApplicable++;
+
+            const name = a?.name || b?.name || code;
+            rows += `
+              <tr class="${isDiff ? "diff" : ""}">
+                <td><strong>${code}</strong><br><span style="font-size:0.78rem;color:var(--muted)">${name}</span></td>
+                <td class="${appA ? "cell-yes" : "cell-no"}">${appA ? "Applicable" : "Not applicable"}<br><span class="cell-conf">${confA}%</span></td>
+                <td class="${appB ? "cell-yes" : "cell-no"}">${appB ? "Applicable" : "Not applicable"}<br><span class="cell-conf">${confB}%</span></td>
+                <td style="text-align:center">${isDiff ? `<span style="color:var(--no-accent);font-weight:700">${confDiff}%</span>` : `<span style="color:var(--muted)">${confDiff}%</span>`}</td>
+              </tr>`;
+          }
+
+          document.getElementById("compareOutput").innerHTML = `
+            <div class="compare-stats">
+              <span class="stat-pill">${allCodes.length} regulations</span>
+              <span class="stat-pill" style="color:var(--no-accent)">${diffCount} differences</span>
+              <span class="stat-pill" style="color:var(--ok-accent)">${bothApplicable} both applicable</span>
+              <span class="stat-pill">${neitherApplicable} neither</span>
+            </div>
+            <div class="compare-table-wrap" style="margin-top:14px">
+              <table class="compare-table">
+                <thead>
+                  <tr>
+                    <th>Regulation</th>
+                    <th>${labelA} (${codeA})</th>
+                    <th>${labelB} (${codeB})</th>
+                    <th>Conf. Diff</th>
+                  </tr>
+                </thead>
+                <tbody>${rows}</tbody>
+              </table>
+            </div>
+          `;
+        } catch (err) {
+          document.getElementById("compareOutput").innerHTML = `<div class="checklist-empty" style="color:var(--no-accent)">Error: ${err.message}</div>`;
+        } finally {
+          btn.classList.remove("loading");
+          btn.textContent = "Compare";
+        }
+      });
+    </script>
+  </body>
+</html>

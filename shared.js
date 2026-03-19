@@ -1,3 +1,5 @@
+import { canonicalize } from "./engine.js";
+
 // ── Shared Constants ──
 export const STORAGE_KEY = "lexscope_atlas_imports_v1";
 export const PROFILES_KEY = "lexscope_profiles_v1";
@@ -86,6 +88,8 @@ export function renderNav(activePage) {
   const pages = [
     { id: "evaluate", label: "Evaluate", href: "index.html" },
     { id: "dashboard", label: "Dashboard", href: "dashboard.html" },
+    { id: "checklist", label: "Checklist", href: "checklist.html" },
+    { id: "compare", label: "Compare", href: "compare.html" },
     { id: "news", label: "News", href: "news.html" },
     { id: "chat", label: "AI Chat", href: "chat.html" },
     { id: "settings", label: "Settings", href: "settings.html" },
@@ -109,4 +113,151 @@ export function initPage(activePage) {
   if (hero) {
     hero.after(renderNav(activePage));
   }
+}
+
+// ── Load Catalog (shared across pages) ──
+export async function loadCatalog() {
+  const response = await fetch("./data/regulations.seed.json");
+  if (!response.ok) throw new Error("Unable to load seed data");
+  const seed = await response.json();
+  let auto = [];
+  try {
+    const autoResponse = await fetch("./data/regulations.auto.json");
+    if (autoResponse.ok) {
+      const autoPayload = await autoResponse.json();
+      auto = Array.isArray(autoPayload) ? autoPayload : (autoPayload.regulations || []);
+    }
+  } catch (_err) {
+    auto = [];
+  }
+  const local = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  const merged = canonicalize([...seed, ...auto, ...local]);
+  const dedup = new Map();
+  for (const item of merged) {
+    dedup.set(item.code, item);
+  }
+  return Array.from(dedup.values());
+}
+
+// ── Multi-Provider AI ──
+export async function callAI(prompt) {
+  const keys = getApiKeys();
+  const provider = keys.aiProvider || "gemini";
+
+  if (provider === "gemini") {
+    if (!keys.gemini) throw new Error("NO_KEY");
+    const resp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${keys.gemini}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ role: "user", parts: [{ text: prompt }] }]
+        })
+      }
+    );
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error.message || "Gemini API error");
+    return data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+  }
+
+  if (provider === "openai") {
+    if (!keys.openai) throw new Error("NO_KEY");
+    const resp = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${keys.openai}`
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error.message || "OpenAI API error");
+    return data?.choices?.[0]?.message?.content || "";
+  }
+
+  if (provider === "groq") {
+    if (!keys.groq) throw new Error("NO_KEY");
+    const resp = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${keys.groq}`
+      },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error.message || "Groq API error");
+    return data?.choices?.[0]?.message?.content || "";
+  }
+
+  throw new Error("NO_KEY");
+}
+
+export async function callAIChat(messages) {
+  const keys = getApiKeys();
+  const provider = keys.aiProvider || "gemini";
+
+  if (provider === "gemini") {
+    if (!keys.gemini) throw new Error("NO_KEY");
+    const contents = messages.map(m => ({
+      role: m.role === "assistant" ? "model" : m.role,
+      parts: [{ text: m.content }]
+    }));
+    const resp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${keys.gemini}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contents })
+      }
+    );
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error.message || "Gemini API error");
+    return data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+  }
+
+  if (provider === "openai") {
+    if (!keys.openai) throw new Error("NO_KEY");
+    const resp = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${keys.openai}`
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: messages.map(m => ({ role: m.role, content: m.content }))
+      })
+    });
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error.message || "OpenAI API error");
+    return data?.choices?.[0]?.message?.content || "";
+  }
+
+  if (provider === "groq") {
+    if (!keys.groq) throw new Error("NO_KEY");
+    const resp = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${keys.groq}`
+      },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: messages.map(m => ({ role: m.role, content: m.content }))
+      })
+    });
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error.message || "Groq API error");
+    return data?.choices?.[0]?.message?.content || "";
+  }
+
+  throw new Error("NO_KEY");
 }

@@ -17,7 +17,7 @@
           <h1>LexScope Atlas</h1>
           <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
         </div>
-        <p class="sub">AI Regulatory Assistant &mdash; Powered by Google Gemini.</p>
+        <p class="sub">AI Regulatory Assistant &mdash; Multi-provider AI chat.</p>
       </section>
 
       <div class="page-card" id="chatContainer">
@@ -38,11 +38,24 @@
     </main>
 
     <script type="module">
-      import { initPage, getApiKeys, getStoredResults, getStoredProfile, showToast } from "./shared.js";
+      import { initPage, getStoredResults, getStoredProfile, showToast, callAIChat } from "./shared.js";
 
       initPage("chat");
 
       let chatHistory = [];
+
+      // Build system context from stored evaluation
+      function buildSystemContext() {
+        let sysContext = "You are a helpful regulatory compliance assistant for LexScope Atlas. Provide concise, factual answers. Always remind users this is not legal advice.";
+        const profile = getStoredProfile();
+        const results = getStoredResults();
+        if (profile) sysContext += `\n\nCurrent company profile: ${JSON.stringify(profile)}`;
+        if (results) {
+          const applicable = results.filter(r => r.applicable).map(r => `${r.code}: ${r.name} (confidence: ${Math.round(r.confidence * 100)}%)`);
+          sysContext += `\n\nApplicable regulations:\n${applicable.join("\n")}`;
+        }
+        return sysContext;
+      }
 
       async function sendMessage() {
         const input = document.getElementById("chatInput");
@@ -54,28 +67,11 @@
         messagesEl.insertAdjacentHTML("beforeend", `<div class="chat-msg user">${escapeHtml(msg)}</div>`);
         messagesEl.scrollTop = messagesEl.scrollHeight;
 
-        const keys = getApiKeys();
-        if (!keys.gemini) {
-          messagesEl.insertAdjacentHTML("beforeend", `<div class="chat-msg system">Gemini API key required. <a href="settings.html">Open Settings</a> to add it.</div>`);
-          messagesEl.scrollTop = messagesEl.scrollHeight;
-          return;
-        }
+        chatHistory.push({ role: "user", content: msg });
 
-        chatHistory.push({ role: "user", parts: [{ text: msg }] });
-
-        // Build system context
-        let sysContext = "You are a helpful regulatory compliance assistant for LexScope Atlas. Provide concise, factual answers. Always remind users this is not legal advice.";
-        const profile = getStoredProfile();
-        const results = getStoredResults();
-        if (profile) sysContext += `\n\nCurrent company profile: ${JSON.stringify(profile)}`;
-        if (results) {
-          const applicable = results.filter(r => r.applicable).map(r => `${r.code}: ${r.name} (confidence: ${Math.round(r.confidence * 100)}%)`);
-          sysContext += `\n\nApplicable regulations:\n${applicable.join("\n")}`;
-        }
-
-        const contents = [
-          { role: "user", parts: [{ text: sysContext }] },
-          { role: "model", parts: [{ text: "Understood. I'll help with regulatory questions based on this profile and evaluation. How can I help?" }] },
+        const messages = [
+          { role: "user", content: buildSystemContext() },
+          { role: "assistant", content: "Understood. I'll help with regulatory questions based on this profile and evaluation. How can I help?" },
           ...chatHistory
         ];
 
@@ -83,19 +79,17 @@
         messagesEl.scrollTop = messagesEl.scrollHeight;
 
         try {
-          const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${keys.gemini}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ contents })
-          });
-          const data = await resp.json();
-          const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't generate a response.";
-          chatHistory.push({ role: "model", parts: [{ text: reply }] });
+          const reply = await callAIChat(messages);
+          chatHistory.push({ role: "assistant", content: reply });
           const typing = document.getElementById("chatTyping");
           if (typing) typing.outerHTML = `<div class="chat-msg bot">${formatReply(reply)}</div>`;
         } catch (err) {
           const typing = document.getElementById("chatTyping");
-          if (typing) typing.outerHTML = `<div class="chat-msg system">Error: ${err.message}</div>`;
+          if (err.message === "NO_KEY") {
+            if (typing) typing.outerHTML = `<div class="chat-msg system">AI key required. <a href="settings.html">Open Settings</a> to add one.</div>`;
+          } else {
+            if (typing) typing.outerHTML = `<div class="chat-msg system">Error: ${err.message}</div>`;
+          }
         }
         messagesEl.scrollTop = messagesEl.scrollHeight;
       }

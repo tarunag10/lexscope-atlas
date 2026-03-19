@@ -136,7 +136,7 @@
       import {
         STORAGE_KEY, PROFILES_KEY, THEME_KEY, API_KEYS_KEY, TODAY,
         getApiKeys, initTheme, toggleTheme, updateThemeIcon, showToast,
-        storeResults, renderNav, initPage
+        storeResults, renderNav, initPage, loadCatalog, callAI
       } from "./shared.js";
       let adminMode = false;
       let lastResults = null;
@@ -146,6 +146,46 @@
       let exchangeRates = null;
       let riskCharts = [];
 
+      // ── AI Summarize ──
+      window.handleSummarize = async function(btn) {
+        const code = btn.dataset.code;
+        const name = btn.dataset.name;
+        const slot = document.getElementById(`summary_${code}`);
+        if (!slot) return;
+
+        // Check cache first
+        const cacheKey = `lexscope_summary_${code}`;
+        const cached = sessionStorage.getItem(cacheKey);
+        if (cached) {
+          slot.innerHTML = `<div class="summary-inline"><div class="summary-label">AI Summary</div>${cached}</div>`;
+          return;
+        }
+
+        btn.classList.add("loading");
+        btn.textContent = "Summarizing...";
+
+        // Build context from results
+        const r = lastResults?.find(x => x.code === code);
+        const profileCtx = lastProfile ? `Company: ${lastProfile.jurisdiction} ${lastProfile.industry} ${lastProfile.company_size}` : "";
+        const regCtx = r ? `Regulation: ${r.name} (${r.code}), applicable: ${r.applicable}, confidence: ${Math.round(r.confidence * 100)}%, reason: ${r.reason}` : `Regulation: ${name} (${code})`;
+
+        const prompt = `You are a regulatory compliance expert. Provide a concise 3-4 sentence summary of what this regulation means for the company and key compliance actions needed.\n\n${profileCtx}\n${regCtx}\n\nKeep it practical, factual, and actionable. Do not use markdown formatting.`;
+
+        try {
+          const text = await callAI(prompt);
+          sessionStorage.setItem(cacheKey, text);
+          slot.innerHTML = `<div class="summary-inline"><div class="summary-label">AI Summary</div>${text}</div>`;
+        } catch (err) {
+          if (err.message === "NO_KEY") {
+            slot.innerHTML = `<div class="summary-inline" style="color:var(--muted)">Add an AI key in <a href="settings.html">Settings</a> to use AI Summarize.</div>`;
+          } else {
+            slot.innerHTML = `<div class="summary-inline" style="color:var(--no-accent)">Error: ${err.message}</div>`;
+          }
+        } finally {
+          btn.classList.remove("loading");
+          btn.innerHTML = "&#9889; Summarize";
+        }
+      };
 
       // ── REST Countries + Exchange Rates ──
       async function loadCountries() {
@@ -453,6 +493,8 @@
             ${timelineHtml}
             ${relatedHtml}
             ${r.source_url ? `<a class="source-link" href="${r.source_url}" target="_blank" rel="noreferrer">\u2197 Source</a>` : ""}
+            <button class="summarize-btn" onclick="window.handleSummarize(this)" data-code="${r.code}" data-name="${r.name}" type="button">&#9889; Summarize</button>
+            <div class="summary-slot" id="summary_${r.code}"></div>
           </article>
         `;
       }
@@ -567,29 +609,6 @@
       }
 
       // ── Catalog ──
-      async function loadCatalog() {
-        const response = await fetch("./data/regulations.seed.json");
-        if (!response.ok) throw new Error("Unable to load seed data");
-        const seed = await response.json();
-        let auto = [];
-        try {
-          const autoResponse = await fetch("./data/regulations.auto.json");
-          if (autoResponse.ok) {
-            const autoPayload = await autoResponse.json();
-            auto = Array.isArray(autoPayload) ? autoPayload : (autoPayload.regulations || []);
-          }
-        } catch (_err) {
-          auto = [];
-        }
-        const local = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-        const merged = canonicalize([...seed, ...auto, ...local]);
-        const dedup = new Map();
-        for (const item of merged) {
-          dedup.set(item.code, item);
-        }
-        return Array.from(dedup.values());
-      }
-
       // ── Evaluate ──
       async function evaluate() {
         const btn = document.getElementById("runBtn");
