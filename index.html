@@ -616,7 +616,10 @@
         btn.querySelector(".btn-icon").textContent = "\u27F3";
 
         const profile = readProfile();
-        if (!profile.markets.length) profile.markets = [profile.jurisdiction];
+        // Always include home jurisdiction in markets so domestic regulations apply
+        if (!profile.markets.includes(profile.jurisdiction)) {
+          profile.markets.push(profile.jurisdiction);
+        }
 
         const catalog = await loadCatalog();
         const catalogMap = new Map(catalog.map(r => [r.code, r]));

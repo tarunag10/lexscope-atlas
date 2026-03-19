@@ -273,7 +273,7 @@ export function evaluateOne(profile, reg, version, branchContext) {
       return;
     }
     if (value === null) {
-      addCheck(field, labelText, "fail", "Threshold exists but profile value is missing.");
+      addCheck(field, labelText, "neutral", "Threshold exists but profile value not provided — skipped.");
       return;
     }
     if (minValue !== null && value < minValue) {

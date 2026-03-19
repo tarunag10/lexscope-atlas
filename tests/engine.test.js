@@ -246,12 +246,13 @@ describe("evaluateOne", () => {
     expect(result.related_regulations).toEqual(["TEST_REG"]);
   });
 
-  it("handles missing threshold profile value", () => {
+  it("handles missing threshold profile value as neutral", () => {
     const profile = { ...DEFAULT_PROFILE, monthly_active_users: null };
     const v = chooseVersion(THRESHOLD_REG, "2025-01-01");
     const result = evaluateOne(profile, THRESHOLD_REG, v, noForce);
     const mauCheck = result.dimension_explainability.find(d => d.id === "monthly_active_users");
-    expect(mauCheck.status).toBe("fail");
+    expect(mauCheck.status).toBe("neutral");
+    expect(mauCheck.detail).toContain("not provided");
   });
 });
 
