@@ -823,11 +823,7 @@
 
       // ── Bootstrap ──
       async function bootstrap() {
-        initTheme();
-
-        // Insert nav bar
-        const hero = document.querySelector(".hero");
-        if (hero) hero.after(renderNav("evaluate"));
+        initPage("evaluate");
 
         resetDefaults();
         refreshProfileDropdown();
@@ -856,7 +852,6 @@
       document.getElementById("runBtn").addEventListener("click", evaluate);
       document.getElementById("compareBtn").addEventListener("click", handleCompare);
       document.getElementById("shareBtn").addEventListener("click", shareURL);
-      document.getElementById("themeToggle").addEventListener("click", handleToggleTheme);
       document.getElementById("resetBtn").addEventListener("click", async () => {
         clearComparison();
         resetDefaults();

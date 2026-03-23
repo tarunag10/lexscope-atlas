@@ -902,10 +902,77 @@
       /* ── Currency Hint ── */
       .currency-hint { font-size:0.74rem; color:var(--brand); margin-top:2px; min-height:1em; }
       /* ── Site Navigation ── */
-      .site-nav { display:flex; gap:4px; padding:10px 0; margin-bottom:8px; flex-wrap:wrap; justify-content:center; }
+      .site-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 0;
+        margin-bottom: 8px;
+        position: relative;
+      }
+      .site-nav-links {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
       .nav-link { padding:8px 18px; border-radius:10px; font-size:0.88rem; font-weight:600; color:var(--muted); text-decoration:none; background:var(--subtle-bg); transition:all .2s; border:1px solid transparent; }
       .nav-link:hover { color:var(--ink); background:var(--subtle-hover); }
       .nav-link.active { color:#fff; background:var(--brand); border-color:var(--brand); }
+      .nav-toggle {
+        display: none;
+        width: 42px;
+        height: 42px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+      }
+      .nav-toggle-bar {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: var(--ink);
+        border-radius: 999px;
+      }
+
+      @media (max-width: 900px) {
+        .site-nav {
+          justify-content: flex-end;
+          margin-bottom: 10px;
+        }
+        .nav-toggle {
+          display: inline-flex;
+        }
+        .site-nav-links {
+          display: none;
+          position: absolute;
+          top: calc(100% + 8px);
+          right: 0;
+          width: min(260px, calc(100vw - 24px));
+          background: var(--surface);
+          border: 1px solid var(--line);
+          box-shadow: var(--shadow-hover);
+          border-radius: 14px;
+          padding: 8px;
+          z-index: 50;
+          flex-direction: column;
+          gap: 6px;
+        }
+        .site-nav.is-open .site-nav-links {
+          display: flex;
+        }
+        .site-nav-links .nav-link {
+          display: block;
+          width: 100%;
+          text-align: left;
+        }
+      }
 
       /* ── Page Container (for sub-pages) ── */
       .page-card { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:28px; box-shadow:var(--shadow); margin-bottom:20px; }

@@ -1,0 +1,21 @@
+{
+  "projectName": "Regulatory Applicability Checker Screenshots",
+  "baseUrl": "http://127.0.0.1:8080/",
+  "outputDir": "output/social",
+  "browser": "chromium",
+  "waitUntil": "load",
+  "crawl": {
+    "enabled": true,
+    "maxPages": 80,
+    "maxDepth": 5,
+    "sameOrigin": true,
+    "includeQuery": false,
+    "waitAfterLoadMs": 300,
+    "excludePatterns": ["/logout", "/signout"],
+    "viewports": [
+      { "name": "desktop-full", "width": 1440, "height": 1800, "fullPage": true },
+      { "name": "desktop-standard", "width": 1366, "height": 768, "fullPage": false },
+      { "name": "mobile", "width": 430, "height": 932, "fullPage": false }
+    ]
+  }
+}

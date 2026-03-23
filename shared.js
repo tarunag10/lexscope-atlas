@@ -96,9 +96,26 @@ export function renderNav(activePage) {
   ];
   const nav = document.createElement("nav");
   nav.className = "site-nav";
-  nav.innerHTML = pages.map(p =>
+  nav.setAttribute("aria-label", "Primary");
+  const navLinks = pages.map((p) =>
     `<a href="${p.href}" class="nav-link${p.id === activePage ? " active" : ""}">${p.label}</a>`
   ).join("");
+  nav.innerHTML = `
+    <button
+      type="button"
+      class="nav-toggle"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="siteNavLinks"
+    >
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+    <div id="siteNavLinks" class="site-nav-links">
+      ${navLinks}
+    </div>
+  `;
   return nav;
 }
 
@@ -111,7 +128,34 @@ export function initPage(activePage) {
   // Insert nav after hero
   const hero = document.querySelector(".hero");
   if (hero) {
-    hero.after(renderNav(activePage));
+    const nav = renderNav(activePage);
+    hero.after(nav);
+
+    const navToggle = nav.querySelector(".nav-toggle");
+    const navLinks = nav.querySelector(".site-nav-links");
+    const closeMenu = () => {
+      nav.classList.remove("is-open");
+      if (navToggle) navToggle.setAttribute("aria-expanded", "false");
+    };
+    if (navToggle && navLinks) {
+      navToggle.addEventListener("click", () => {
+        const isOpen = nav.classList.toggle("is-open");
+        navToggle.setAttribute("aria-expanded", String(isOpen));
+      });
+      navLinks.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", closeMenu);
+      });
+      document.addEventListener("click", (event) => {
+        if (!nav.classList.contains("is-open")) return;
+        if (!nav.contains(event.target)) closeMenu();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeMenu();
+      });
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 900) closeMenu();
+      });
+    }
   }
 }
 
