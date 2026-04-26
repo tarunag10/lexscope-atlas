@@ -9,6 +9,17 @@ export const RESULTS_KEY = "lexscope_last_results";
 export const PROFILE_KEY = "lexscope_last_profile";
 export const TODAY = new Date().toISOString().slice(0, 10);
 
+// ── HTML Escaping ──
+export function escapeHtml(value) {
+  if (value === null || value === undefined) return "";
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 // ── API Keys ──
 export function getApiKeys() {
   return JSON.parse(localStorage.getItem(API_KEYS_KEY) || "{}");

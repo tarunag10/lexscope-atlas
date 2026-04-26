@@ -135,7 +135,7 @@
       import {
         STORAGE_KEY, PROFILES_KEY, THEME_KEY, API_KEYS_KEY, TODAY,
         getApiKeys, initTheme, toggleTheme, updateThemeIcon, showToast,
-        storeResults, renderNav, initPage, loadCatalog, callAI
+        storeResults, renderNav, initPage, loadCatalog, callAI, escapeHtml
       } from "./shared.js";
       let adminMode = false;
       let lastResults = null;
@@ -155,7 +155,7 @@
         const cacheKey = `lexscope_summary_${code}`;
         const cached = sessionStorage.getItem(cacheKey);
         if (cached) {
-          slot.innerHTML = `<div class="summary-inline"><div class="summary-label">AI Summary</div>${cached}</div>`;
+          slot.innerHTML = `<div class="summary-inline"><div class="summary-label">AI Summary</div>${escapeHtml(cached)}</div>`;
           return;
         }
 
@@ -172,12 +172,12 @@
         try {
           const text = await callAI(prompt);
           sessionStorage.setItem(cacheKey, text);
-          slot.innerHTML = `<div class="summary-inline"><div class="summary-label">AI Summary</div>${text}</div>`;
+          slot.innerHTML = `<div class="summary-inline"><div class="summary-label">AI Summary</div>${escapeHtml(text)}</div>`;
         } catch (err) {
           if (err.message === "NO_KEY") {
             slot.innerHTML = `<div class="summary-inline" style="color:var(--muted)">Add an AI key in <a href="settings.html">Settings</a> to use AI Summarize.</div>`;
           } else {
-            slot.innerHTML = `<div class="summary-inline" style="color:var(--no-accent)">Error: ${err.message}</div>`;
+            slot.innerHTML = `<div class="summary-inline" style="color:var(--no-accent)">Error: ${escapeHtml(err.message)}</div>`;
           }
         } finally {
           btn.classList.remove("loading");
@@ -297,11 +297,11 @@
         for (const a of articles) {
           const date = new Date(a.publishedAt).toLocaleDateString();
           html += `<div class="news-card">
-            ${a.image ? `<img src="${a.image}" alt="" loading="lazy" />` : ""}
+            ${a.image ? `<img src="${escapeHtml(a.image)}" alt="" loading="lazy" />` : ""}
             <div class="news-body">
-              <div class="news-title"><a href="${a.url}" target="_blank" rel="noreferrer">${a.title}</a></div>
-              <div class="news-meta">${a.source?.name || ""} · ${date}</div>
-              <div class="news-snippet">${a.description || ""}</div>
+              <div class="news-title"><a href="${escapeHtml(a.url)}" target="_blank" rel="noreferrer">${escapeHtml(a.title)}</a></div>
+              <div class="news-meta">${escapeHtml(a.source?.name || "")} · ${escapeHtml(date)}</div>
+              <div class="news-snippet">${escapeHtml(a.description || "")}</div>
             </div>
           </div>`;
         }
@@ -371,7 +371,7 @@
         if (!related || !related.length) return "";
         let html = `<div class="related-list"><strong style="font-size:0.78rem;color:var(--muted)">Related Regulations:</strong>`;
         for (const code of related) {
-          html += `<div class="related-item"><span class="related-code">${code}</span></div>`;
+          html += `<div class="related-item"><span class="related-code">${escapeHtml(code)}</span></div>`;
         }
         html += `</div>`;
         return html;
@@ -382,10 +382,10 @@
         const confPct = (r.confidence * 100).toFixed(0);
         const confColor = type === "ok" ? "green" : "red";
         const checksHtml = r.dimension_explainability.map((d) =>
-          `<span class="dim-pill ${d.status}">${d.status === "pass" ? "\u2713" : (d.status === "fail" ? "\u2717" : "\u2022")} ${d.label}</span>`
+          `<span class="dim-pill ${escapeHtml(d.status)}">${d.status === "pass" ? "\u2713" : (d.status === "fail" ? "\u2717" : "\u2022")} ${escapeHtml(d.label)}</span>`
         ).join("");
         const detailHtml = r.dimension_explainability.map((d) =>
-          `<div class="meta" style="margin-top:3px"><span class="dim-pill ${d.status}" style="margin-right:4px">${d.status === "pass" ? "\u2713" : (d.status === "fail" ? "\u2717" : "\u2022")} ${d.label}</span> ${d.detail}</div>`
+          `<div class="meta" style="margin-top:3px"><span class="dim-pill ${escapeHtml(d.status)}" style="margin-right:4px">${d.status === "pass" ? "\u2713" : (d.status === "fail" ? "\u2717" : "\u2022")} ${escapeHtml(d.label)}</span> ${escapeHtml(d.detail)}</div>`
         ).join("");
         const uid = `reg_${r.code}_${type}`;
         const timelineHtml = regObj ? renderTimelineHtml(regObj, r.effective_from) : "";
@@ -393,11 +393,11 @@
         return `
           <article class="reg ${cls}">
             <div class="reg-header">
-              <div class="name">${r.name}</div>
-              <span class="authority-badge">${r.authority}</span>
+              <div class="name">${escapeHtml(r.name)}</div>
+              <span class="authority-badge">${escapeHtml(r.authority)}</span>
             </div>
-            <div class="meta">v${r.version} \u00B7 Effective ${r.effective_from}${r.repealed_on ? ` \u00B7 Repealed ${r.repealed_on}` : ""}${r.notes ? ` \u00B7 ${r.notes}` : ""}</div>
-            <div class="reason">${r.reason}</div>
+            <div class="meta">v${escapeHtml(r.version)} \u00B7 Effective ${escapeHtml(r.effective_from)}${r.repealed_on ? ` \u00B7 Repealed ${escapeHtml(r.repealed_on)}` : ""}${r.notes ? ` \u00B7 ${escapeHtml(r.notes)}` : ""}</div>
+            <div class="reason">${escapeHtml(r.reason)}</div>
             <div class="confidence-row">
               Confidence
               <div class="confidence-bar"><div class="confidence-fill ${confColor}" style="width:${confPct}%"></div></div>
@@ -408,9 +408,9 @@
             <div class="reg-details" id="${uid}">${detailHtml}</div>
             ${timelineHtml}
             ${relatedHtml}
-            ${r.source_url ? `<a class="source-link" href="${r.source_url}" target="_blank" rel="noreferrer">\u2197 Source</a>` : ""}
-            <button class="summarize-btn" onclick="window.handleSummarize(this)" data-code="${r.code}" data-name="${r.name}" type="button">&#9889; Summarize</button>
-            <div class="summary-slot" id="summary_${r.code}"></div>
+            ${r.source_url ? `<a class="source-link" href="${escapeHtml(r.source_url)}" target="_blank" rel="noreferrer">\u2197 Source</a>` : ""}
+            <button class="summarize-btn" onclick="window.handleSummarize(this)" data-code="${escapeHtml(r.code)}" data-name="${escapeHtml(r.name)}" type="button">&#9889; Summarize</button>
+            <div class="summary-slot" id="summary_${escapeHtml(r.code)}"></div>
           </article>
         `;
       }
@@ -436,13 +436,13 @@
             const node = graph.nodes.find(n => n.code === from);
             const label = node ? node.name : from;
             relHtml += `<div style="margin-bottom:12px">
-              <div style="font-weight:700;font-size:0.92rem">${label} <span class="authority-badge">${from}</span></div>
+              <div style="font-weight:700;font-size:0.92rem">${escapeHtml(label)} <span class="authority-badge">${escapeHtml(from)}</span></div>
               <div class="related-list">`;
             for (const e of edges) {
               const targetNode = graph.nodes.find(n => n.code === e.to);
               const targetName = targetNode ? targetNode.name : e.to;
               const inResults = e.exists ? (targetNode && targetNode.applicable ? `<span class="dim-pill pass">\u2713 Applicable</span>` : `<span class="dim-pill fail">\u2717 Not applicable</span>`) : `<span class="dim-pill neutral">\u2022 Not in catalog</span>`;
-              relHtml += `<div class="related-item"><span class="related-code">${e.to}</span> ${targetName !== e.to ? targetName : ""} ${inResults}</div>`;
+              relHtml += `<div class="related-item"><span class="related-code">${escapeHtml(e.to)}</span> ${targetName !== e.to ? escapeHtml(targetName) : ""} ${inResults}</div>`;
             }
             relHtml += `</div></div>`;
           }
@@ -636,14 +636,14 @@
         ];
 
         const regRows = (regs) => regs.map(r =>
-          `<tr><td>${r.code}</td><td>${r.name}</td><td>${(r.confidence * 100).toFixed(0)}%</td><td>${r.reason}</td></tr>`
+          `<tr><td>${escapeHtml(r.code)}</td><td>${escapeHtml(r.name)}</td><td>${escapeHtml((r.confidence * 100).toFixed(0))}%</td><td>${escapeHtml(r.reason)}</td></tr>`
         ).join("");
 
         document.getElementById("printableReport").innerHTML = `
           <h1>LexScope Atlas - Regulatory Applicability Report</h1>
-          <p class="print-meta">Generated ${new Date().toISOString().slice(0, 16)} | As of ${lastProfile.as_of_date}</p>
+          <p class="print-meta">Generated ${escapeHtml(new Date().toISOString().slice(0, 16))} | As of ${escapeHtml(lastProfile.as_of_date)}</p>
           <h2>Company Profile</h2>
-          <table>${profileRows.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join("")}</table>
+          <table>${profileRows.map(([k, v]) => `<tr><th>${escapeHtml(k)}</th><td>${escapeHtml(v)}</td></tr>`).join("")}</table>
           <h2>Applicable Regulations (${applicable.length})</h2>
           <table><tr><th>Code</th><th>Name</th><th>Confidence</th><th>Reason</th></tr>${regRows(applicable)}</table>
           <h2>Not Applicable (${notApplicable.length})</h2>
@@ -776,10 +776,10 @@
           <button class="subtle" id="clearCompBtn" type="button" style="margin-bottom:10px">Clear Comparison</button>
           <div class="diff-section">`;
         for (const r of added) {
-          html += `<div class="diff-row added"><span class="diff-arrow">\uFF0B</span> ${r.name} (${r.code})</div>`;
+          html += `<div class="diff-row added"><span class="diff-arrow">\uFF0B</span> ${escapeHtml(r.name)} (${escapeHtml(r.code)})</div>`;
         }
         for (const r of removed) {
-          html += `<div class="diff-row removed"><span class="diff-arrow">\uFF0D</span> ${r.name} (${r.code})</div>`;
+          html += `<div class="diff-row removed"><span class="diff-arrow">\uFF0D</span> ${escapeHtml(r.name)} (${escapeHtml(r.code)})</div>`;
         }
         html += `</div></section>`;
 
@@ -872,7 +872,7 @@
 
 
       bootstrap().catch((err) => {
-        document.getElementById("results").innerHTML = `<section class='card'>${err.message}</section>`;
+        document.getElementById("results").innerHTML = `<section class='card'>${escapeHtml(err.message)}</section>`;
       });
     </script>
   </body>

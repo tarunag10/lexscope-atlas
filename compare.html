@@ -45,7 +45,7 @@
         OPTIONS, chooseVersion, evaluateOne, evaluateBranchRules
       } from "./engine.js";
       import {
-        initPage, loadCatalog, getStoredProfile, showToast, TODAY
+        initPage, loadCatalog, getStoredProfile, showToast, TODAY, escapeHtml
       } from "./shared.js";
 
       initPage("compare");
@@ -82,7 +82,11 @@
       }
 
       function evaluateForJurisdiction(catalog, baseProfile, jurCode) {
-        const profile = { ...baseProfile, jurisdiction: jurCode, markets: [jurCode] };
+        const profile = {
+          ...baseProfile,
+          jurisdiction: jurCode,
+          markets: Array.from(new Set([...(baseProfile.markets || []), jurCode]))
+        };
         const branchContext = evaluateBranchRules(profile);
         const results = [];
         for (const reg of catalog) {
@@ -140,7 +144,7 @@
             const name = a?.name || b?.name || code;
             rows += `
               <tr class="${isDiff ? "diff" : ""}">
-                <td><strong>${code}</strong><br><span style="font-size:0.78rem;color:var(--muted)">${name}</span></td>
+                <td><strong>${escapeHtml(code)}</strong><br><span style="font-size:0.78rem;color:var(--muted)">${escapeHtml(name)}</span></td>
                 <td class="${appA ? "cell-yes" : "cell-no"}">${appA ? "Applicable" : "Not applicable"}<br><span class="cell-conf">${confA}%</span></td>
                 <td class="${appB ? "cell-yes" : "cell-no"}">${appB ? "Applicable" : "Not applicable"}<br><span class="cell-conf">${confB}%</span></td>
                 <td style="text-align:center">${isDiff ? `<span style="color:var(--no-accent);font-weight:700">${confDiff}%</span>` : `<span style="color:var(--muted)">${confDiff}%</span>`}</td>
@@ -159,8 +163,8 @@
                 <thead>
                   <tr>
                     <th>Regulation</th>
-                    <th>${labelA} (${codeA})</th>
-                    <th>${labelB} (${codeB})</th>
+                    <th>${escapeHtml(labelA)} (${escapeHtml(codeA)})</th>
+                    <th>${escapeHtml(labelB)} (${escapeHtml(codeB)})</th>
                     <th>Conf. Diff</th>
                   </tr>
                 </thead>
@@ -169,7 +173,7 @@
             </div>
           `;
         } catch (err) {
-          document.getElementById("compareOutput").innerHTML = `<div class="checklist-empty" style="color:var(--no-accent)">Error: ${err.message}</div>`;
+          document.getElementById("compareOutput").innerHTML = `<div class="checklist-empty" style="color:var(--no-accent)">Error: ${escapeHtml(err.message)}</div>`;
         } finally {
           btn.classList.remove("loading");
           btn.textContent = "Compare";

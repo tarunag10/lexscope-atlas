@@ -271,6 +271,17 @@ describe("parseCsv", () => {
   it("returns empty for empty string", () => {
     expect(parseCsv("")).toEqual([]);
   });
+  it("handles quoted fields containing commas", () => {
+    const csv = [
+      "code,name,authority,summary,source_url,version,effective_from,status,jurisdictions_any,markets_any,industries_any,product_types_any,company_sizes_any",
+      'CSV_QUOTED,"Quoted, Regulation",CSV Auth,"Summary, with comma",https://example.com,1,2021-01-01,ACTIVE,EU,EU,TECHNOLOGY,AI_SAAS,SME'
+    ].join("\n");
+    const result = parseCsv(csv);
+    expect(result).toHaveLength(1);
+    expect(result[0].name).toBe("Quoted, Regulation");
+    expect(result[0].summary).toBe("Summary, with comma");
+    expect(result[0].versions[0].conditions.product_types_any).toEqual(["AI_SAAS"]);
+  });
 });
 
 // ── profileToParams / paramsToProfile round-trip ──

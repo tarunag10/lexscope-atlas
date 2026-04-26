@@ -44,7 +44,7 @@
     </main>
 
     <script type="module">
-      import { initPage, getStoredResults, getStoredProfile, callAI, showToast } from "./shared.js";
+      import { initPage, getStoredResults, getStoredProfile, callAI, showToast, escapeHtml } from "./shared.js";
 
       initPage("checklist");
 
@@ -92,8 +92,8 @@
           html += `
             <li class="${checkedClass}" data-idx="${i}">
               <span class="cl-number">${i + 1}.</span>
-              <input type="checkbox" ${checked} data-code="${code}" data-idx="${i}" />
-              <span class="cl-text">${text}</span>
+              <input type="checkbox" ${checked} data-code="${escapeHtml(code)}" data-idx="${i}" />
+              <span class="cl-text">${escapeHtml(text)}</span>
             </li>`;
         });
         html += `</ul>`;
@@ -159,7 +159,7 @@ Return ONLY a numbered list (1. 2. 3. etc.) of specific, actionable compliance t
           if (err.message === "NO_KEY") {
             document.getElementById("checklistOutput").innerHTML = `<div class="checklist-empty">Add an AI key in <a href="settings.html">Settings</a> to generate checklists.</div>`;
           } else {
-            document.getElementById("checklistOutput").innerHTML = `<div class="checklist-empty" style="color:var(--no-accent)">Error: ${err.message}</div>`;
+            document.getElementById("checklistOutput").innerHTML = `<div class="checklist-empty" style="color:var(--no-accent)">Error: ${escapeHtml(err.message)}</div>`;
           }
         } finally {
           btn.classList.remove("loading");

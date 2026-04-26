@@ -355,11 +355,34 @@ export function evaluateOne(profile, reg, version, branchContext) {
 }
 
 export function parseCsv(text) {
+  const parseCsvLine = (line) => {
+    const cols = [];
+    let current = "";
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      const next = line[i + 1];
+      if (char === '"' && inQuotes && next === '"') {
+        current += '"';
+        i++;
+      } else if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === "," && !inQuotes) {
+        cols.push(current);
+        current = "";
+      } else {
+        current += char;
+      }
+    }
+    cols.push(current);
+    return cols;
+  };
+
   const lines = text.split(/\r?\n/).filter(Boolean);
   if (lines.length < 2) return [];
-  const headers = lines[0].split(",").map(h => h.trim());
+  const headers = parseCsvLine(lines[0]).map(h => h.trim());
   const rows = lines.slice(1).map((line) => {
-    const cols = line.split(",");
+    const cols = parseCsvLine(line);
     const row = {};
     headers.forEach((h, i) => row[h] = (cols[i] || "").trim());
     return row;

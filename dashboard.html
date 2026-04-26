@@ -112,7 +112,7 @@
         for (const r of results) {
           if (!r.dimension_explainability) continue;
           for (const d of r.dimension_explainability) {
-            const idx = dims.indexOf(d.dimension);
+            const idx = dims.indexOf(d.id);
             if (idx === -1) continue;
             if (d.status === "pass") passCount[idx]++; else failCount[idx]++;
           }
