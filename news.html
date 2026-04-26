@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="shared.css" />
   </head>
   <body>
@@ -30,7 +31,7 @@
     </main>
 
     <script type="module">
-      import { initPage, getApiKeys, getStoredResults, showToast, escapeHtml } from "./shared.js";
+      import { initPage, getApiKeys, getStoredResults, showToast, escapeHtml, safeUrl } from "./shared.js";
 
       initPage("news");
 
@@ -79,9 +80,9 @@
         for (const a of articles) {
           const date = new Date(a.publishedAt).toLocaleDateString();
           html += `<div class="news-card">
-            ${a.image ? `<img src="${escapeHtml(a.image)}" alt="" loading="lazy" />` : ""}
+            ${safeUrl(a.image) ? `<img src="${escapeHtml(safeUrl(a.image))}" alt="" loading="lazy" />` : ""}
             <div class="news-body">
-              <div class="news-title"><a href="${escapeHtml(a.url)}" target="_blank" rel="noreferrer">${escapeHtml(a.title)}</a></div>
+              <div class="news-title"><a href="${escapeHtml(safeUrl(a.url) || "#")}" target="_blank" rel="noreferrer">${escapeHtml(a.title)}</a></div>
               <div class="news-meta">${escapeHtml(a.source?.name || "")} &middot; ${escapeHtml(date)}</div>
               <div class="news-snippet">${escapeHtml(a.description || "")}</div>
             </div>

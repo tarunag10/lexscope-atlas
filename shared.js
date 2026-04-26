@@ -20,6 +20,19 @@ export function escapeHtml(value) {
     .replace(/'/g, "&#39;");
 }
 
+export function safeUrl(value) {
+  if (value === null || value === undefined) return "";
+  const raw = String(value).trim();
+  if (!raw) return "";
+  try {
+    const parsed = new URL(raw, "http://lexscope.local");
+    if (parsed.origin === "http://lexscope.local") return raw;
+    return ["http:", "https:"].includes(parsed.protocol) ? raw : "";
+  } catch {
+    return "";
+  }
+}
+
 // ── API Keys ──
 export function getApiKeys() {
   return JSON.parse(localStorage.getItem(API_KEYS_KEY) || "{}");

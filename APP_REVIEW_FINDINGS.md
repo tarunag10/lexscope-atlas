@@ -22,13 +22,13 @@ Recommendation: use `d.id` here, or rename the engine field consistently.
 ### Finding 2: User/imported/AI text is rendered as raw HTML
 
 - Priority: P1
-- Status: Partially fixed
+- Status: Fixed, except for the separate API-key architecture issue
 - File: `index.html`
 - Line: 393
 
 Several UI paths inject unescaped strings into `innerHTML`, including imported regulation fields, AI summaries, news article fields, checklist items, printable reports, and error messages. Since imported data and provider responses are not trusted, this can become stored or reflected XSS.
 
-Progress: added a shared `escapeHtml` helper and applied it to the main evaluator, checklist, news, compare, and printable report render paths. Remaining hardening should include URL scheme validation and reducing inline event handlers.
+Progress: added shared `escapeHtml` and `safeUrl` helpers, applied them to the main evaluator, checklist, news, compare, and printable report render paths, and replaced inline generated result-card event handlers with event listeners.
 
 Recommendation: prefer DOM APIs and `textContent`, or use `escapeHtml` before templating.
 
@@ -93,7 +93,7 @@ Recommendation: use a real CSV parser or at least a quoted-field parser for admi
 
 ## Verification Notes
 
-- `npm test` passed: 86 tests across 4 files.
+- `npm test` passed: 90 tests across 4 files.
 - JSON catalog files parsed successfully.
-- Browser smoke verification passed with system Chrome on `http://127.0.0.1:4180`: main evaluation rendered 46 regulations, dashboard charts mounted, and compare rendered 46 rows.
+- Browser smoke verification passed with system Chrome on `http://127.0.0.1:4180`: main evaluation rendered 46 regulations, result-card details opened via event listeners, dashboard charts mounted, compare rendered 46 rows, and there were no console errors.
 - Playwright-managed Chromium installation could not be completed because it failed with `ENOSPC` due to low disk space, so system Chrome was used instead.

@@ -1,1 +1,7 @@
-.vercel
+.DS_Store
+.vercel/
+node_modules/
+output/
+set up configuration for screenshots/
+scripts/record-workflow-video.cjs
+scripts/snapcrawl-deterministic-workflow.cjs

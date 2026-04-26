@@ -15,4 +15,10 @@ describe("page regression checks", () => {
     expect(compare).toContain("markets: Array.from(new Set([...(baseProfile.markets || []), jurCode]))");
     expect(compare).not.toContain("markets: [jurCode]");
   });
+
+  it("main evaluator does not render inline event handlers", () => {
+    const index = read("./index.html");
+    expect(index).not.toContain("onclick=");
+    expect(index).toContain("bindResultCardActions");
+  });
 });

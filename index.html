@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="shared.css" />
   </head>
   <body>
@@ -135,7 +136,7 @@
       import {
         STORAGE_KEY, PROFILES_KEY, THEME_KEY, API_KEYS_KEY, TODAY,
         getApiKeys, initTheme, toggleTheme, updateThemeIcon, showToast,
-        storeResults, renderNav, initPage, loadCatalog, callAI, escapeHtml
+        storeResults, renderNav, initPage, loadCatalog, callAI, escapeHtml, safeUrl
       } from "./shared.js";
       let adminMode = false;
       let lastResults = null;
@@ -297,9 +298,9 @@
         for (const a of articles) {
           const date = new Date(a.publishedAt).toLocaleDateString();
           html += `<div class="news-card">
-            ${a.image ? `<img src="${escapeHtml(a.image)}" alt="" loading="lazy" />` : ""}
+            ${safeUrl(a.image) ? `<img src="${escapeHtml(safeUrl(a.image))}" alt="" loading="lazy" />` : ""}
             <div class="news-body">
-              <div class="news-title"><a href="${escapeHtml(a.url)}" target="_blank" rel="noreferrer">${escapeHtml(a.title)}</a></div>
+              <div class="news-title"><a href="${escapeHtml(safeUrl(a.url) || "#")}" target="_blank" rel="noreferrer">${escapeHtml(a.title)}</a></div>
               <div class="news-meta">${escapeHtml(a.source?.name || "")} · ${escapeHtml(date)}</div>
               <div class="news-snippet">${escapeHtml(a.description || "")}</div>
             </div>
@@ -353,14 +354,14 @@
         if (!reg.versions || reg.versions.length < 2) return "";
         const timeline = buildTimeline(reg, asOfDate);
         const uid = `tl_${reg.code}`;
-        let html = `<button class="timeline-toggle" onclick="document.getElementById('${uid}').classList.toggle('open');this.textContent=this.textContent.includes('Show')?'Hide timeline \u25B4':'Show timeline \u25BE'">Show timeline \u25BE</button>`;
-        html += `<div class="timeline-wrap" id="${uid}"><div class="timeline-bar">`;
+        let html = `<button class="timeline-toggle" data-toggle-target="${escapeHtml(uid)}" data-open-label="Hide timeline \u25B4" data-closed-label="Show timeline \u25BE" type="button">Show timeline \u25BE</button>`;
+        html += `<div class="timeline-wrap" id="${escapeHtml(uid)}"><div class="timeline-bar">`;
         timeline.forEach((v, i) => {
           const cls = v.isActive ? "active" : (v.status === "REPEALED" ? "repealed" : "");
           if (i > 0) html += `<div class="timeline-connector"></div>`;
           html += `<div class="timeline-node">
-            <div class="timeline-dot ${cls}"></div>
-            <div class="timeline-label ${cls}">v${v.version}<br>${v.effective_from}${v.isActive ? "<br><strong>Active</strong>" : ""}${v.status === "REPEALED" ? "<br>Repealed" : ""}</div>
+            <div class="timeline-dot ${escapeHtml(cls)}"></div>
+            <div class="timeline-label ${escapeHtml(cls)}">v${escapeHtml(v.version)}<br>${escapeHtml(v.effective_from)}${v.isActive ? "<br><strong>Active</strong>" : ""}${v.status === "REPEALED" ? "<br>Repealed" : ""}</div>
           </div>`;
         });
         html += `</div></div>`;
@@ -404,15 +405,29 @@
               ${confPct}%
             </div>
             <div class="dim-checks">${checksHtml}</div>
-            <button class="reg-toggle" onclick="document.getElementById('${uid}').classList.toggle('open');this.textContent=this.textContent==='Show details \u25BE'?'Hide details \u25B4':'Show details \u25BE'">Show details \u25BE</button>
-            <div class="reg-details" id="${uid}">${detailHtml}</div>
+            <button class="reg-toggle" data-toggle-target="${escapeHtml(uid)}" data-open-label="Hide details \u25B4" data-closed-label="Show details \u25BE" type="button">Show details \u25BE</button>
+            <div class="reg-details" id="${escapeHtml(uid)}">${detailHtml}</div>
             ${timelineHtml}
             ${relatedHtml}
-            ${r.source_url ? `<a class="source-link" href="${escapeHtml(r.source_url)}" target="_blank" rel="noreferrer">\u2197 Source</a>` : ""}
-            <button class="summarize-btn" onclick="window.handleSummarize(this)" data-code="${escapeHtml(r.code)}" data-name="${escapeHtml(r.name)}" type="button">&#9889; Summarize</button>
+            ${safeUrl(r.source_url) ? `<a class="source-link" href="${escapeHtml(safeUrl(r.source_url))}" target="_blank" rel="noreferrer">\u2197 Source</a>` : ""}
+            <button class="summarize-btn" data-code="${escapeHtml(r.code)}" data-name="${escapeHtml(r.name)}" type="button">&#9889; Summarize</button>
             <div class="summary-slot" id="summary_${escapeHtml(r.code)}"></div>
           </article>
         `;
+      }
+
+      function bindResultCardActions(root) {
+        root.querySelectorAll("[data-toggle-target]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const target = document.getElementById(btn.dataset.toggleTarget);
+            if (!target) return;
+            const isOpen = target.classList.toggle("open");
+            btn.textContent = isOpen ? btn.dataset.openLabel : btn.dataset.closedLabel;
+          });
+        });
+        root.querySelectorAll(".summarize-btn").forEach((btn) => {
+          btn.addEventListener("click", () => window.handleSummarize(btn));
+        });
       }
 
       function renderResults(profile, results, catalogMap) {
@@ -510,6 +525,7 @@
         document.getElementById("exportJsonBtn").addEventListener("click", exportJSON);
         document.getElementById("exportCsvBtn").addEventListener("click", exportCSV);
         document.getElementById("exportPdfBtn").addEventListener("click", exportPDF);
+        bindResultCardActions(root);
 
         // Lazy-load news on tab click
         let newsLoaded = false;
