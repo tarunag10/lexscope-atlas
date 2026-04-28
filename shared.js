@@ -110,10 +110,10 @@ export function getSupaClient() { return supaClient; }
 // ── Nav Bar ──
 export function renderNav(activePage) {
   const pages = [
-    { id: "evaluate", label: "Evaluate", href: "index.html" },
-    { id: "dashboard", label: "Dashboard", href: "dashboard.html" },
-    { id: "checklist", label: "Checklist", href: "checklist.html" },
+    { id: "evaluate", label: "Home", href: "index.html" },
+    { id: "dashboard", label: "History", href: "dashboard.html" },
     { id: "compare", label: "Compare", href: "compare.html" },
+    { id: "checklist", label: "Resources", href: "checklist.html" },
     { id: "news", label: "News", href: "news.html" },
     { id: "chat", label: "AI Chat", href: "chat.html" },
     { id: "settings", label: "Settings", href: "settings.html" },

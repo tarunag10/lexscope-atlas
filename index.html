@@ -11,112 +11,169 @@
     <link rel="stylesheet" href="shared.css" />
   </head>
   <body>
-    <main class="wrap">
+    <main class="wrap atlas-workspace">
       <section class="hero">
-        <div class="hero-title-row">
-          <div class="hero-icon"></div>
-          <h1>LexScope Atlas</h1>
-          <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+        <div class="hero-copy">
+          <div class="hero-title-row">
+            <div class="hero-icon" aria-hidden="true"></div>
+            <h1>Identify applicable regulations with confidence.</h1>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+          </div>
+          <p class="sub">LexScope Atlas helps legal and compliance teams quickly triage regulatory applicability across jurisdictions and time.</p>
+          <div class="hero-actions">
+            <button class="primary hero-run" type="button" data-action="hero-evaluate"><span class="btn-icon">▶</span> Run Applicability Check</button>
+            <a class="hero-link" href="#workflow">See how it works <span aria-hidden="true">→</span></a>
+          </div>
         </div>
-        <p class="sub">Global regulatory applicability triage with version-aware rule evaluation, time-travel checks by effective date, and no-code admin rule imports.</p>
-        <div class="pill-row">
-          <span class="pill" id="catalogPill">Loading catalog...</span>
-          <span class="pill">No legal advice. Scope triage only.</span>
+        <div class="hero-map" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="map-globe">
+            <span class="pin pin-us"></span>
+            <span class="pin pin-eu"></span>
+            <span class="pin pin-apac"></span>
+          </div>
         </div>
       </section>
 
-      <section class="grid">
-        <article class="card">
-          <h2>Applicability Check</h2>
-          <p class="hint">Choose company profile and markets. "As of date" picks the active regulation version for that point in time.</p>
-          <div class="profile-bar">
-            <select id="profileSelect"><option value="">-- Saved Profiles --</option></select>
-            <button class="subtle" id="loadProfileBtn" type="button">Load</button>
-            <button class="subtle" id="saveProfileBtn" type="button">Save</button>
-            <button class="subtle" id="deleteProfileBtn" type="button">Delete</button>
-          </div>
-          <div class="form-grid">
-            <div class="form-section-label">Company Profile</div>
-            <div>
-              <label for="jurisdiction"><span class="label-icon">🌍</span>Home Jurisdiction</label>
-              <select id="jurisdiction"></select>
+      <section class="app-grid" id="workflow">
+        <div class="workflow-main">
+          <article class="workflow-card">
+            <div class="step-heading">
+              <span class="step-number">1</span>
+              <h2>Company Profile</h2>
             </div>
-            <div>
-              <label for="industry"><span class="label-icon">🏢</span>Industry</label>
-              <select id="industry"></select>
+            <div class="profile-bar compact-profile">
+              <select id="profileSelect"><option value="">-- Saved Profiles --</option></select>
+              <button class="subtle icon-button" id="loadProfileBtn" type="button" title="Load saved profile">Load</button>
+              <button class="subtle icon-button" id="saveProfileBtn" type="button" title="Save current profile">Save</button>
+              <button class="subtle icon-button" id="deleteProfileBtn" type="button" title="Delete saved profile">Delete</button>
             </div>
-            <div>
-              <label for="company_size"><span class="label-icon">👥</span>Company Size</label>
-              <select id="company_size"></select>
+            <div class="form-grid step-grid">
+              <div>
+                <label for="jurisdiction">Home Jurisdiction</label>
+                <select id="jurisdiction"></select>
+              </div>
+              <div>
+                <label for="industry">Industry</label>
+                <select id="industry"></select>
+              </div>
+              <div>
+                <label for="company_size">Company Size</label>
+                <select id="company_size"></select>
+              </div>
+              <div>
+                <label for="product_type">Product Type</label>
+                <select id="product_type"></select>
+              </div>
             </div>
-            <div>
-              <label for="product_type"><span class="label-icon">📦</span>Product Type</label>
-              <select id="product_type"></select>
+          </article>
+
+          <article class="workflow-card">
+            <div class="step-heading">
+              <span class="step-number">2</span>
+              <h2>Markets Served</h2>
             </div>
-            <div>
-              <label for="entity_type"><span class="label-icon">🏛</span>Entity Type</label>
-              <select id="entity_type"></select>
+            <label for="markets">Select all active markets</label>
+            <select id="markets" multiple></select>
+            <div class="hint">Cmd/Ctrl + click for multiple markets.</div>
+          </article>
+
+          <article class="workflow-card">
+            <div class="step-heading">
+              <span class="step-number">3</span>
+              <h2>As-of Date</h2>
             </div>
-            <div>
-              <label for="as_of_date"><span class="label-icon">📅</span>As Of Date</label>
-              <input id="as_of_date" type="date" />
+            <label for="as_of_date">Effective rule date</label>
+            <input id="as_of_date" type="date" />
+            <div class="hint">Time-travel evaluation uses active versions for this date.</div>
+          </article>
+
+          <article class="workflow-card">
+            <div class="step-heading">
+              <span class="step-number">4</span>
+              <h2>Financial Thresholds</h2>
             </div>
-            <div class="form-section-label">Financial Thresholds</div>
-            <div>
-              <label for="annual_revenue_usd"><span class="label-icon">💰</span>Annual Revenue (USD)</label>
-              <input id="annual_revenue_usd" type="number" min="0" step="1000" placeholder="e.g. 5000000" />
-              <div class="currency-hint" id="revenueHint"></div>
+            <div class="form-grid threshold-grid">
+              <div>
+                <label for="annual_revenue_usd">Revenue</label>
+                <input id="annual_revenue_usd" type="number" min="0" step="1000" placeholder="USD" />
+                <div class="currency-hint" id="revenueHint"></div>
+              </div>
+              <div>
+                <label for="annual_turnover_usd">Turnover</label>
+                <input id="annual_turnover_usd" type="number" min="0" step="1000" placeholder="USD" />
+                <div class="currency-hint" id="turnoverHint"></div>
+              </div>
+              <div>
+                <label for="monthly_active_users">Monthly Active Users</label>
+                <input id="monthly_active_users" type="number" min="0" step="1" placeholder="e.g. 1000000" />
+              </div>
             </div>
-            <div>
-              <label for="annual_turnover_usd"><span class="label-icon">💵</span>Annual Turnover (USD)</label>
-              <input id="annual_turnover_usd" type="number" min="0" step="1000" placeholder="e.g. 5000000" />
-              <div class="currency-hint" id="turnoverHint"></div>
+          </article>
+
+          <article class="workflow-card">
+            <div class="step-heading">
+              <span class="step-number">5</span>
+              <h2>Entity Details</h2>
             </div>
-            <div>
-              <label for="monthly_active_users"><span class="label-icon">📊</span>Monthly Active Users</label>
-              <input id="monthly_active_users" type="number" min="0" step="1" placeholder="e.g. 1000000" />
-            </div>
-            <div class="form-section-label">Markets</div>
-            <div>
-              <label for="markets"><span class="label-icon">🗺</span>Markets Served</label>
-              <select id="markets" multiple></select>
-              <div class="hint">Cmd/Ctrl + click for multiple markets.</div>
-            </div>
-          </div>
-          <div class="actions">
-            <button class="primary" id="runBtn" type="button">Evaluate <span class="btn-icon">▶</span></button>
+            <label for="entity_type">Entity Type</label>
+            <select id="entity_type"></select>
+            <div class="hint">Jurisdiction of incorporation and public/private status tune entity-specific rules.</div>
+          </article>
+
+          <div class="actions command-row">
+            <button class="primary" id="runBtn" type="button"><span class="btn-icon">▶</span> Evaluate</button>
             <button class="subtle" id="compareBtn" type="button">Compare</button>
             <button class="subtle" id="shareBtn" type="button">Share</button>
             <button class="subtle" id="resetBtn" type="button">Reset</button>
           </div>
-        </article>
+        </div>
 
-        <article class="card admin-hidden" id="adminPanel">
-          <h2>Admin Import (Local Browser)</h2>
-          <p class="hint">Import JSON/CSV rules. Imported rules are saved in this browser via localStorage.</p>
-          <div class="form-grid">
-            <div>
-              <label for="import_format">Format</label>
-              <select id="import_format">
-                <option value="json">JSON</option>
-                <option value="csv">CSV</option>
-              </select>
+        <aside class="utility-rail">
+          <article class="utility-card admin-hidden" id="adminPanel">
+            <div class="utility-title-row">
+              <h2>Admin Import</h2>
+              <span>Local</span>
             </div>
-            <div>
-              <label for="import_file">File</label>
-              <input id="import_file" type="file" />
+            <p class="hint">Import regulatory lists or custom rules. Files never leave your browser.</p>
+            <div class="form-grid rail-form">
+              <div>
+                <label for="import_format">Format</label>
+                <select id="import_format">
+                  <option value="json">JSON</option>
+                  <option value="csv">CSV</option>
+                </select>
+              </div>
+              <div>
+                <label for="import_file">File</label>
+                <input id="import_file" type="file" />
+              </div>
+              <div>
+                <label for="import_data">Paste Data</label>
+                <textarea id="import_data" placeholder="Paste JSON array/{items:[...]} or CSV rows"></textarea>
+              </div>
             </div>
-            <div style="grid-column: 1 / -1;">
-              <label for="import_data">Paste Data</label>
-              <textarea id="import_data" placeholder="Paste JSON array/{items:[...]} or CSV rows"></textarea>
+            <div class="actions rail-actions">
+              <button class="primary" id="importBtn" type="button">Import</button>
+              <button class="subtle" id="clearImportBtn" type="button">Clear</button>
             </div>
-          </div>
-          <div class="actions">
-            <button class="primary" id="importBtn" type="button">Import</button>
-            <button class="subtle" id="clearImportBtn" type="button">Clear Imported Rules</button>
-          </div>
-          <div class="status" id="importStatus"></div>
-        </article>
+            <div class="status" id="importStatus"></div>
+          </article>
+
+          <article class="utility-card trust-card">
+            <h2>Why trust LexScope Atlas</h2>
+            <ul>
+              <li><strong>Version-aware rules</strong><span>Always shows the rule version in effect.</span></li>
+              <li><strong>Time-travel checks</strong><span>Evaluate regulations as they existed on any date.</span></li>
+              <li><strong>Local browser imports</strong><span>Your uploaded files stay on your device.</span></li>
+            </ul>
+          </article>
+          <article class="utility-card disclaimer-card">
+            <strong>No legal advice.</strong>
+            <span>Scope triage only.</span>
+          </article>
+        </aside>
       </section>
 
       <section id="results" class="results"></section>
@@ -563,7 +620,8 @@
         lastResults = resolved;
         storeResults(profile, resolved);
         renderResults(profile, resolved, catalogMap);
-        document.getElementById("catalogPill").textContent = `${catalog.length} regulations loaded`;
+        const catalogPill = document.getElementById("catalogPill");
+        if (catalogPill) catalogPill.textContent = `${catalog.length} regulations loaded`;
 
         btn.classList.remove("loading");
         btn.querySelector(".btn-icon").textContent = "\u25B6";
@@ -866,6 +924,7 @@
 
       // ── Event Listeners ──
       document.getElementById("runBtn").addEventListener("click", evaluate);
+      document.querySelector("[data-action='hero-evaluate']").addEventListener("click", evaluate);
       document.getElementById("compareBtn").addEventListener("click", handleCompare);
       document.getElementById("shareBtn").addEventListener("click", shareURL);
       document.getElementById("resetBtn").addEventListener("click", async () => {

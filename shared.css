@@ -1064,3 +1064,378 @@
       .chat-fullpage .chat-input-row { display:flex; gap:8px; padding:12px 16px; border-top:1px solid var(--line); }
       .chat-fullpage .chat-input-row input { flex:1; padding:10px 14px; border:1px solid var(--input-border); border-radius:10px; background:var(--input-bg); color:var(--ink); font-size:0.92rem; }
       .chat-fullpage .chat-input-row button { padding:10px 20px; border-radius:10px; background:var(--brand); color:#fff; border:none; cursor:pointer; font-size:0.92rem; font-weight:600; }
+
+      /* ── Atlas workflow redesign ── */
+      .atlas-workspace {
+        max-width: 1260px;
+        padding-top: 18px;
+      }
+
+      .atlas-workspace .hero {
+        min-height: 360px;
+        border-radius: 8px 8px 0 0;
+        padding: 34px 44px 34px;
+        background:
+          linear-gradient(100deg, rgba(2, 17, 43, 0.98) 0%, rgba(3, 24, 56, 0.96) 52%, rgba(6, 36, 76, 0.92) 100%),
+          radial-gradient(circle at 78% 42%, rgba(24, 148, 197, 0.42), transparent 34%);
+        border: 1px solid rgba(140, 184, 225, 0.24);
+        box-shadow: 0 24px 58px rgba(5, 20, 48, 0.24);
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 430px;
+        align-items: center;
+        gap: 28px;
+      }
+
+      .atlas-workspace .hero::before {
+        background:
+          repeating-radial-gradient(ellipse at 74% 52%, rgba(132, 195, 230, 0.18) 0 1px, transparent 1px 32px),
+          linear-gradient(110deg, transparent 34%, rgba(92, 226, 219, 0.08) 50%, transparent 66%);
+        animation: none;
+      }
+
+      .atlas-workspace .hero::after { display: none; }
+      .hero-copy, .hero-map { position: relative; z-index: 1; }
+      .atlas-workspace .hero-title-row {
+        align-items: flex-start;
+        gap: 16px;
+        padding-top: 54px;
+      }
+      .atlas-workspace .hero-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: none;
+      }
+      .atlas-workspace h1 {
+        max-width: 560px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2rem, 4vw, 3.35rem);
+        line-height: 0.96;
+        letter-spacing: 0;
+      }
+      .atlas-workspace .sub {
+        max-width: 560px;
+        margin-top: 18px;
+        color: #d9e9f7;
+        font-size: 1rem;
+        line-height: 1.55;
+      }
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 18px;
+        margin-top: 26px;
+      }
+      .hero-run {
+        min-height: 48px;
+        padding-inline: 20px;
+        border-radius: 6px;
+      }
+      .hero-link {
+        color: #dce9f5;
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 0.95rem;
+      }
+      .theme-toggle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-left: 0;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        border-radius: 10px;
+      }
+      .hero-map {
+        min-height: 230px;
+      }
+      .map-globe {
+        position: absolute;
+        right: 8px;
+        top: 0;
+        width: 285px;
+        height: 285px;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 42% 36%, rgba(94, 184, 234, 0.25), transparent 21%),
+          radial-gradient(circle at 55% 50%, rgba(4, 98, 176, 0.7), transparent 43%),
+          repeating-linear-gradient(90deg, rgba(110, 189, 239, 0.22) 0 2px, transparent 2px 9px);
+        border: 1px solid rgba(129, 186, 232, 0.22);
+        box-shadow: inset 0 0 58px rgba(3, 14, 36, 0.85), 0 0 44px rgba(18, 140, 205, 0.18);
+        opacity: 0.78;
+      }
+      .orbit {
+        position: absolute;
+        border: 1px solid rgba(137, 190, 224, 0.16);
+        border-radius: 50%;
+        transform: rotate(-14deg);
+      }
+      .orbit-one { width: 380px; height: 190px; right: 4px; top: 42px; }
+      .orbit-two { width: 310px; height: 150px; right: 44px; top: 72px; }
+      .pin {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #99c8ef;
+        box-shadow: 0 0 0 5px rgba(153, 200, 239, 0.12);
+      }
+      .pin-us { left: 68px; top: 86px; }
+      .pin-eu { left: 164px; top: 78px; }
+      .pin-apac { left: 118px; top: 154px; }
+
+      .atlas-workspace .site-nav {
+        margin: -338px 14px 276px;
+        padding: 0;
+        justify-content: flex-end;
+        z-index: 2;
+      }
+      .atlas-workspace .site-nav::before {
+        content: "LexScope Atlas";
+        position: absolute;
+        left: 28px;
+        top: -2px;
+        color: #fff;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.45rem;
+        font-weight: 700;
+      }
+      .atlas-workspace .site-nav-links {
+        gap: 10px;
+      }
+      .atlas-workspace .nav-link {
+        background: transparent;
+        color: #dce8f6;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        padding: 10px 14px;
+        font-size: 0.83rem;
+      }
+      .atlas-workspace .nav-link:hover,
+      .atlas-workspace .nav-link.active {
+        color: #fff;
+        background: rgba(116, 185, 236, 0.16);
+        border-color: rgba(174, 216, 246, 0.1);
+      }
+
+      .app-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 250px;
+        gap: 22px;
+        padding: 26px 28px 10px;
+        background: #f7f9fc;
+        border: 1px solid var(--line);
+        border-top: 0;
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 20px 50px rgba(23, 39, 64, 0.12);
+      }
+      [data-theme="dark"] .app-grid {
+        background: #101820;
+      }
+      .workflow-main {
+        display: grid;
+        grid-template-columns: minmax(230px, 1.45fr) minmax(145px, 0.95fr) minmax(160px, 1fr) minmax(165px, 1.05fr) minmax(160px, 1fr);
+        gap: 14px;
+        align-items: start;
+      }
+      .workflow-card,
+      .utility-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: 0 10px 28px rgba(26, 43, 70, 0.07);
+        padding: 16px;
+      }
+      .workflow-card:first-child { grid-column: auto; }
+      .step-heading {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 12px;
+      }
+      .step-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #07929f, #32c2c3);
+        color: #fff;
+        font-size: 0.9rem;
+        font-weight: 800;
+        flex: 0 0 auto;
+      }
+      .step-heading h2,
+      .utility-card h2 {
+        margin: 0;
+        font-family: "Manrope", sans-serif;
+        font-size: 0.95rem;
+        line-height: 1.25;
+      }
+      .step-grid,
+      .threshold-grid,
+      .rail-form {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .compact-profile {
+        margin: 0 0 12px;
+        gap: 6px;
+      }
+      .compact-profile .icon-button {
+        padding: 8px 10px;
+        border-radius: 8px;
+        font-size: 0.74rem;
+      }
+      .atlas-workspace select,
+      .atlas-workspace input,
+      .atlas-workspace textarea {
+        min-height: 39px;
+        border-radius: 6px;
+        font-size: 0.82rem;
+      }
+      .atlas-workspace select[multiple] {
+        min-height: 136px;
+      }
+      .atlas-workspace textarea {
+        min-height: 98px;
+      }
+      .command-row {
+        grid-column: 1 / -1;
+        margin-top: 10px;
+      }
+      .command-row .primary {
+        min-width: 180px;
+        justify-content: center;
+        border-radius: 6px;
+        font-size: 1rem;
+      }
+      .command-row .subtle {
+        min-width: 118px;
+        border-radius: 6px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.68);
+      }
+      [data-theme="dark"] .command-row .subtle {
+        background: var(--subtle-bg);
+      }
+      .utility-rail {
+        display: grid;
+        gap: 14px;
+        align-content: start;
+      }
+      .utility-title-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        align-items: center;
+      }
+      .utility-title-row span {
+        font-size: 0.7rem;
+        color: var(--muted);
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+      .rail-actions button {
+        padding: 9px 13px;
+        border-radius: 6px;
+      }
+      .trust-card ul {
+        list-style: none;
+        margin: 14px 0 0;
+        padding: 0;
+        display: grid;
+        gap: 14px;
+      }
+      .trust-card li {
+        display: grid;
+        gap: 2px;
+        padding-left: 28px;
+        position: relative;
+        font-size: 0.86rem;
+      }
+      .trust-card li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 2px;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        border: 2px solid var(--brand);
+      }
+      .trust-card span,
+      .disclaimer-card span {
+        color: var(--muted);
+        font-size: 0.76rem;
+        line-height: 1.35;
+      }
+      .disclaimer-card {
+        display: grid;
+        gap: 3px;
+        border-left: 4px solid var(--brand);
+      }
+      .atlas-workspace .results {
+        margin-top: 18px;
+      }
+      .atlas-workspace .summary {
+        border-radius: 8px;
+        background: #ffffff;
+      }
+      .atlas-workspace .card {
+        border-radius: 8px;
+      }
+
+      @media (max-width: 1100px) {
+        .atlas-workspace .hero {
+          grid-template-columns: 1fr;
+        }
+        .hero-map {
+          display: none;
+        }
+        .workflow-main {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .workflow-card:first-child {
+          grid-column: span 2;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .atlas-workspace .site-nav {
+          margin: 10px 0;
+          justify-content: flex-end;
+        }
+        .atlas-workspace .site-nav::before {
+          display: none;
+        }
+        .atlas-workspace .nav-toggle {
+          background: var(--surface);
+        }
+        .app-grid {
+          grid-template-columns: 1fr;
+          padding: 18px;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .atlas-workspace .hero {
+          min-height: auto;
+          padding: 24px 18px;
+        }
+        .workflow-main {
+          grid-template-columns: 1fr;
+        }
+        .workflow-card:first-child {
+          grid-column: span 1;
+        }
+        .command-row .primary,
+        .command-row .subtle {
+          width: 100%;
+        }
+      }
